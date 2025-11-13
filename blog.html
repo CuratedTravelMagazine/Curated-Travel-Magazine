@@ -8,12 +8,12 @@
   <meta property="og:title" content="Blog | Curated Travel Magazine" />
   <meta property="og:description" content="Explore the latest travel stories from Curated Travel Magazine." />
   <meta property="og:image" content="hero-travel1.jpg" />
-  <meta property="og:url" content="https://www.curatedtravelmagazine.com/blog.html" />
+  <meta property="og:url" content="https://curatedtravelmagazine.github.io/Curated-Travel-Magazine/blog.html" />
   <title>Blog | Curated Travel Magazine</title>
 
-  <!-- CSP: RSS.app + Mailchimp (even if not used) -->
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' https://widget.rss.app https://s3.amazonaws.com https://chimpstatic.com 'unsafe-inline'; style-src 'self' https://cdn-images.mailchimp.com 'unsafe-inline'; img-src * data: https:; font-src 'self' data:;">
+  <!-- CSP for RSS Wall -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data:;">
+
 
   <style>
     * { box-sizing: border-box; }
@@ -112,18 +112,20 @@
     /* RSS Wall */
     rssapp-wall {
       display: block !important;
-      min-height: 600px;
+      min-height: 800px;
       width: 100%;
       margin: 0 auto;
     }
     #rss-wall-fallback {
-      min-height: 600px;
+      min-height: 800px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
       color: #666;
       font-style: italic;
+      text-align: center;
+      padding: 2rem;
     }
 
     /* Footer */
@@ -195,7 +197,10 @@
     <h2>Latest from the Blog</h2>
     <rssapp-wall id="kh6SGSwg1AXZ6r9n"></rssapp-wall>
     <script src="https://widget.rss.app/v1/wall.js" type="text/javascript" async></script>
-    <div id="rss-wall-fallback" style="display:none;">Loading latest stories...</div>
+    <div id="rss-wall-fallback" style="display:none;">
+      Loading latest stories... <br>
+      <small>If nothing appears in 15 seconds, <a href="https://rss.app/embed/v1/wall/kh6SGSwg1AXZ6r9n" target="_blank">view feed directly</a> or check browser console (F12).</small>
+    </div>
   </section>
 
   <!-- Footer -->
@@ -222,13 +227,16 @@
     </a>
   </div>
 
-  <!-- RSS Wall Fallback -->
+  <!-- Debug: Show fallback after 15 sec if RSS fails -->
   <script>
     setTimeout(() => {
       const wall = document.querySelector('rssapp-wall');
       const fallback = document.getElementById('rss-wall-fallback');
-      if (wall && wall.children.length === 0) fallback.style.display = 'flex';
-    }, 6000);
+      if (wall && (!wall.children.length || wall.innerHTML.trim() === '')) {
+        fallback.style.display = 'flex';
+        console.warn('RSS Wall failed to load. Check ID or network.');
+      }
+    }, 15000);
   </script>
 
 </body>
