@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L84BND9M0T');
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Subscribe to Curated Travel Magazine – Get inspiring travel stories, hidden destinations, and cultural journeys delivered to your inbox." />
@@ -12,8 +21,8 @@
   <title>Subscribe | Curated Travel Magazine</title>
 
   <!-- CSP: Allow Mailchimp + RSS -->
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' https://s3.amazonaws.com https://chimpstatic.com 'unsafe-inline'; style-src 'self' https://cdn-images.mailchimp.com 'unsafe-inline'; img-src * data: https:; font-src 'self' data:;">
+ <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' https://api.rss2json.com https://s3.amazonaws.com https://chimpstatic.com 'unsafe-inline'; style-src 'self' https://cdn-images.mailchimp.com 'unsafe-inline'; img-src * data: https:; font-src 'self' data:;">
 
   <link href="https://cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
 
@@ -331,6 +340,40 @@
       </script>
     </div>
   </section>
+<!-- Latest Blog Posts Preview -->
+<section class="blog-preview" style="padding: 3rem 2rem; max-width: 1200px; margin: 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+  <h2 style="text-align:center; color:#023047; font-size:2rem; margin-bottom:1.5rem;">Latest from the Blog</h2>
+  <div id="blog-preview-grid" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+    <p style="grid-column:1/-1; text-align:center; color:#666; font-style:italic;">Loading posts...</p>
+  </div>
+</section>
+<script>
+  // Free WordPress RSS → JSON
+  const RSS_URL = 'https://curatedtravelmagazine.wordpress.com/feed/';
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`)
+    .then(r => r.json())
+    .then(data => {
+      const grid = document.getElementById('blog-preview-grid');
+      grid.innerHTML = '';
+      data.items.slice(0, 3).forEach(item => {
+        let img = item.thumbnail || (item.description.match(/<img[^>]+src="?([^"\s]+)"?/i) || [])[1] || '';
+        grid.innerHTML += `
+          <a href="${item.link}" target="_blank" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+            ${img ? `<img src="${img}" alt="${item.title}" style="width:100%; height:160px; object-fit:cover;">` : ''}
+            <div style="padding:1rem;">
+              <div style="font-size:0.8rem; color:#EC5224; font-weight:bold;">${new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</div>
+              <h3 style="margin:0.5rem 0; font-size:1.1rem; color:#023047;">${item.title}</h3>
+              <p style="font-size:0.9rem; color:#555; margin:0.5rem 0; line-height:1.4;">${item.description.replace(/<[^>]+>/g, '').substring(0, 100)}...</p>
+              <span style="color:#EC5224; font-weight:bold; font-size:0.85rem;">Read more →</span>
+            </div>
+          </a>
+        `;
+      });
+    })
+    .catch(() => {
+      document.getElementById('blog-preview-grid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#c00;">Failed to load blog posts.</p>';
+    });
+</script>
 
   <!-- Footer -->
   <footer>
