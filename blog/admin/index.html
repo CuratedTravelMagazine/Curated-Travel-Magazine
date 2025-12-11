@@ -1,22 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Content Manager</title>
+    <meta charset="UTF-8">
+    <title>Curated Travel Blog Admin</title>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Georgia', serif;
+      }
+      #nc-root {
+        min-height: 100vh;
+      }
+    </style>
   </head>
   <body>
+    <div id="nc-root"></div>
+
     <script>
+      // Initialize Netlify CMS
       CMS.init({
         config: {
           backend: {
-            name: 'git-gateway',
-            branch: 'main'
+            name: 'git-gateway', // uses Netlify Identity + Git Gateway
+            branch: 'main'       // your repo branch
           },
-          media_folder: 'assets/images/blog',
+          media_folder: 'assets/images/blog', // where uploaded images go
           public_folder: '/assets/images/blog',
+          collections: [
+            {
+              name: 'blog',
+              label: 'Blog Posts',
+              folder: '_posts',         // your posts folder
+              create: true,
+              slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Publish Date", name: "date", widget: "datetime" },
+                { label: "Image", name: "image", widget: "image" },
+                { label: "Featured Image", name: "featured_image", widget: "image" },
+                { label: "Body", name: "body", widget: "markdown" }
+              ]
+            }
+          ]
         }
-      })
+      });
     </script>
   </body>
 </html>
