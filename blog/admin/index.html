@@ -6,5 +6,17 @@
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   </head>
   <body>
+    <script>
+      CMS.init({
+        config: {
+          backend: {
+            name: 'git-gateway',
+            branch: 'main'
+          },
+          media_folder: 'assets/images/blog',
+          public_folder: '/assets/images/blog',
+        }
+      })
+    </script>
   </body>
 </html>
