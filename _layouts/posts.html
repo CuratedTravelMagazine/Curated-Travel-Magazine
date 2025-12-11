@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L84BND9M0T');
+    </script>
+  </head>
+
+  <body>
+    {% include header.html %}
+
+    <main>
+      <article class="post">
+        <div class="section blog-post">
+          {% if page.featured_image %}
+            <div class="post-hero">
+              <img src="{{ page.featured_image }}" alt="{{ page.title }}">
+            </div>
+          {% endif %}
+
+          <h1>{{ page.title }}</h1>
+          <p class="post-date">{{ page.date | date: "%B %d, %Y" }}</p>
+          <div class="post-content">
+            {{ content }}
+          </div>
+        </div>
+      </article>
+    </main>
+
+    {% include footer.html %}
+  </body>
+</html>
