@@ -5,6 +5,8 @@ date: 2025-09-15
 type: issue
 issue_number: 01
 cover_image: /assets/images/blog/Curated-Sept-cover.jpg
+image: /assets/images/blog/Curated-Sept-cover.jpg
+featured_image: /assets/images/blog/Curated-Sept-cover.jpg
 ---
 
 <div class="issue-intro">
