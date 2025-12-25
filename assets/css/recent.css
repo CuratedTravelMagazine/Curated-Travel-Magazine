@@ -5,6 +5,8 @@
   padding: 0 2rem;
 }
 
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
 .blog-preview-section h2 {
   text-align: center;
   color: #023047;
