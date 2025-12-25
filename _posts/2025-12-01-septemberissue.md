@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "September Issue"
-date: 2025-12-15
+date: 2025-09-15
 type: issue
 issue_number: 01
-cover_image: /assets/images/issues/issue-01-cover.jpg
+cover_image: /assets/images/blog/curatednovcover.jpg.jpg
 ---
 
 <div class="issue-intro">
