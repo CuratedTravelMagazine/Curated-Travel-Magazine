@@ -284,50 +284,30 @@
 </section>
 
 <!-- Latest Blog Posts Preview -->
-<script>
-(async function() {
-  const grid = document.getElementById('blog-preview-grid');
-  grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#666; font-style:italic;">Loading posts...</p>';
+<section class="recent-posts" style="margin-top: 4rem; max-width: 1200px; margin-left:auto; margin-right:auto;">
+  <h2 style="text-align:center; color:#023047; font-size:2rem; margin-bottom:1.5rem;">Latest from the Blog</h2>
+  <div class="recent-posts-grid" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+    {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
+    {% for post in recent_posts limit:3 %}
+      <a href="{{ post.url }}" class="recent-post-card" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+        {% if post.image %}
+          <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}" style="width:100%; height:160px; object-fit:cover;">
+        {% else %}
+          <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}" style="width:100%; height:160px; object-fit:cover;">
+        {% endif %}
+        <div style="padding:1rem;">
+          <h3 style="margin:0.5rem 0; font-size:1.1rem; color:#023047;">{{ post.title }}</h3>
+          <p class="post-date" style="font-size:0.8rem; color:#EC5224; font-weight:bold;">{{ post.date | date: "%B %d, %Y" }}</p>
+          <span style="color:#EC5224; font-weight:bold; font-size:0.85rem;">Read more →</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
 
-  try {
-    // Fetch the blog page HTML
-    const response = await fetch('/blog/');
-    if (!response.ok) throw new Error('Failed to fetch blog page');
-    const text = await response.text();
 
-    // Parse HTML
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
 
-    // Select latest blog posts (adjust selector to match your blog structure)
-    const posts = Array.from(doc.querySelectorAll('article')).slice(0, 3); // first 3 posts
-    if (!posts.length) throw new Error('No posts found');
 
-    grid.innerHTML = ''; // clear loading text
-
-    posts.forEach(post => {
-      const link = post.querySelector('a')?.href || '#';
-      const title = post.querySelector('h2')?.innerText || 'Untitled';
-      const img = post.querySelector('img')?.src || '';
-      const dateText = post.querySelector('time')?.innerText || '';
-
-      grid.innerHTML += `
-        <a href="${link}" target="_blank" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
-          ${img ? `<img src="${img}" alt="${title}" style="width:100%; height:160px; object-fit:cover;">` : ''}
-          <div style="padding:1rem;">
-            <div style="font-size:0.8rem; color:#EC5224; font-weight:bold;">${dateText}</div>
-            <h3 style="margin:0.5rem 0; font-size:1.1rem; color:#023047;">${title}</h3>
-            <span style="color:#EC5224; font-weight:bold; font-size:0.85rem;">Read more →</span>
-          </div>
-        </a>
-      `;
-    });
-  } catch (error) {
-    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#c00;">Failed to load blog posts.</p>';
-    console.error(error);
-  }
-})();
-</script>
 
   <!-- Footer -->
   <footer>
