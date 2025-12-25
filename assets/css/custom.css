@@ -285,3 +285,21 @@ footer a { color: #EC5224; }
   color: #555;
   margin: 0.3rem 1rem 1rem;
 }
+.social-links { margin: 1rem 0; }
+    .social-links a {
+      display: inline-block; margin: 0 10px; width: 40px; height: 40px;
+      background: #fff; color: #023047; border-radius: 50%; text-align: center;
+      line-height: 40px; font-size: 1.3rem; transition: all .3s;
+    }
+    .social-links a:hover { background: #EC5224; color: #fff; transform: translateY(-3px); }
+    .social-float {
+      position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 99;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .social-float a {
+      width: 45px; height: 45px; background: #EC5224; color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2); transition: all .3s;
+    }
+    .social-float a:hover { background: #023047; transform: scale(1.1); }
+
