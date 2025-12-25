@@ -1,0 +1,17 @@
+---
+layout: general
+title: Issues
+hero_title: Our Issues
+hero_subtitle: Immersive collections of curated travel storytelling.
+---
+
+<section class="issues-grid">
+  {% assign issues = site.posts | where: "type", "issue" | sort: "date" | reverse %}
+  
+  {% for issue in issues %}
+    <a href="{{ issue.url }}" class="issue-card">
+      <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
+      <h3>{{ issue.title }}</h3>
+    </a>
+  {% endfor %}
+</section>
