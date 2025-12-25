@@ -3,32 +3,254 @@ layout: default
 title: Subscribe
 ---
 
-<!-- Subscribe Form Section -->
-<section class="subscribe-section">
-  <h2>Subscribe</h2>
-  <div style="text-align:center; margin-top:2rem;">
-    <iframe src="https://curatedtravelmagazine.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Subscribe to Curated Travel Magazine – Get inspiring travel stories, hidden destinations, and cultural journeys delivered to your inbox." />
+  <meta name="keywords" content="subscribe, travel magazine, luxury travel, curated stories" />
+  <title>Subscribe | Curated Travel Magazine</title>
 
-<!-- Latest Blog Posts Section -->
-<section class="blog-preview-section">
-  <h2>Latest from the Blog</h2>
-  <div class="blog-preview-grid">
-    {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
-    {% for post in recent_posts limit:3 %}
-      <a href="{{ post.url }}" class="blog-card">
-        {% if post.image %}
-          <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}">
-        {% else %}
-          <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
-        {% endif %}
-        <div class="blog-card-content">
-          <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
-          <h3>{{ post.title }}</h3>
-          <span class="read-more">Read more →</span>
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-</section>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L84BND9M0T');
+  </script>
+
+  <!-- Mailchimp Form CSS -->
+  <link href="https://cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
+  <style>
+    /* --- Global Site CSS --- */
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      color: #333;
+      background-color: #fafafa;
+      line-height: 1.7;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* Header */
+    header {
+      background-color: #023047;
+      color: #fff;
+      padding: .1rem 1rem;
+      text-align: center;
+    }
+    .logo { max-width: 600px; margin: 0 auto 0.1rem; }
+
+    /* Navigation */
+    nav {
+      background-color: #EC5224;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      color: white;
+      margin: 0 1.2rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: opacity 0.3s;
+    }
+    nav a:hover { opacity: 0.8; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 560px;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+    .hero-slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: fade 15s infinite;
+    }
+    .hero-slide:nth-child(1) { background-image: url('hero-travel1.jpg'); animation-delay: 0s; }
+    .hero-slide:nth-child(2) { background-image: url('hero-travel2.jpg'); animation-delay: 5s; }
+    .hero-slide:nth-child(3) { background-image: url('hero-travel3.jpg'); animation-delay: 10s; }
+    @keyframes fade { 0%,100%{opacity:0} 10%,30%{opacity:1} 40%{opacity:0} }
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      padding-top: 160px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .hero-text h1 { font-size: 3rem; margin: 0 0 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    .hero-text p { font-size: 1.3rem; text-shadow: 0 1px 5px rgba(0,0,0,0.5); }
+
+    /* Subscribe Section */
+    .subscribe-section {
+      max-width: 700px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .subscribe-section h2 {
+      color: #023047;
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Mailchimp Form Overrides */
+    #mc_embed_signup { background: transparent !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+    #mc_embed_signup form { padding: 0 !important; }
+    #mc_embed_signup .mc-field-group { margin-bottom: 1.2rem; }
+    #mc_embed_signup label { display: block; font-weight: bold; color: #023047; margin-bottom: 0.4rem; font-size: 1rem; }
+    #mc_embed_signup input.text,
+    #mc_embed_signup input.email {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-family: 'Georgia', serif;
+    }
+    #mc_embed_signup input.email:focus,
+    #mc_embed_signup input.text:focus { outline: none; border-color: #EC5224; box-shadow: 0 0 0 3px rgba(236,82,36,0.15); }
+    #mc_embed_signup .button {
+      background: #EC5224 !important;
+      color: white !important;
+      padding: 0.9rem 2.5rem !important;
+      border-radius: 30px !important;
+      font-weight: bold !important;
+      font-size: 1.1rem !important;
+      border: none !important;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: background 0.3s;
+    }
+    #mc_embed_signup .button:hover { background: #d43f1a !important; }
+
+    /* Footer */
+    footer { background: #023047; color: white; text-align: center; padding: 2rem 1rem; font-size: 0.9rem; margin-top: 4rem; }
+    footer a { color: #EC5224; }
+
+    /* --- Inline Blog CSS for this page --- */
+    .blog-preview-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+    .blog-preview-section h2 {
+      text-align: center;
+      color: #023047;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .blog-preview-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .blog-card {
+      display: block;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.3s;
+    }
+    .blog-card:hover { transform: translateY(-6px); }
+    .blog-card img { width: 100%; height: 180px; object-fit: cover; }
+    .blog-card-content { padding: 1rem; }
+    .blog-date { font-size: 0.8rem; color: #EC5224; font-weight: bold; margin-bottom: 0.5rem; }
+    .blog-card-content h3 { margin: 0 0 0.5rem; font-size: 1.1rem; color: #023047; }
+    .read-more { color: #EC5224; font-weight: bold; font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      .hero-text h1 { font-size: 2.2rem; }
+      .subscribe-section { padding: 2rem 1.5rem; }
+      #mc_embed_signup .button { font-size: 1rem; padding: 0.8rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="curated-travel-magazine-logo.png" alt="Curated Travel Magazine Logo" class="logo" />
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="issues.html">Issues</a>
+    <a href="http://www.curatedtravelmagazine.com/blog/">Articles</a>
+    <a href="subscribe.html">Subscribe</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-text">
+      <h1>Never Miss a Journey</h1>
+      <p>Subscribe for curated travel stories delivered monthly.</p>
+    </div>
+  </section>
+
+  <!-- Subscribe Form Section -->
+  <section class="subscribe-section">
+    <h2>Subscribe</h2>
+    <div style="text-align:center; margin-top:2rem;">
+      <iframe src="https://curatedtravelmagazine.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </section>
+
+  <!-- Latest Blog Posts Section -->
+  <section class="blog-preview-section">
+    <h2>Latest from the Blog</h2>
+    <div class="blog-preview-grid">
+      {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
+      {% for post in recent_posts limit:3 %}
+        <a href="{{ post.url }}" class="blog-card">
+          {% if post.image %}
+            <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}">
+          {% else %}
+            <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
+          {% endif %}
+          <div class="blog-card-content">
+            <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
+            <h3>{{ post.title }}</h3>
+            <span class="read-more">Read more →</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Curated Travel Magazine. All rights reserved.</p>
+    <p><a href="mailto:hello@curatedtravelmagazine.com">hello@curatedtravelmagazine.com</a></p>
+  </footer>
+
+</body>
+</html>
