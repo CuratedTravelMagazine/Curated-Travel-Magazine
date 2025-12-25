@@ -273,89 +273,27 @@
   </section>
 
   <!-- Subscribe Form -->
-  <section class="subscribe-section">
-    <div id="mc_embed_shell">
-      <div id="mc_embed_signup">
-        <form action="https://yahoo.us2.list-manage.com/subscribe/post?u=c0c970769bf4401b735ce49b7&id=bee325e01a&f_id=000efae3f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-          <div id="mc_embed_signup_scroll">
-            <h2>Subscribe</h2>
-            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-
-            <div class="mc-field-group">
-              <label for="mce-FNAME">First Name </label>
-              <input type="text" name="FNAME" class="text" id="mce-FNAME" value="">
-            </div>
-
-            <div class="mc-field-group">
-              <label for="mce-LNAME">Last Name </label>
-              <input type="text" name="LNAME" class="text" id="mce-LNAME" value="">
-            </div>
-
-            <div class="mc-field-group">
-              <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
-              <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" value="" required="">
-            </div>
-
-            <div class="mc-field-group input-group">
-              <strong>Email Content Interest </strong>
-              <ul>
-                <li><input type="checkbox" name="group[83650][1]" id="mce-group[83650]-83650-0" value=""><label for="mce-group[83650]-83650-0">Travel &amp; Tourism</label></li>
-                <li><input type="checkbox" name="group[83650][2]" id="mce-group[83650]-83650-1" value=""><label for="mce-group[83650]-83650-1">Marketing</label></li>
-                <li><input type="checkbox" name="group[83650][4]" id="mce-group[83650]-83650-2" value=""><label for="mce-group[83650]-83650-2">Behavioral Economics</label></li>
-                <li><input type="checkbox" name="group[83650][8]" id="mce-group[83650]-83650-3" value=""><label for="mce-group[83650]-83650-3">Featured</label></li>
-              </ul>
-            </div>
-
-            <div id="mce-responses" class="clear foot">
-              <div class="response" id="mce-error-response" style="display: none;"></div>
-              <div class="response" id="mce-success-response" style="display: none;"></div>
-            </div>
-
-            <div aria-hidden="true" style="position: absolute; left: -5000px;">
-              <input type="text" name="b_c0c970769bf4401b735ce49b7_bee325e01a" tabindex="-1" value="">
-            </div>
-
-            <div class="optionalParent">
-              <div class="clear foot">
-                <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
-                <p style="margin: 0px auto;"><a href="http://eepurl.com/jlouWE" title="Mailchimp - email marketing made easy and fun"><span style="display: inline-block; background-color: transparent; border-radius: 4px;"><img class="refferal_badge" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span></a></p>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <script type="text/javascript" src="https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
-      <script type="text/javascript">
-        (function($) {
-          window.fnames = new Array(); window.ftypes = new Array();
-          fnames[1]='FNAME';ftypes[1]='text';
-          fnames[2]='LNAME';ftypes[2]='text';
-          fnames[0]='EMAIL';ftypes[0]='email';
-          fnames[3]='MMERGE3';ftypes[3]='text';
-          fnames[4]='MMERGE4';ftypes[4]='text';
-          fnames[5]='MMERGE5';ftypes[5]='dropdown';
-        }(jQuery));
-        var $mcj = jQuery.noConflict(true);
-      </script>
-    </div>
-  </section>
-<!-- Latest Blog Posts Preview -->
-<section class="blog-preview" style="padding: 3rem 2rem; max-width: 1200px; margin: 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-  <h2 style="text-align:center; color:#023047; font-size:2rem; margin-bottom:1.5rem;">Latest from the Blog</h2>
-  <div id="blog-preview-grid" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
-    <p style="grid-column:1/-1; text-align:center; color:#666; font-style:italic;">Loading posts...</p>
-  </div>
+  <!-- Subscribe Section -->
+<section class="subscribe-section">
+  <h2>Subscribe</h2>
+  <p style="text-align:center; margin-bottom:1.5rem;">Get inspiring travel stories delivered directly to your inbox.</p>
+  <iframe src="https://curatedtravelmagazine.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; display:block; margin:0 auto;" 
+          frameborder="0" scrolling="no"></iframe>
 </section>
+
+<!-- Latest Blog Posts Preview -->
 <script>
-  // Free WordPress RSS → JSON
-  const RSS_URL = 'https://curatedtravelmagazine.wordpress.com/feed/';
+  // Replace RSS → JSON with your blog's RSS feed
+  const RSS_URL = 'https://curatedtravelmagazine.wordpress.com/feed/'; // Keep WordPress feed
   fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`)
-    .then(r => r.json())
+    .then(response => response.json())
     .then(data => {
       const grid = document.getElementById('blog-preview-grid');
       grid.innerHTML = '';
       data.items.slice(0, 3).forEach(item => {
+        // Get image from feed or description
         let img = item.thumbnail || (item.description.match(/<img[^>]+src="?([^"\s]+)"?/i) || [])[1] || '';
         grid.innerHTML += `
           <a href="${item.link}" target="_blank" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
@@ -374,7 +312,6 @@
       document.getElementById('blog-preview-grid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#c00;">Failed to load blog posts.</p>';
     });
 </script>
-
   <!-- Footer -->
   <footer>
     <div class="social-links">
