@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="/assets/css/custom.css">
-<link rel="stylesheet" href="/assets/css/recent.css">
-  <!-- any extra CSS specific to subscribe page -->
-  <style>
-    /* inline subscribe page CSS here */
-  </style>
-</head>
-<body>
-  {{ content }}
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="/assets/css/custom.css">
+ <link rel="stylesheet" href="/assets/css/recent.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L84BND9M0T');
+    </script>
+    <!-- End Google Analytics -->
+
+  </head>
+  <body>
+
+    {% include header.html %}
+
+    <main>
+      {{ content }}
+    </main>
+
+    {% include footer.html %}
+
+  </body>
 </html>
