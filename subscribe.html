@@ -291,20 +291,28 @@ title: Subscribe
 </section>
 
 <!-- Latest Blog Posts Preview -->
-<section class="recent-posts" style="margin-top: 4rem; max-width: 1200px; margin-left:auto; margin-right:auto;">
+<section class="subscribe-section">
+  <h2 style="text-align:center; color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">Subscribe</h2>
+  <div style="text-align:center; margin-bottom:2rem;">
+    <iframe src="https://curatedtravelmagazine.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+  </div>
+</section>
+
+<!-- Latest Blog Posts -->
+<section class="subscribe-section">
   <h2 style="text-align:center; color:#023047; font-size:2rem; margin-bottom:1.5rem;">Latest from the Blog</h2>
-  <div class="recent-posts-grid" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+  <div class="blog-preview-grid" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
     {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
     {% for post in recent_posts limit:3 %}
-      <a href="{{ post.url }}" class="recent-post-card" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+      <a href="{{ post.url }}" class="blog-card" style="display:block; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.06); text-decoration:none; color:inherit; transition:transform .3s; padding-bottom:0;">
         {% if post.image %}
-          <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}" style="width:100%; height:160px; object-fit:cover;">
+          <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}" style="width:100%; height:180px; object-fit:cover;">
         {% else %}
-          <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}" style="width:100%; height:160px; object-fit:cover;">
+          <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}" style="width:100%; height:180px; object-fit:cover;">
         {% endif %}
         <div style="padding:1rem;">
-          <h3 style="margin:0.5rem 0; font-size:1.1rem; color:#023047;">{{ post.title }}</h3>
-          <p class="post-date" style="font-size:0.8rem; color:#EC5224; font-weight:bold;">{{ post.date | date: "%B %d, %Y" }}</p>
+          <div style="font-size:0.8rem; color:#EC5224; font-weight:bold; margin-bottom:0.5rem;">{{ post.date | date: "%B %d, %Y" }}</div>
+          <h3 style="margin:0 0 0.5rem; font-size:1.1rem; color:#023047;">{{ post.title }}</h3>
           <span style="color:#EC5224; font-weight:bold; font-size:0.85rem;">Read more →</span>
         </div>
       </a>
