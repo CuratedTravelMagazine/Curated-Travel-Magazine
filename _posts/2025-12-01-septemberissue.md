@@ -4,7 +4,7 @@ title: "September Issue"
 date: 2025-09-15
 type: issue
 issue_number: 01
-cover_image: /assets/images/blog/curatednovcover.jpg.jpg
+cover_image: /assets/images/blog/Curated-Sept-cover.jpg
 ---
 
 <div class="issue-intro">
