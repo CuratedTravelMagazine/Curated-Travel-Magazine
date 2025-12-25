@@ -10,7 +10,7 @@ featured_image: /assets/images/blog/OCTOBER 2025.jpg
 ---
 
 <div class="issue-intro">
-A curated exploration of movement, meaning, and place.
+October Curated captures the essence of fall as a season made for storytelling—where crisp air, changing leaves, and longer nights invite deeper, more sensory travel experiences. This issue journeys from Wilmington’s lively brewery scene and Vermont’s cideries and covered bridges to Oktoberfest celebrations around the world, cinematic fall soundtracks, restorative hot springs, and awe-inspiring stargazing in Chile’s Atacama Desert. Together, the stories celebrate autumn as a time to slow down, savor flavors, embrace culture, and look both inward and skyward for inspiration 
 </div>
 
 <!-- Flipbook Embed -->

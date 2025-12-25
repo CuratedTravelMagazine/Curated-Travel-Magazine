@@ -10,7 +10,7 @@ featured_image: /assets/images/blog/curatednovcover.jpg
 ---
 
 <div class="issue-intro">
-A curated exploration of movement, meaning, and place.
+The November/December issue of Curated brings you a seasonally inspired blend of immersive travel experiences, art-and-nature escapes, and expert insights into how behavioral science enhances the way we work, live, and explore. This double issue features thoughtfully selected destinations perfect for autumn and early winter getaways, deep dives into cultural experiences that enrich the holiday season, and practical ideas for making your end-of-year moments more meaningful. From museum day-trip guides to reflections on mindful travel, this edition celebrates discovery, creativity, and intentional living.
 </div>
 
 <!-- Flipbook Embed -->
