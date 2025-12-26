@@ -1,123 +1,60 @@
 ---
 layout: home
 title: "Curated Travel Magazine"
-current_issue_url: "/blog/2025/12/01/novdecissue/"
 ---
-
-<!-- ================= CURRENT ISSUE ================= -->
-
-<section class="section section-white">
+<!-- Current Issue -->
+<section class="section">
   <h2>Current Issue</h2>
-
   <div class="featured">
     <img src="/assets/images/blog/curatednovcover.jpg" alt="Nov/Dec 2025 – Winter Wonderland">
-
     <div class="featured-text">
       <h3>Nov/Dec – Winter Wonderland</h3>
-      <p>
-        The November/December issue of Curated invites readers to embrace the beauty
-        of the season through stories that celebrate warmth, wonder, and renewal.
-        From winter wellness escapes and Italy’s enchanting holiday charm to Maui’s
-        powerful story of resilience and the thrill of snowy slopes, this edition
-        blends inspiration and reflection.
-      </p>
-
-      <a href="https://www.curatedtravelmagazine.com/issues" class="btn">
-        Read Now
-      </a>
+      <p>The November/December issue of Curated invites readers to embrace the beauty of the season...</p>
+      <a href="{{ page.current_issue_url | default: 'https://heyzine.com/flip-book/154bf6a9db.html' }}" class="btn">Read Now</a>
     </div>
   </div>
 </section>
 
-
-
-
-<!-- ================= Current & Past Issues Teaser ================= -->
-
-  <section class="section" style="background:#fff; padding:3rem 2rem;">
-    <div style="max-width:1200px; margin:auto; text-align:center;">
-      <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
-      
-<div class="issue-teaser-grid">
-
-        <a href="issues.html" class="issue-teaser-card issue-current">
-          <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025 - Winter Wonderland">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">Nov/Dec 2025</div>
-            <h3 class="issue-teaser-title">Winter Wonderland</h3>
-            <p class="issue-teaser-desc">Winter wellness, Italy’s holiday charm, Maui’s resilience.</p>
-            <span class="issue-teaser-btn">Read Now</span>
-          </div>
-        </a>
-
-<a href="issues.html" class="issue-teaser-card">
-          <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025 - Winter Wonderland">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">Nov/Dec 2025</div>
-            <h3 class="issue-teaser-title">Winter Wonderland</h3>
-            <p class="issue-teaser-desc">Winter wellness, Italy’s holiday charm, Maui’s resilience.</p>
-            <span class="issue-teaser-btn">Read Now</span>
-          </div>
-        </a>
-
-        <a href="issues.html" class="issue-teaser-card">
-          <img src="Curated-Oct-cover.jpg" alt="Oct 2025 - Autumn Escapes">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">October 2025</div>
-            <h3 class="issue-teaser-title">Autumn Escapes</h3>
-            <p class="issue-teaser-desc">Golden foliage, harvest festivals, cozy retreats.</p>
-          </div>
-        </a>
-        <a href="issues.html" class="issue-teaser-card">
-          <img src="Curated-Sept-cover.jpg" alt="Sept 2025 - Back to Travel">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">September 2025</div>
-            <h3 class="issue-teaser-title">Back to Travel</h3>
-            <p class="issue-teaser-desc">Late-summer sun, cultural comebacks, off-season gems.</p>
-          </div>
-        </a>
-      </div>
-      <a href="issues.html" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
+<!-- Issues Teaser -->
+<section class="section" style="background:#fff; padding:3rem 2rem;">
+  <div style="max-width:1200px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
+    <div class="issue-teaser-grid">
+      {# Your cards here — fix image paths to /assets/images/blog/... and remove the duplicate Nov card #}
     </div>
-  </section>
-
-
-<!-- ================= LATEST ARTICLES ================= -->
-
-<section class="section section-white">
-  <h2>Latest Travel Articles</h2>
-
-  <div class="blog-preview-grid">
-    {% assign recent_posts = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
-    {% for post in recent_posts limit:3 %}
-      <a href="{{ post.url }}" class="blog-card">
-        {% if post.image %}
-          <img src="{{ post.image }}" alt="{{ post.title }}">
-        {% else %}
-          <img src="/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
-        {% endif %}
-        <div class="blog-card-content">
-          <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
-          <h3>{{ post.title }}</h3>
-          <span class="read-more">Read more →</span>
-        </div>
-      </a>
-    {% endfor %}
+    <a href="/issues.html" style="...">View All Issues</a>
   </div>
 </section>
 
-<!-- ================= SUBSTACK ================= -->
-
-<section class="section section-white substack-section">
-  <h2>From Our Substack</h2>
-
-  <div class="substack-embed">
-    <iframe
-      src="https://curatedtravelmagazine.substack.com/embed"
-      width="600"
-      height="400"
-      frameborder="0"
-      scrolling="no">
-    </iframe>
+<!-- Latest Articles (now dynamic + matching style) -->
+<section class="section">
+  <div class="blog-preview">
+    <h2>Latest Travel Stories</h2>
+    <div class="blog-grid">
+      {% assign recent_posts = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
+      {% for post in recent_posts limit:3 %}
+        <a href="{{ post.url }}" class="post-card">
+          {% if post.image %}
+            <img src="{{ post.image }}" alt="{{ post.title }}" class="post-img">
+          {% else %}
+            <img src="/assets/images/blog/default-post.jpg" alt="{{ post.title }}" class="post-img">
+          {% endif %}
+          <div class="post-info">
+            <div class="post-date">{{ post.date | date: "%b %d" }}</div>
+            <h3 class="post-title">{{ post.title }}</h3>
+            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}...</p>
+            <span class="read-more">Read more</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
   </div>
+</section>
+
+<!-- Subscribe (Mailchimp instead of Substack) -->
+<section class="section">
+  <div id="mc_embed_signup">
+    {# Paste the full Mailchimp form code from your static page here #}
+  </div>
+  {# Keep the Mailchimp scripts at the bottom if needed #}
 </section>
