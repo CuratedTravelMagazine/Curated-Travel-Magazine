@@ -5,13 +5,37 @@ hero_title: Our Issues
 hero_subtitle: Immersive collections of curated travel storytelling.
 ---
 
+<section class="latest-issue">
+  <h2>Latest Issue</h2>
+
+  <div class="latest-issue-card">
+    <img src="{{ latest_issue.cover_image }}" alt="{{ latest_issue.title }}">
+
+    <div class="latest-issue-content">
+      <h3>{{ latest_issue.title }}</h3>
+
+      <a href="{{ latest_issue.url }}" class="btn-primary">
+        Read the Issue →
+      </a>
+
+      <a href="{{ latest_issue.flipbook_url }}" target="_blank" class="btn-secondary">
+        Open Flipbook →
+      </a>
+    </div>
+  </div>
+</section>
+
+{% assign issues = site.posts | where: "is_issue", true | sort: "published_date" | reverse %}
+{% assign latest_issue = issues.first %}
 <section class="issues-grid">
-  {% assign issues = site.posts | where: "type", "issue" | sort: "date" | reverse %}
-  
-  {% for issue in issues %}
-    <a href="{{ issue.url }}" class="issue-card">
-      <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
-      <h3>{{ issue.title }}</h3>
-    </a>
-  {% endfor %}
+  <h2>Past Issues</h2>
+
+  <div class="issue-grid">
+    {% for issue in issues offset:1 %}
+      <a href="{{ issue.url }}" class="issue-card">
+        <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
+        <h4>{{ issue.title }}</h4>
+      </a>
+    {% endfor %}
+  </div>
 </section>
