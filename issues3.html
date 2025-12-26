@@ -1,12 +1,10 @@
 ---
 layout: home
 title: "Issues | Curated Travel Magazine"
-
 ---
 
-
-<!-- CURRENT ISSUE EMBED – Manual flipbook link -->
-<section class="section" style="background:#fff; padding:5rem 2rem 4rem;">
+<!-- CURRENT ISSUE EMBED – White background section -->
+<section class="section section-white" style="padding:5rem 2rem 4rem;">
   <div style="max-width:1200px; margin:auto; text-align:center;">
     <h2 style="color:#023047; font-size:2.8rem; margin-bottom:1rem;">Current Issue</h2>
     <p style="color:#EC5224; font-size:1.3rem; margin-bottom:2.5rem; font-weight:bold;">
@@ -27,12 +25,12 @@ title: "Issues | Curated Travel Magazine"
   </div>
 </section>
 
-<!-- This Month + Recent Issues (Automated – All link to /issues) -->
-<section class="section" style="background:#fff; padding:3rem 2rem;">
+<!-- This Month + Recent Issues – Soft gray background (matches homepage contrast) -->
+<section class="section" style="background:#fafafa; padding:5rem 2rem;">
   <div style="max-width:1200px; margin:auto; text-align:center;">
-    <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
+    <h2 style="color:#023047; font-size:2.6rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
 
-    <div class="issue-teaser-grid">
+    <div class="issue-teaser-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:2.5rem;">
       {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
       {% for issue in issues limit: 4 %}
         {% assign is_current = forloop.first %}
@@ -47,11 +45,13 @@ title: "Issues | Curated Travel Magazine"
         </a>
       {% endfor %}
     </div>
+  </div>
+</section>
 
-<!-- Latest Travel Articles (4 cards + CTA) -->
-<section class="section">
-  <div class="blog-preview">
-    <h2>Latest Travel Articles</h2>
+<!-- Latest Travel Articles – White card on gray background for contrast -->
+<section class="section" style="background:#fafafa; padding-bottom:5rem;">
+  <div class="blog-preview" style="max-width:1200px; margin:auto;">
+    <h2 style="text-align:center; color:#023047;">Latest Travel Articles</h2>
     <div class="blog-grid">
       {% assign recent_posts = site.posts | where_exp: "post", "post.is_issue != true" | sort: "date" | reverse %}
       {% for post in recent_posts limit: 4 %}
@@ -73,8 +73,8 @@ title: "Issues | Curated Travel Magazine"
       {% endfor %}
     </div>
 
-    <!-- CTA to Full Blog -->
-    <div style="text-align:center; margin-top:2rem;">
+    <!-- CTA -->
+    <div style="text-align:center; margin-top:2.5rem;">
       <a href="/blog/" class="btn" style="font-size:1.1rem; padding:0.9rem 2rem;">View All Articles →</a>
     </div>
   </div>
