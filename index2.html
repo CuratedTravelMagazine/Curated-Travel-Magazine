@@ -1,35 +1,49 @@
 ---
 layout: home
 title: "Curated Travel Magazine"
-hero_title: "Travel Beyond the Map"
-hero_subtitle: "Curated stories from the world’s most inspiring destinations."
 current_issue_url: "/blog/2025/12/01/novdecissue/"
-current_issue_title: "November/December 2025 Issue"
-current_issue_cover: "/assets/images/blog/curatednovcover.jpg"
-
 ---
-<!-- Featured Issue (NOW INSIDE .section) -->
-  <section class="section">
-    <h2>Current Issue</h2>
-    <div class="featured">
-      <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025" />
-      <div class="featured-text">
-        <h3>Nov/Dec - Winter Wonderland</h3>
-        <p>The November/December issue of Curated invites readers to embrace the beauty of the season through stories that celebrate warmth, wonder, and renewal. From winter wellness escapes and Italy’s enchanting holiday charm to Maui’s powerful story of resilience and the thrill of snowy slopes, this edition blends inspiration and reflection. Each feature captures how travel connects us—to nature, to culture, and to ourselves—making it the perfect companion for the cozy months ahead.</p>
-        <a href="http://www.curatedtravelmagazine.com/issues" class="btn">Read Now</a>
-      </div>
+
+<!-- ================= CURRENT ISSUE ================= -->
+
+<section class="section section-white">
+  <h2>Current Issue</h2>
+
+  <div class="featured">
+    <img src="/assets/images/blog/curatednovcover.jpg" alt="Nov/Dec 2025 – Winter Wonderland">
+
+    <div class="featured-text">
+      <h3>Nov/Dec – Winter Wonderland</h3>
+      <p>
+        The November/December issue of Curated invites readers to embrace the beauty
+        of the season through stories that celebrate warmth, wonder, and renewal.
+        From winter wellness escapes and Italy’s enchanting holiday charm to Maui’s
+        powerful story of resilience and the thrill of snowy slopes, this edition
+        blends inspiration and reflection.
+      </p>
+
+      <a href="https://www.curatedtravelmagazine.com/issues" class="btn">
+        Read Now
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
+<!-- ================= RECENT ISSUES ================= -->
 
-<!-- Recent Issues -->
+<section class="section section-white">
+  <h2>Recent Issues</h2>
+  <p class="section-intro">
+    Explore previous editions of Curated, each capturing a distinct season,
+    destination, and perspective on meaningful travel.
+  </p>
 
-<section class="recent-issues">
-  <h2>Past Issues</h2>
   <div class="issues-grid">
     {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
     {% for issue in issues %}
-      <a href="{{ issue.url }}" class="issue-card {% if issue.url == page.current_issue_url %}latest-issue{% endif %}">
+      {% assign is_current = issue.url == page.current_issue_url %}
+      <a href="{{ issue.url }}"
+         class="issue-card {% if is_current %}latest-issue{% endif %}">
         <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
         <h4>{{ issue.title }}</h4>
       </a>
@@ -37,35 +51,42 @@ current_issue_cover: "/assets/images/blog/curatednovcover.jpg"
   </div>
 </section>
 
-<!-- Recent Blog Posts -->
+<!-- ================= LATEST ARTICLES ================= -->
 
-      <section class="blog-preview-section">
-        <h2>Latest Travel Articles</h2>
-        <div class="blog-preview-grid">
-          {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
-          {% for post in recent_posts limit:3 %}
-            <a href="{{ post.url }}" class="blog-card">
-              {% if post.image %}
-                <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}">
-              {% else %}
-                <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
-              {% endif %}
-              <div class="blog-card-content">
-                <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
-                <h3>{{ post.title }}</h3>
-                <span class="read-more">Read more →</span>
-              </div>
-            </a>
-          {% endfor %}
+<section class="section section-white">
+  <h2>Latest Travel Articles</h2>
+
+  <div class="blog-preview-grid">
+    {% assign recent_posts = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
+    {% for post in recent_posts limit:3 %}
+      <a href="{{ post.url }}" class="blog-card">
+        {% if post.image %}
+          <img src="{{ post.image }}" alt="{{ post.title }}">
+        {% else %}
+          <img src="/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
+        {% endif %}
+        <div class="blog-card-content">
+          <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
+          <h3>{{ post.title }}</h3>
+          <span class="read-more">Read more →</span>
         </div>
-      </section>
+      </a>
+    {% endfor %}
+  </div>
+</section>
 
-<!-- Substack Embed -->
-<section class="substack-feed">
+<!-- ================= SUBSTACK ================= -->
+
+<section class="section section-white substack-section">
   <h2>From Our Substack</h2>
-  <div style="text-align:center; margin-top:2rem;">
-    <iframe src="https://curatedtravelmagazine.substack.com/embed"
-            width="600" height="400" frameborder="0" scrolling="no"
-            style="border:1px solid #EEE; background:white;"></iframe>
+
+  <div class="substack-embed">
+    <iframe
+      src="https://curatedtravelmagazine.substack.com/embed"
+      width="600"
+      height="400"
+      frameborder="0"
+      scrolling="no">
+    </iframe>
   </div>
 </section>
