@@ -40,13 +40,13 @@ title: "Curated Travel Magazine"
   </div>
 </section>
 
-<!-- Latest Travel Articles (Dynamic + Matches Current Design) -->
+<!-- Latest Travel Articles (4 cards + CTA) -->
 <section class="section">
   <div class="blog-preview">
     <h2>Latest Travel Articles</h2>
     <div class="blog-grid">
       {% assign recent_posts = site.posts | where_exp: "post", "post.is_issue != true" | sort: "date" | reverse %}
-      {% for post in recent_posts limit: 3 %}
+      {% for post in recent_posts limit: 4 %}
         <a href="{{ post.url }}" class="post-card">
           {% if post.image %}
             <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="post-img">
@@ -55,7 +55,6 @@ title: "Curated Travel Magazine"
           {% endif %}
           <div class="post-info">
             <div class="post-date">{{ post.date | date: "%b %d" }}</div>
-            <!-- Short month + day to match current site (e.g., Dec 26) -->
             <h3 class="post-title">{{ post.title }}</h3>
             {% if post.excerpt %}
               <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}...</p>
@@ -64,6 +63,11 @@ title: "Curated Travel Magazine"
           </div>
         </a>
       {% endfor %}
+    </div>
+
+    <!-- CTA to Full Blog -->
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="/blog/" class="btn" style="font-size:1.1rem; padding:0.9rem 2rem;">View All Articles →</a>
     </div>
   </div>
 </section>
