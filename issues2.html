@@ -4,20 +4,24 @@ title: Issues
 hero_title: Our Issues
 hero_subtitle: Immersive collections of curated travel storytelling.
 ---
-  <!-- Current Issue Embed -->
-  <section class="current-issue">
-    <h2>Current Issue – Nov/Dec 2025</h2>
-    <div class="embed-wrapper">
-      <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no"
-              src="https://heyzine.com/flip-book/154bf6a9db.html"
-              style="border:1px solid lightgray;"></iframe>
-    </div>
-  </section>
 
+<!-- Current Issue Embed -->
+<section class="current-issue">
+  <h2>Current Issue – Nov/Dec 2025</h2>
+
+  <div class="embed-wrapper">
+    <iframe
+      src="https://heyzine.com/flip-book/154bf6a9db.html"
+      allowfullscreen
+      scrolling="no"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
 
 {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
 
-<section class="issues-grid">
+<section class="past-issues">
   <h2>Past Issues</h2>
 
   <div class="issue-grid">
