@@ -29,27 +29,58 @@ current_issue_url: "/blog/2025/12/01/novdecissue/"
   </div>
 </section>
 
-<!-- ================= RECENT ISSUES ================= -->
 
-<section class="section section-white">
-  <h2>Recent Issues</h2>
-  <p class="section-intro">
-    Explore previous editions of Curated, each capturing a distinct season,
-    destination, and perspective on meaningful travel.
-  </p>
 
-  <div class="issues-grid">
-    {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
-    {% for issue in issues %}
-      {% assign is_current = issue.url == page.current_issue_url %}
-      <a href="{{ issue.url }}"
-         class="issue-card {% if is_current %}latest-issue{% endif %}">
-        <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
-        <h4>{{ issue.title }}</h4>
-      </a>
-    {% endfor %}
-  </div>
-</section>
+
+<!-- ================= Current & Past Issues Teaser ================= -->
+
+  <section class="section" style="background:#fff; padding:3rem 2rem;">
+    <div style="max-width:1200px; margin:auto; text-align:center;">
+      <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
+      
+<div class="issue-teaser-grid">
+
+        <a href="issues.html" class="issue-teaser-card issue-current">
+          <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025 - Winter Wonderland">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">Nov/Dec 2025</div>
+            <h3 class="issue-teaser-title">Winter Wonderland</h3>
+            <p class="issue-teaser-desc">Winter wellness, Italy’s holiday charm, Maui’s resilience.</p>
+            <span class="issue-teaser-btn">Read Now</span>
+          </div>
+        </a>
+
+<a href="issues.html" class="issue-teaser-card">
+          <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025 - Winter Wonderland">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">Nov/Dec 2025</div>
+            <h3 class="issue-teaser-title">Winter Wonderland</h3>
+            <p class="issue-teaser-desc">Winter wellness, Italy’s holiday charm, Maui’s resilience.</p>
+            <span class="issue-teaser-btn">Read Now</span>
+          </div>
+        </a>
+
+        <a href="issues.html" class="issue-teaser-card">
+          <img src="Curated-Oct-cover.jpg" alt="Oct 2025 - Autumn Escapes">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">October 2025</div>
+            <h3 class="issue-teaser-title">Autumn Escapes</h3>
+            <p class="issue-teaser-desc">Golden foliage, harvest festivals, cozy retreats.</p>
+          </div>
+        </a>
+        <a href="issues.html" class="issue-teaser-card">
+          <img src="Curated-Sept-cover.jpg" alt="Sept 2025 - Back to Travel">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">September 2025</div>
+            <h3 class="issue-teaser-title">Back to Travel</h3>
+            <p class="issue-teaser-desc">Late-summer sun, cultural comebacks, off-season gems.</p>
+          </div>
+        </a>
+      </div>
+      <a href="issues.html" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
+    </div>
+  </section>
+
 
 <!-- ================= LATEST ARTICLES ================= -->
 
@@ -74,41 +105,6 @@ current_issue_url: "/blog/2025/12/01/novdecissue/"
     {% endfor %}
   </div>
 </section>
-
- <!-- Current & Past Issues Teaser -->
-  <section class="section" style="background:#fff; padding:3rem 2rem;">
-    <div style="max-width:1200px; margin:auto; text-align:center;">
-      <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
-      <div class="issue-teaser-grid">
-        <a href="issues.html" class="issue-teaser-card issue-current">
-          <img src="Curated-Nov-cover.jpg" alt="Nov/Dec 2025 - Winter Wonderland">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">Nov/Dec 2025</div>
-            <h3 class="issue-teaser-title">Winter Wonderland</h3>
-            <p class="issue-teaser-desc">Winter wellness, Italy’s holiday charm, Maui’s resilience.</p>
-            <span class="issue-teaser-btn">Read Now</span>
-          </div>
-        </a>
-        <a href="issues.html" class="issue-teaser-card">
-          <img src="Curated-Oct-cover.jpg" alt="Oct 2025 - Autumn Escapes">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">October 2025</div>
-            <h3 class="issue-teaser-title">Autumn Escapes</h3>
-            <p class="issue-teaser-desc">Golden foliage, harvest festivals, cozy retreats.</p>
-          </div>
-        </a>
-        <a href="issues.html" class="issue-teaser-card">
-          <img src="Curated-Sept-cover.jpg" alt="Sept 2025 - Back to Travel">
-          <div class="issue-teaser-info">
-            <div class="issue-teaser-month">September 2025</div>
-            <h3 class="issue-teaser-title">Back to Travel</h3>
-            <p class="issue-teaser-desc">Late-summer sun, cultural comebacks, off-season gems.</p>
-          </div>
-        </a>
-      </div>
-      <a href="issues.html" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
-    </div>
-  </section>
 
 <!-- ================= SUBSTACK ================= -->
 
