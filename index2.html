@@ -15,14 +15,28 @@ title: "Curated Travel Magazine"
   </div>
 </section>
 
-<!-- Issues Teaser -->
+<!-- This Month + Recent Issues (Automated) -->
 <section class="section" style="background:#fff; padding:3rem 2rem;">
   <div style="max-width:1200px; margin:auto; text-align:center;">
     <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
+
     <div class="issue-teaser-grid">
-      {# Your cards here — fix image paths to /assets/images/blog/... and remove the duplicate Nov card #}
+      {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
+      {% for issue in issues limit: 4 %}
+        {% assign is_current = forloop.first %} <!-- First one is the latest = current issue -->
+        <a href="{{ issue.read_url | default: issue.url }}" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
+          <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">{{ issue.date | date: "%B %Y" }}</div>
+            <h3 class="issue-teaser-title">{{ issue.title | remove: " – " | remove: " - " }}</h3>
+            <p class="issue-teaser-desc">{{ issue.description }}</p>
+            <span class="issue-teaser-btn">Read Now</span>
+          </div>
+        </a>
+      {% endfor %}
     </div>
-    <a href="/issues.html" style="...">View All Issues</a>
+
+    <a href="/issues/" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
   </div>
 </section>
 
@@ -51,10 +65,3 @@ title: "Curated Travel Magazine"
   </div>
 </section>
 
-<!-- Subscribe (Mailchimp instead of Substack) -->
-<section class="section">
-  <div id="mc_embed_signup">
-    {# Paste the full Mailchimp form code from your static page here #}
-  </div>
-  {# Keep the Mailchimp scripts at the bottom if needed #}
-</section>
