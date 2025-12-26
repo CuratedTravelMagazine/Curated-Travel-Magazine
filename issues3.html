@@ -1,40 +1,44 @@
 ---
-layout: home  <!-- or default, whatever your main layout is -->
+layout: home
 title: "Issues | Curated Travel Magazine"
 permalink: /issues/
 ---
 
-<!-- Optional Hero (simpler version of homepage) -->
-<section class="hero" style="height:400px;">
-  <div class="hero-slide" style="background-image:url('/assets/images/hero-issues.jpg');"></div> <!-- Optional custom background -->
+<!-- Optional Simple Hero (comment out if not needed) -->
+<section class="hero" style="height:400px; position:relative;">
+  <div class="hero-slide" style="background-image:url('/assets/images/hero-issues.jpg'); background-size:cover; background-position:center;"></div>
   <div class="hero-text">
     <h1>Curated Issues</h1>
-    <p>Explore every edition of the magazine — timeless stories, stunning destinations.</p>
+    <p>Explore every edition — timeless stories from the world’s most inspiring destinations.</p>
   </div>
 </section>
 
-<!-- Main Issues Grid -->
-<section class="section" style="background:#fafafa; padding-bottom:5rem;">
-  <div style="max-width:1200px; margin:auto; text-align:center;">
-    <h2 style="color:#023047; font-size:2.6rem; margin-bottom:1rem;">All Issues</h2>
-    <p style="max-width:800px; margin:auto; font-size:1.1rem; color:#555; margin-bottom:3rem;">
-      Dive into our complete archive. Each issue is a carefully curated journey through the world's most inspiring places.
+<!-- All Issues Grid -->
+<section class="section" style="background:#fafafa; padding:5rem 2rem;">
+  <div style="max-width:1300px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.8rem; margin-bottom:1rem;">Our Complete Archive</h2>
+    <p style="max-width:800px; margin:auto; font-size:1.1rem; color:#555; margin-bottom:4rem; line-height:1.7;">
+      Each issue is a carefully crafted journey. Flip through the pages and rediscover the beauty of travel.
     </p>
 
-    <div class="issue-teaser-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:2.5rem;">
+    <div class="issue-teaser-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:3rem;">
       {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
       {% for issue in issues %}
         {% assign is_current = forloop.first %}
-        <a href="{{ issue.read_url | default: '/issues' }}" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
+        <a href="{{ issue.read_url | default: issue.url }}" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
           <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
           <div class="issue-teaser-info">
             <div class="issue-teaser-month">{{ issue.date | date: "%B %Y" }}</div>
-            <h3 class="issue-teaser-title">{{ issue.title | remove: " – " | remove: " - " }}</h3>
-            <p class="issue-teaser-desc">{{ issue.description }}</p>
+            <h3 class="issue-teaser-title">{{ issue.title | split: " – " | first | split: " - " | first }}</h3>
+            <p class="issue-teaser-desc">{{ issue.description | default: "A curated collection of inspiring travel stories." }}</p>
             <span class="issue-teaser-btn">Read Now</span>
           </div>
         </a>
       {% endfor %}
     </div>
+
+    {% if issues.size == 0 %}
+      <p style="color:#666; font-style:italic; margin-top:3rem;">No issues yet — check back soon!</p>
+    {% endif %}
   </div>
 </section>
