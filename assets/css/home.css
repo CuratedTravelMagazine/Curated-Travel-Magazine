@@ -1,70 +1,76 @@
-/* ================================
-   HOME PAGE STYLES
-================================ */
+/* ==============================
+   HOME PAGE
+============================== */
 
-/* ---- Editorial Current Issue Feature ---- */
-
-.current-issue-feature {
-  max-width: 1200px;
-  margin: 5rem auto;
-  padding: 0 2rem;
+.section {
+  padding: 4rem 2rem;
+  max-width: 1100px;
+  margin: auto;
 }
 
-.current-issue-inner {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 3rem;
-  align-items: center;
+.section-white {
+  background: #fff;
 }
 
-.current-issue-image img {
-  max-width: 300px;
-  border-radius: 8px;
-}
-
-.current-issue-text .issue-label {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.8rem;
-  color: #888;
-  margin-bottom: 0.5rem;
-}
-
-.current-issue-text h2 {
-  font-size: 2.4rem;
-  margin-bottom: 1rem;
-}
-
-.current-issue-text p {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #444;
+.section h2 {
+  text-align: center;
+  color: #023047;
+  font-size: 2.2rem;
   margin-bottom: 1.5rem;
 }
 
+.section-intro {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  color: #555;
+  font-size: 1.05rem;
+}
 
-/* ---- Buttons ---- */
+/* ================= CURRENT ISSUE ================= */
+
+.featured {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.featured img {
+  width: 220px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.featured-text h3 {
+  color: #EC5224;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.featured-text p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+}
+
 .btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #000;
+  background: #EC5224;
   color: #fff;
+  padding: 0.75rem 1.6rem;
+  border-radius: 30px;
+  font-weight: bold;
   text-decoration: none;
-  border-radius: 4px;
-  transition: background 0.3s;
 }
 
 .btn:hover {
-  background: #444;
+  background: #d43f1a;
 }
 
-/* ---- Issues Grid ---- */
-.recent-issues {
-  max-width: 1200px;
-  margin: 5rem auto;
-  padding: 0 2rem;
-}
+/* ================= ISSUES GRID ================= */
 
 .issues-grid {
   display: grid;
@@ -74,11 +80,13 @@
 
 .issue-card {
   text-align: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .issue-card img {
   width: 100%;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: transform 0.3s;
 }
 
@@ -87,115 +95,75 @@
 }
 
 .issue-card h4 {
-  margin-top: 0.75rem;
+  margin-top: 0.8rem;
   font-size: 1rem;
 }
 
-/* ---- Articles Grid ---- */
-.recent-articles {
-  max-width: 1200px;
-  margin: 5rem auto;
-  padding: 0 2rem;
+/* Highlight current issue */
+.issue-card.latest-issue {
+  border: 3px solid #EC5224;
+  padding: 0.75rem;
+  border-radius: 12px;
 }
 
-.articles-grid {
+/* ================= ARTICLES ================= */
+
+.blog-preview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
 }
 
-.article-card {
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   text-decoration: none;
   color: inherit;
 }
 
-.article-card img {
+.blog-card img {
   width: 100%;
-  border-radius: 6px;
-  margin-bottom: 1rem;
+  height: 160px;
+  object-fit: cover;
 }
 
-.article-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+.blog-card-content {
+  padding: 1rem;
 }
 
-.article-card p {
-  font-size: 0.95rem;
-  color: #555;
-}
-.blog-preview-section {
-background: #fff;
+.blog-date {
+  font-size: 0.8rem;
+  color: #EC5224;
+  font-weight: bold;
 }
 
-/* ---- Substack Section ---- */
-.substack-home {
-  background: #f7f7f7;
-  padding: 4rem 2rem;
-  margin-top: 5rem;
+.read-more {
+  color: #EC5224;
+  font-weight: bold;
+  font-size: 0.85rem;
 }
 
-.substack-home h2 {
+/* ================= SUBSTACK ================= */
+
+.substack-section {
   text-align: center;
-  margin-bottom: 2rem;
 }
 
+.substack-embed {
+  margin-top: 2rem;
+}
 
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
   .featured {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 2rem;
-      align-items: flex-start;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    .featured img {
-      flex: 0 0 220px;
-      width: 220px;
-      height: auto;
-      border-radius: 8px;
-      object-fit: cover;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    }
-    .featured-text {
-      flex: 1;
-      min-width: 0;
-    }
-    .featured-text h3 {
-      margin: 0 0 0.8rem;
-      color: #EC5224;
-      font-size: 1.6rem;
-    }
-    .featured-text p {
-      margin-bottom: 1.2rem;
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-    .btn {
-      display: inline-block;
-      background: #EC5224;
-      color: #fff;
-      padding: 0.75rem 1.6rem;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 0.95rem;
-      transition: background 0.3s;
-    }
-    .btn:hover { background: #d43f1a; }
+    flex-direction: column;
+    text-align: center;
+  }
 
-    /* Sections */
-    .section {
-      padding: 4rem 2rem;
-      max-width: 1000px;
-      margin: auto;
-
-    }
-    .section h2 {
-      color: #023047;
-      text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-    }
-
+  .featured img {
+    margin: 0 auto 1.5rem;
+  }
+}
