@@ -4,41 +4,51 @@ title: "Issues | Curated Travel Magazine"
 
 ---
 
-<!-- Optional Simple Hero (comment out if not needed) -->
-<section class="hero" style="height:400px; position:relative;">
-  <div class="hero-slide" style="background-image:url('/assets/images/hero-issues.jpg'); background-size:cover; background-position:center;"></div>
-  <div class="hero-text">
-    <h1>Curated Issues</h1>
-    <p>Explore every edition — timeless stories from the world’s most inspiring destinations.</p>
+<!-- CURRENT ISSUE EMBED – Full-width, hero style -->
+{% assign current_issue = site.posts | where: "is_issue", true | sort: "date" | reverse | first %}
+
+<section class="section" style="background:#fff; padding:5rem 2rem 4rem;">
+  <div style="max-width:1200px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.8rem; margin-bottom:1rem;">Current Issue</h2>
+    <p style="color:#EC5224; font-size:1.3rem; margin-bottom:2.5rem; font-weight:bold;">
+      {{ current_issue.title }} — {{ current_issue.date | date: "%B %Y" }}
+    </p>
+
+    <!-- Embedded Flipbook – Responsive -->
+    <div style="max-width:900px; margin:0 auto 2rem; box-shadow:0 10px 30px rgba(0,0,0,0.15); border-radius:12px; overflow:hidden;">
+      <iframe 
+        src="{{ current_issue.read_url }}" 
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        style="border:none;">
+      </iframe>
+    </div>
   </div>
 </section>
 
-<!-- All Issues Grid -->
+<!-- PAST ISSUES GRID – Same contrasting background as homepage -->
 <section class="section" style="background:#fafafa; padding:5rem 2rem;">
-  <div style="max-width:1300px; margin:auto; text-align:center;">
-    <h2 style="color:#023047; font-size:2.8rem; margin-bottom:1rem;">Our Complete Archive</h2>
+  <div style="max-width:1200px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.6rem; margin-bottom:1rem;">Past Issues</h2>
     <p style="max-width:800px; margin:auto; font-size:1.1rem; color:#555; margin-bottom:4rem; line-height:1.7;">
-      Each issue is a carefully crafted journey. Flip through the pages and rediscover the beauty of travel.
+      Explore the complete archive — every story, every destination, every moment.
     </p>
 
     <div class="issue-teaser-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:3rem;">
-      {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
-      {% for issue in issues %}
-        {% assign is_current = forloop.first %}
-        <a href="{{ issue.read_url | default: issue.url }}" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
+      {% assign past_issues = site.posts | where: "is_issue", true | sort: "date" | reverse | offset: 1 %}
+      {% for issue in past_issues %}
+        <a href="{{ issue.read_url | default: issue.url }}" class="issue-teaser-card">
           <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
           <div class="issue-teaser-info">
             <div class="issue-teaser-month">{{ issue.date | date: "%B %Y" }}</div>
             <h3 class="issue-teaser-title">{{ issue.title | split: " – " | first | split: " - " | first }}</h3>
-            <p class="issue-teaser-desc">{{ issue.description | default: "A curated collection of inspiring travel stories." }}</p>
+            <p class="issue-teaser-desc">{{ issue.description }}</p>
             <span class="issue-teaser-btn">Read Now</span>
           </div>
         </a>
       {% endfor %}
     </div>
-
-    {% if issues.size == 0 %}
-      <p style="color:#666; font-style:italic; margin-top:3rem;">No issues yet — check back soon!</p>
-    {% endif %}
   </div>
 </section>
