@@ -9,14 +9,34 @@ current_issue_cover: "/assets/images/blog/curatednovcover.jpg"
 
 ---
 <!-- Current Issue Callout -->
-<section class="current-issue-callout">
-  <h2>Current Issue: {{ page.current_issue_title }}</h2>
-  <a href="{{ page.current_issue_url }}">
-    <img src="{{ page.current_issue_cover }}" alt="{{ page.current_issue_title }}">
-  </a>
-  <p style="margin-top:1rem; text-align:center;">
-    <a href="{{ page.current_issue_url }}" class="btn">Read the Current Issue →</a>
-  </p>
+<!-- CURRENT ISSUE FEATURE -->
+<section class="current-issue-feature">
+  <div class="current-issue-inner">
+
+    <div class="current-issue-image">
+      <a href="{{ page.current_issue_url }}">
+        <img src="{{ page.current_issue_cover }}" alt="{{ page.current_issue_title }}">
+      </a>
+    </div>
+
+    <div class="current-issue-text">
+      <span class="issue-label">Nov / Dec 2025</span>
+      <h2>Winter Wonderland</h2>
+
+      <p>
+        The November/December issue of Curated invites readers to embrace the beauty
+        of the season through stories that celebrate warmth, wonder, and renewal.
+        From winter wellness escapes and Italy’s enchanting holiday charm to Maui’s
+        powerful story of resilience and the thrill of snowy slopes, this edition
+        blends inspiration and reflection. Each feature captures how travel connects
+        us—to nature, to culture, and to ourselves—making it the perfect companion
+        for the cozy months ahead.
+      </p>
+
+      <a href="{{ page.current_issue_url }}" class="btn">Read Now</a>
+    </div>
+
+  </div>
 </section>
 
 <!-- Recent Issues -->
