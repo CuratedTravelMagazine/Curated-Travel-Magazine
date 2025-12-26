@@ -15,7 +15,7 @@ title: "Curated Travel Magazine"
   </div>
 </section>
 
-<!-- This Month + Recent Issues (Automated) -->
+<!-- This Month + Recent Issues (Automated – All link to /issues) -->
 <section class="section" style="background:#fff; padding:3rem 2rem;">
   <div style="max-width:1200px; margin:auto; text-align:center;">
     <h2 style="color:#023047; font-size:2.2rem; margin-bottom:1.5rem;">This Month + Recent Issues</h2>
@@ -23,12 +23,12 @@ title: "Curated Travel Magazine"
     <div class="issue-teaser-grid">
       {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
       {% for issue in issues limit: 4 %}
-        {% assign is_current = forloop.first %} <!-- First one is the latest = current issue -->
-        <a href="{{ issue.read_url | default: issue.url }}" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
+        {% assign is_current = forloop.first %}
+        <a href="/issues" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
           <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
           <div class="issue-teaser-info">
             <div class="issue-teaser-month">{{ issue.date | date: "%B %Y" }}</div>
-            <h3 class="issue-teaser-title">{{ issue.title | remove: " – " | remove: " - " }}</h3>
+            <h3 class="issue-teaser-title">{{ issue.title | split: " – " | first | split: " - " | first }}</h3>
             <p class="issue-teaser-desc">{{ issue.description }}</p>
             <span class="issue-teaser-btn">Read Now</span>
           </div>
@@ -36,27 +36,30 @@ title: "Curated Travel Magazine"
       {% endfor %}
     </div>
 
-    <a href="/issues/" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
+    <a href="/issues" style="display:inline-block; color:#EC5224; font-weight:bold; font-size:1.1rem; text-decoration:underline;">View All Issues</a>
   </div>
 </section>
 
-<!-- Latest Articles (now dynamic + matching style) -->
+<!-- Latest Travel Articles (Dynamic + Matches Current Design) -->
 <section class="section">
   <div class="blog-preview">
-    <h2>Latest Travel Stories</h2>
+    <h2>Latest Travel Articles</h2>
     <div class="blog-grid">
-      {% assign recent_posts = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
-      {% for post in recent_posts limit:3 %}
+      {% assign recent_posts = site.posts | where_exp: "post", "post.is_issue != true" | sort: "date" | reverse %}
+      {% for post in recent_posts limit: 3 %}
         <a href="{{ post.url }}" class="post-card">
           {% if post.image %}
-            <img src="{{ post.image }}" alt="{{ post.title }}" class="post-img">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="post-img">
           {% else %}
             <img src="/assets/images/blog/default-post.jpg" alt="{{ post.title }}" class="post-img">
           {% endif %}
           <div class="post-info">
             <div class="post-date">{{ post.date | date: "%b %d" }}</div>
+            <!-- Short month + day to match current site (e.g., Dec 26) -->
             <h3 class="post-title">{{ post.title }}</h3>
-            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}...</p>
+            {% if post.excerpt %}
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}...</p>
+            {% endif %}
             <span class="read-more">Read more</span>
           </div>
         </a>
