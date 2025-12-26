@@ -1,73 +1,122 @@
-/* home.css - Home page specific styles */
+/* ================================
+   HOME PAGE STYLES
+================================ */
 
-/* Hero + Substack */
-.hero-substack {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: #f9f9f9;
+/* ---- Current Issue Hero ---- */
+.current-issue-callout {
+  max-width: 1100px;
+  margin: 4rem auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
 }
-.hero-substack .hero-text h1 {
-  font-size: 3rem;
+
+.current-issue-callout img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.current-issue-content h2 {
+  font-size: 2.2rem;
   margin-bottom: 1rem;
 }
-.hero-substack .hero-text p {
-  font-size: 1.25rem;
+
+.current-issue-content p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #444;
+}
+
+/* ---- Issues Grid ---- */
+.recent-issues {
+  max-width: 1200px;
+  margin: 5rem auto;
+  padding: 0 2rem;
+}
+
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2rem;
+}
+
+.issue-card {
+  text-align: center;
+}
+
+.issue-card img {
+  width: 100%;
+  border-radius: 6px;
+  transition: transform 0.3s;
+}
+
+.issue-card:hover img {
+  transform: scale(1.04);
+}
+
+.issue-card h4 {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+}
+
+/* ---- Articles Grid ---- */
+.recent-articles {
+  max-width: 1200px;
+  margin: 5rem auto;
+  padding: 0 2rem;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2.5rem;
+}
+
+.article-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-card img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.article-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-card p {
+  font-size: 0.95rem;
   color: #555;
 }
 
-/* Issues Grid */
-.issues-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-.issue-card {
-  flex: 1 1 200px;
-  max-width: 250px;
-  text-align: center;
-  transition: transform 0.3s;
-}
-.issue-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
+/* ---- Substack Section ---- */
+.substack-home {
+  background: #f7f7f7;
+  padding: 4rem 2rem;
+  margin-top: 5rem;
 }
 
-.issue-card:hover {
-  transform: scale(1.03);
-}
-
-/* Articles Grid */
-.articles-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-.article-card {
-  flex: 1 1 250px;
-  max-width: 300px;
-  text-align: center;
-  transition: transform 0.3s;
-}
-.article-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-}
-.article-card:hover {
-  transform: scale(1.03);
-}
-
-/* Substack Feed */
-.substack-feed {
-  padding: 2rem;
-  background: #f5f5f5;
-}
-.substack-feed h2 {
+.substack-home h2 {
   text-align: center;
   margin-bottom: 2rem;
 }
