@@ -57,6 +57,29 @@ current_issue_cover: "/assets/images/blog/curatednovcover.jpg"
   </div></div>
 </section>
 
+<!-- Recent Blog Posts -->
+<section class="section">
+      <div class="blog-preview-section">
+        <h2>Latest Travel Articles</h2>
+        <div class="blog-preview-grid">
+          {% assign recent_posts = site.posts | where_exp:"post","post.url != page.url" | sort:"date" | reverse %}
+          {% for post in recent_posts limit:3 %}
+            <a href="{{ post.url }}" class="blog-card">
+              {% if post.image %}
+                <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}">
+              {% else %}
+                <img src="{{ site.baseurl }}/assets/images/blog/default-post.jpg" alt="{{ post.title }}">
+              {% endif %}
+              <div class="blog-card-content">
+                <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
+                <h3>{{ post.title }}</h3>
+                <span class="read-more">Read more →</span>
+              </div>
+            </a>
+          {% endfor %}
+        </div></div>
+      </section>
+
 <!-- Substack Embed -->
 <section class="substack-feed">
   <h2>From Our Substack</h2>
