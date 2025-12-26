@@ -2,7 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-
+  <title>{{ page.title }}</title>
+  
+  <!-- Automated Meta Description -->
+  <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  
+  <!-- Open Graph Image -->
+  <meta property="og:image" content="{{ site.url }}{{ page.cover_image | default: '/assets/images/blog/default-post.jpg' }}">
+  
 
     <link rel="stylesheet" href="/assets/css/custom.css">
 
