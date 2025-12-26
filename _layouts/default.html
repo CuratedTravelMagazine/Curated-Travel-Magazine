@@ -2,7 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>{{ page.title }}</title>
+   <title>{{ page.title }} | Curated Travel Magazine</title>
+<meta name="description" content="{{ page.description | default: 'Curated Travel Magazine shares immersive travel stories and curated collections of inspiring destinations.' }}">
+<meta name="keywords" content="travel magazine, curated travel, travel stories, photography, travel issues">
+<meta name="author" content="Curated Travel Magazine">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ page.title }} | Curated Travel Magazine">
+<meta property="og:description" content="{{ page.description | default: 'Curated Travel Magazine shares immersive travel stories and curated collections of inspiring destinations.' }}">
+<meta property="og:image" content="{{ site.url }}{{ page.cover_image | default: '/assets/images/blog/default-post.jpg' }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }} | Curated Travel Magazine">
+<meta name="twitter:description" content="{{ page.description | default: 'Curated Travel Magazine shares immersive travel stories and curated collections of inspiring destinations.' }}">
+<meta name="twitter:image" content="{{ site.url }}{{ page.cover_image | default: '/assets/images/blog/default-post.jpg' }}">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
     <link rel="stylesheet" href="/assets/css/custom.css">
 
     <!-- Google Analytics -->
