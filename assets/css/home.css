@@ -1,0 +1,76 @@
+/* home.css - Home page specific styles */
+
+/* Hero + Substack */
+.hero-substack {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f9f9f9;
+}
+.hero-substack .hero-text h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero-substack .hero-text p {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+/* Issues Grid */
+.issues-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.issue-card {
+  flex: 1 1 200px;
+  max-width: 250px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.issue-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.issue-card.latest-issue {
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+.issue-card:hover {
+  transform: scale(1.03);
+}
+
+/* Articles Grid */
+.articles-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.article-card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.article-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.article-card:hover {
+  transform: scale(1.03);
+}
+
+/* Substack Feed */
+.substack-feed {
+  padding: 2rem;
+  background: #f5f5f5;
+}
+.substack-feed h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
