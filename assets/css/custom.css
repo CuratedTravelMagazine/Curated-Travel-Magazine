@@ -303,3 +303,23 @@ footer a { color: #EC5224; }
     }
     .social-float a:hover { background: #023047; transform: scale(1.1); }
 
+.latest-issue-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.issue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.issue-card img,
+.latest-issue-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+
