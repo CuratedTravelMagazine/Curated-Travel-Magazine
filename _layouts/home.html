@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>{{ page.title }}</title>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/assets/css/custom.css">
-    <link rel="stylesheet" href="/assets/css/recent.css">
-    <link rel="stylesheet" href="/assets/css/home.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/recent.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-L84BND9M0T');
-    </script>
-  </head>
-  <body>
+  <!-- GA -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L84BND9M0T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L84BND9M0T');
+  </script>
+</head>
 
-    {% include header.html %}
+<body>
+  {% include header.html %}
 
-    <main>
-      {{ content }}
-    </main>
+  <main>
+    {{ content }}
+  </main>
 
-    {% include footer.html %}
-
-  </body>
+  {% include footer.html %}
+</body>
 </html>
