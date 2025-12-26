@@ -1,0 +1,61 @@
+---
+layout: home
+title: "Curated Travel Magazine"
+hero_title: "Travel Beyond the Map"
+hero_subtitle: "Curated stories from the world’s most inspiring destinations."
+---
+<!-- Hero + Substack -->
+<section class="hero-substack">
+  <div class="hero-text">
+    <h1>{{ page.hero_title }}</h1>
+    <p>{{ page.hero_subtitle }}</p>
+  </div>
+
+  <div class="substack-embed" style="text-align:center; margin-top:2rem;">
+    <iframe src="https://curatedtravelmagazine.substack.com/embed" 
+            width="600" height="400" 
+            style="border:1px solid #EEE; background:white;" 
+            frameborder="0" scrolling="no"></iframe>
+  </div>
+</section>
+
+<!-- Recent Issues -->
+<section class="recent-issues" style="margin-top:4rem;">
+  <h2>Recent Issues</h2>
+  <div class="issues-grid">
+    {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
+    {% for issue in issues limit:4 %}
+      <a href="{{ issue.url }}" class="issue-card {% if forloop.first %}latest-issue{% endif %}">
+        <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
+        <h4>{{ issue.title }}</h4>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Recent Articles -->
+<section class="recent-articles" style="margin-top:4rem;">
+  <h2>Recent Articles</h2>
+  <div class="articles-grid">
+    {% assign articles = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
+    {% for article in articles limit:4 %}
+      <a href="{{ article.url }}" class="article-card">
+        {% if article.image %}
+          <img src="{{ article.image }}" alt="{{ article.title }}">
+        {% else %}
+          <img src="/assets/images/blog/default-post.jpg" alt="{{ article.title }}">
+        {% endif %}
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.excerpt | strip_html | truncate: 120 }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Optional: Substack Feed -->
+<section class="substack-feed" style="margin-top:4rem;">
+  <h2>From Our Substack</h2>
+  <div id="substack-posts">
+    <!-- Placeholder: Use JS to fetch RSS feed here if desired -->
+  </div>
+</section>
