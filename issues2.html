@@ -19,13 +19,13 @@ hero_subtitle: Immersive collections of curated travel storytelling.
   </div>
 </section>
 
+<!-- Past Issues Grid (including current issue) -->
 {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
 
-<section class="past-issues">
+<section class="issues-grid">
   <h2>Past Issues</h2>
-
   <div class="issue-grid">
-    {% for issue in issues offset:1 %}
+    {% for issue in issues %}
       <a href="{{ issue.url }}" class="issue-card">
         <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
         <h4>{{ issue.title }}</h4>
@@ -33,3 +33,5 @@ hero_subtitle: Immersive collections of curated travel storytelling.
     {% endfor %}
   </div>
 </section>
+
+
