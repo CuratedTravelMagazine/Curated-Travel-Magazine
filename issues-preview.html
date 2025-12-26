@@ -1,0 +1,81 @@
+---
+layout: home
+title: "Issues | Curated Travel Magazine"
+---
+
+<!-- CURRENT ISSUE EMBED – White background section -->
+<section class="section section-white" style="padding:5rem 2rem 4rem;">
+  <div style="max-width:1200px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.8rem; margin-bottom:1rem;">Upcoming Issue</h2>
+    <p style="color:#EC5224; font-size:1.3rem; margin-bottom:2.5rem; font-weight:bold;">
+      Jan/Feb – Travel That Moves You
+    </p>
+
+    <!-- Manual Flipbook Embed -->
+    <div style="max-width:900px; margin:0 auto 2rem; box-shadow:0 10px 30px rgba(0,0,0,0.15); border-radius:12px; overflow:hidden;">
+      <iframe 
+        src="https://heyzine.com/flip-book/1db7d40075.html" 
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen 
+        style="border:none;">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- This Month + Recent Issues – Soft gray background (matches homepage contrast) -->
+<section class="section" style="background:#fafafa; padding:5rem 2rem;">
+  <div style="max-width:1200px; margin:auto; text-align:center;">
+    <h2 style="color:#023047; font-size:2.6rem; margin-bottom:1.5rem;">Recent Issues</h2>
+
+    <div class="issue-teaser-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:2.5rem;">
+      {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
+      {% for issue in issues limit: 4 %}
+        {% assign is_current = forloop.first %}
+        <a href="/issues" class="issue-teaser-card {% if is_current %}issue-current{% endif %}">
+          <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
+          <div class="issue-teaser-info">
+            <div class="issue-teaser-month">{{ issue.date | date: "%B %Y" }}</div>
+            <h3 class="issue-teaser-title">{{ issue.title | split: " – " | first | split: " - " | first }}</h3>
+            <p class="issue-teaser-desc">{{ issue.description }}</p>
+            <span class="issue-teaser-btn">Read Now</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Latest Travel Articles – White card on gray background for contrast -->
+<section class="section" style="background:#fafafa; padding-bottom:5rem;">
+  <div class="blog-preview" style="max-width:1200px; margin:auto;">
+    <h2 style="text-align:center; color:#023047;">Latest Travel Articles</h2>
+    <div class="blog-grid">
+      {% assign recent_posts = site.posts | where_exp: "post", "post.is_issue != true" | sort: "date" | reverse %}
+      {% for post in recent_posts limit: 4 %}
+        <a href="{{ post.url }}" class="post-card">
+          {% if post.image %}
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="post-img">
+          {% else %}
+            <img src="/assets/images/blog/default-post.jpg" alt="{{ post.title }}" class="post-img">
+          {% endif %}
+          <div class="post-info">
+            <div class="post-date">{{ post.date | date: "%b %d" }}</div>
+            <h3 class="post-title">{{ post.title }}</h3>
+            {% if post.excerpt %}
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}...</p>
+            {% endif %}
+            <span class="read-more">Read more</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="/blog/" class="btn" style="font-size:1.1rem; padding:0.9rem 2rem;">View All Articles →</a>
+    </div>
+  </div>
+</section>
