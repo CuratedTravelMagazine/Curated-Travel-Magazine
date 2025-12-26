@@ -4,29 +4,19 @@ title: Issues
 hero_title: Our Issues
 hero_subtitle: Immersive collections of curated travel storytelling.
 ---
-
-<section class="latest-issue">
-  <h2>Latest Issue</h2>
-
-  <div class="latest-issue-card">
-    <img src="{{ latest_issue.cover_image }}" alt="{{ latest_issue.title }}">
-
-    <div class="latest-issue-content">
-      <h3>{{ latest_issue.title }}</h3>
-
-      <a href="{{ latest_issue.url }}" class="btn-primary">
-        Read the Issue →
-      </a>
-
-      <a href="{{ latest_issue.flipbook_url }}" target="_blank" class="btn-secondary">
-        Open Flipbook →
-      </a>
+  <!-- Current Issue Embed -->
+  <section class="current-issue">
+    <h2>Current Issue – Nov/Dec 2025</h2>
+    <div class="embed-wrapper">
+      <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no"
+              src="https://heyzine.com/flip-book/154bf6a9db.html"
+              style="border:1px solid lightgray;"></iframe>
     </div>
-  </div>
-</section>
+  </section>
 
-{% assign issues = site.posts | where: "is_issue", true | sort: "published_date" | reverse %}
-{% assign latest_issue = issues.first %}
+
+{% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
+
 <section class="issues-grid">
   <h2>Past Issues</h2>
 
