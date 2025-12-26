@@ -3,29 +3,29 @@ layout: home
 title: "Curated Travel Magazine"
 hero_title: "Travel Beyond the Map"
 hero_subtitle: "Curated stories from the world’s most inspiring destinations."
----
-<!-- Hero + Substack -->
-<section class="hero-substack">
-  <div class="hero-text">
-    <h1>{{ page.hero_title }}</h1>
-    <p>{{ page.hero_subtitle }}</p>
-  </div>
+current_issue_url: "/blog/2025/12/01/novdecissue/"
+current_issue_title: "November/December 2025 Issue"
+current_issue_cover: "/assets/images/blog/curatednovcover.jpg"
 
-  <div class="substack-embed" style="text-align:center; margin-top:2rem;">
-    <iframe src="https://heyzine.com/flip-book/154bf6a9db.html" 
-            width="600" height="400" 
-            style="border:1px solid #EEE; background:white;" 
-            frameborder="0" scrolling="no"></iframe>
-  </div>
+---
+<!-- Current Issue Callout -->
+<section class="current-issue-callout">
+  <h2>Current Issue: {{ page.current_issue_title }}</h2>
+  <a href="{{ page.current_issue_url }}">
+    <img src="{{ page.current_issue_cover }}" alt="{{ page.current_issue_title }}">
+  </a>
+  <p style="margin-top:1rem; text-align:center;">
+    <a href="{{ page.current_issue_url }}" class="btn">Read the Current Issue →</a>
+  </p>
 </section>
 
 <!-- Recent Issues -->
-<section class="recent-issues" style="margin-top:4rem;">
-  <h2>Recent Issues</h2>
+<section class="recent-issues">
+  <h2>Past Issues</h2>
   <div class="issues-grid">
     {% assign issues = site.posts | where: "is_issue", true | sort: "date" | reverse %}
-    {% for issue in issues limit:4 %}
-      <a href="{{ issue.url }}" class="issue-card {% if forloop.first %}latest-issue{% endif %}">
+    {% for issue in issues %}
+      <a href="{{ issue.url }}" class="issue-card {% if issue.url == page.current_issue_url %}latest-issue{% endif %}">
         <img src="{{ issue.cover_image }}" alt="{{ issue.title }}">
         <h4>{{ issue.title }}</h4>
       </a>
@@ -34,7 +34,7 @@ hero_subtitle: "Curated stories from the world’s most inspiring destinations."
 </section>
 
 <!-- Recent Articles -->
-<section class="recent-articles" style="margin-top:4rem;">
+<section class="recent-articles">
   <h2>Recent Articles</h2>
   <div class="articles-grid">
     {% assign articles = site.posts | where_exp:"post","post.is_issue != true" | sort:"date" | reverse %}
@@ -52,10 +52,12 @@ hero_subtitle: "Curated stories from the world’s most inspiring destinations."
   </div>
 </section>
 
-<!-- Optional: Substack Feed -->
-<section class="substack-feed" style="margin-top:4rem;">
+<!-- Substack Embed -->
+<section class="substack-feed">
   <h2>From Our Substack</h2>
-  <div id="substack-posts">
-    <!-- Placeholder: Use JS to fetch RSS feed here if desired -->
+  <div style="text-align:center; margin-top:2rem;">
+    <iframe src="https://curatedtravelmagazine.substack.com/embed"
+            width="600" height="400" frameborder="0" scrolling="no"
+            style="border:1px solid #EEE; background:white;"></iframe>
   </div>
 </section>
