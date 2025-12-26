@@ -220,3 +220,65 @@ img { max-width: 100%; display: block; }
   #mc_embed_signup { padding: 1.5rem; }
   .blog-preview { padding: 1.5rem; }
 }
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.more-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: transform .3s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.more-card:hover {
+  transform: translateY(-6px);
+}
+
+.more-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.more-card-info {
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.more-card-info h3 {
+  font-size: 1.4rem;
+  color: #023047;
+  margin: 0 0 0.8rem;
+}
+
+.more-card-info p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0 0 1rem;
+  line-height: 1.6;
+}
+
+.more-btn {
+  display: inline-block;
+  color: #EC5224;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Optional: Softer look for "coming soon" */
+.coming-soon {
+  opacity: 0.85;
+}
+
+.coming-soon .more-btn {
+  color: #888;
+}
