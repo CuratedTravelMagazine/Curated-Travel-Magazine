@@ -34,10 +34,7 @@
   height: auto;
   border-radius: 6px;
 }
-.issue-card.latest-issue {
-  flex: 1 1 400px;
-  max-width: 500px;
-}
+
 .issue-card:hover {
   transform: scale(1.03);
 }
