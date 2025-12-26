@@ -3,6 +3,7 @@ layout: post
 title: "October Issue"
 date: 2025-10-15
 type: issue
+is_issue: true
 issue_number: 01
 cover_image: /assets/images/blog/OCTOBER 2025.jpg
 image: /assets/images/blog/OCTOBER 2025.jpg

@@ -3,6 +3,7 @@ layout: post
 title: "November/December Issue"
 date: 2025-11-15
 type: issue
+is_issue: true
 issue_number: 01
 cover_image: /assets/images/blog/curatednovcover.jpg
 image: /assets/images/blog/curatednovcover.jpg

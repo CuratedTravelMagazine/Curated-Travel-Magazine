@@ -3,6 +3,7 @@ layout: post
 title: "September Issue"
 date: 2025-09-15
 type: issue
+is_issue: true
 issue_number: 01
 cover_image: /assets/images/blog/Curated-Sept-cover.jpg
 image: /assets/images/blog/Curated-Sept-cover.jpg
