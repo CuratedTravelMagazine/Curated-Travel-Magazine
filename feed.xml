@@ -1,0 +1,27 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Curated Travel Magazine</title>
+    <link>{{ site.url }}</link>
+    <description>Narrative-driven travel journalism.</description>
+    <language>en-us</language>
+
+    {% for post in site.posts %}
+      {% if post.type == "issue" %}
+      <item>
+        <title>{{ post.title | escape }}</title>
+        <link>{{ post.url | absolute_url }}</link>
+        <description><![CDATA[
+          {{ post.content | strip_html | truncate: 300 }}
+        ]]></description>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <guid>{{ post.url | absolute_url }}</guid>
+      </item>
+      {% endif %}
+    {% endfor %}
+
+  </channel>
+</rss>
