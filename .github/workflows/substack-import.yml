@@ -1,0 +1,35 @@
+name: Import Substack Posts
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # Runs daily at 9 AM Eastern
+  workflow_dispatch:      # Allows manual run
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install rss-parser turndown
+
+      - name: Run importer
+        run: node scripts/import-substack.js
+
+      - name: Commit changes
+        run: |
+          git config user.name "Curated Travel Magazine Bot"
+          git config user.email "hello@curatedtravelmagazine.com"
+          git add .
+          git commit -m "Imported new Substack posts" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push
