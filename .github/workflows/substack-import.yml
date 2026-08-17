@@ -2,8 +2,11 @@ name: Import Substack Posts
 
 on:
   schedule:
-    - cron: "0 9 * * *"   # Runs daily at 9 AM Eastern
-  workflow_dispatch:      # Allows manual run
+    - cron: "0 13 * * *"   # 9 AM Eastern (UTC-4) → 13:00 UTC
+  workflow_dispatch:        # manual run button
+
+permissions:
+  contents: write           # ← required so the bot can push
 
 jobs:
   import:
@@ -11,12 +14,14 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
 
       - name: Install dependencies
         run: npm install rss-parser turndown
@@ -24,12 +29,14 @@ jobs:
       - name: Run importer
         run: node scripts/import-substack.js
 
-      - name: Commit changes
+      - name: Commit & push if there are changes
         run: |
           git config user.name "Curated Travel Magazine Bot"
           git config user.email "hello@curatedtravelmagazine.com"
-          git add .
-          git commit -m "Imported new Substack posts" || echo "No changes to commit"
-
-      - name: Push changes
-        run: git push
+          git add _posts/
+          if git diff --staged --quiet; then
+            echo "No new posts to import"
+          else
+            git commit -m "Imported new Substack posts"
+            git push
+          fi
