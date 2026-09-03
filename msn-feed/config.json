@@ -1,0 +1,16 @@
+{
+  "site_title": "Curated Travel Magazine",
+  "site_link": "https://www.curatedtravelmagazine.com/",
+  "site_description": "Travel reporting, cultural heritage, and responsible exploration worldwide.",
+  "language": "en-US",
+
+  "logo_square": "http://www.curatedtravelmagazine.com/assets/images/logo.png",
+
+  "author_name": "Sandra Thomas-Comenole",
+
+  "substack_api_url": "https://curatedtravelmagazine.substack.com/api/v1/posts?limit=10",
+
+  "output_file": "msn-feed.xml",
+
+  "default_categories": ["Travel", "Destinations", "Industry News"]
+}
