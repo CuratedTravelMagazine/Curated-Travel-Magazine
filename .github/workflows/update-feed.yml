@@ -1,0 +1,36 @@
+name: Update MSN Feed
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"   # runs every 12 hours
+  workflow_dispatch:         # lets you run it manually from GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Generate feed
+        run: |
+          cd msn-feed
+          python generate_feed.py
+
+      - name: Commit updated feed
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add msn-feed/msn-feed.xml
+          git commit -m "Auto-update MSN feed" || echo "No changes to commit"
+          git push
