@@ -8,7 +8,7 @@
 
   "author_name": "Sandra Thomas-Comenole",
 
-  "substack_api_url": "https://curatedtravelmagazine.substack.com/api/v1/posts?limit=10",
+  "substack_api_url": "https://curatedtravelmagazine.substack.com/feed",
 
   "output_file": "msn-feed.xml",
 
