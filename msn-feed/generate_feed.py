@@ -1,11 +1,18 @@
+import os
 import json
 import requests
 from datetime import datetime
 from clean_html import clean_html
 
-def load_config(path="config.json"):
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_config(path=None):
+    if path is None:
+        path = os.path.join(SCRIPT_DIR, "config.json")
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 def rfc822(dt_str):
     # Substack API usually returns ISO timestamps; adjust if needed
@@ -13,10 +20,12 @@ def rfc822(dt_str):
     dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
     return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
+
 def build_item(post, config):
     title = post.get("title", "").strip()
     url = post.get("canonical_url") or post.get("url")
     guid = url
+
     published_at = post.get("published_at") or post.get("created_at")
     pub_date = rfc822(published_at) if published_at else ""
 
@@ -30,7 +39,6 @@ def build_item(post, config):
     if images:
         # Assume images is a list of dicts with 'url' or similar
         thumbnail_url = images[0].get("url")
-
     if not thumbnail_url:
         # Fallback to logo if no image
         thumbnail_url = config["logo_square"]
@@ -51,18 +59,16 @@ def build_item(post, config):
     item_xml.append(f"        <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
     if pub_date:
         item_xml.append(f"        <pubDate>{pub_date}</pubDate>")
-
     for cat in categories:
         item_xml.append(f"        <category><![CDATA[{cat}]]></category>")
-
     item_xml.append(f"        <media:thumbnail url=\"{thumbnail_url}\" />")
-
     item_xml.append("        <content:encoded><![CDATA[")
     item_xml.append(cleaned_html)
     item_xml.append("        ]]></content:encoded>")
     item_xml.append("    </item>")
 
     return "\n".join(item_xml)
+
 
 def main():
     config = load_config()
@@ -71,7 +77,7 @@ def main():
     resp.raise_for_status()
     data = resp.json()
 
-    posts = data.get("posts") or data  # depending on API shape
+    posts = data if isinstance(data, list) else data.get("posts", [])
 
     items_xml = []
     for post in posts:
@@ -95,17 +101,16 @@ def main():
     feed_xml.append(f"        <title>{config['site_title']}</title>")
     feed_xml.append(f"        <link>{config['site_link']}</link>")
     feed_xml.append("    </image>")
-
     feed_xml.append("\n".join(items_xml))
-
     feed_xml.append("</channel>")
     feed_xml.append("</rss>")
 
-    output_path = config["output_file"]
+    output_path = os.path.join(SCRIPT_DIR, config["output_file"])
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(feed_xml))
 
     print(f"Feed written to {output_path}")
+
 
 if __name__ == "__main__":
     main()
