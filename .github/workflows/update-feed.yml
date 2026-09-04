@@ -36,3 +36,6 @@ jobs:
           git add msn-feed/msn-feed.xml
           git commit -m "Auto-update MSN feed" || echo "No changes to commit"
           git push
+
+          # cron activation refresh
+
