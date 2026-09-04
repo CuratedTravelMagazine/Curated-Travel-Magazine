@@ -74,9 +74,9 @@ def main():
     config = load_config()
 
     headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-}
-resp = requests.get(config["substack_api_url"], headers=headers)
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    }
+    resp = requests.get(config["substack_api_url"], headers=headers)
     resp.raise_for_status()
     data = resp.json()
 
