@@ -1,15 +1,10 @@
 import os
 import json
 import requests
-import xml.etree.ElementTree as ET
+from datetime import datetime
 from clean_html import clean_html
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-NS = {
-    "content": "http://purl.org/rss/1.0/modules/content/",
-    "dc": "http://purl.org/dc/elements/1.1/",
-}
 
 
 def load_config(path=None):
@@ -19,25 +14,31 @@ def load_config(path=None):
         return json.load(f)
 
 
-def build_item(item_el, config):
-    title = (item_el.findtext("title") or "").strip()
-    url = (item_el.findtext("link") or "").strip()
-    guid = (item_el.findtext("guid") or url).strip()
-    pub_date = (item_el.findtext("pubDate") or "").strip()
+def rfc822(dt_str):
+    # rss2json returns dates like "2026-09-03 08:58:40"
+    dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+    return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
-    raw_html = item_el.findtext("content:encoded", namespaces=NS) or ""
+
+def build_item(item, config):
+    title = (item.get("title") or "").strip()
+    url = item.get("link") or ""
+    guid = item.get("guid") or url
+
+    pub_date_raw = item.get("pubDate")
+    pub_date = rfc822(pub_date_raw) if pub_date_raw else ""
+
+    raw_html = item.get("content") or item.get("description") or ""
     cleaned_html = clean_html(raw_html)
 
-    # Substack's RSS feed includes the cover image as an <enclosure> tag
-    thumbnail_url = None
-    enclosure = item_el.find("enclosure")
-    if enclosure is not None:
-        thumbnail_url = enclosure.get("url")
+    thumbnail_url = item.get("thumbnail")
+    if not thumbnail_url:
+        enclosure = item.get("enclosure") or {}
+        thumbnail_url = enclosure.get("link") or enclosure.get("url")
     if not thumbnail_url:
         thumbnail_url = config["logo_square"]
 
-    # The RSS feed doesn't include per-post tags, so we always use the defaults
-    categories = config["default_categories"]
+    categories = item.get("categories") or config["default_categories"]
 
     item_xml = []
     item_xml.append("    <item>")
@@ -61,17 +62,16 @@ def build_item(item_el, config):
 def main():
     config = load_config()
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    }
-    resp = requests.get(config["substack_api_url"], headers=headers)
+    resp = requests.get(config["substack_api_url"])
     resp.raise_for_status()
+    data = resp.json()
 
-    root = ET.fromstring(resp.content)
-    channel = root.find("channel")
-    item_elements = channel.findall("item") if channel is not None else []
+    if data.get("status") != "ok":
+        raise RuntimeError(f"rss2json returned an error: {data}")
 
-    items_xml = [build_item(item_el, config) for item_el in item_elements]
+    items = data.get("items") or []
+
+    items_xml = [build_item(item, config) for item in items]
 
     feed_xml = []
     feed_xml.append('<?xml version="1.0" encoding="UTF-8"?>')
