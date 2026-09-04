@@ -1,10 +1,15 @@
 import os
 import json
 import requests
-from datetime import datetime
+import xml.etree.ElementTree as ET
 from clean_html import clean_html
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+NS = {
+    "content": "http://purl.org/rss/1.0/modules/content/",
+    "dc": "http://purl.org/dc/elements/1.1/",
+}
 
 
 def load_config(path=None):
@@ -14,43 +19,26 @@ def load_config(path=None):
         return json.load(f)
 
 
-def rfc822(dt_str):
-    # Substack API usually returns ISO timestamps; adjust if needed
-    # Example: "2026-09-03T08:58:40.000Z"
-    dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
-    return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
+def build_item(item_el, config):
+    title = (item_el.findtext("title") or "").strip()
+    url = (item_el.findtext("link") or "").strip()
+    guid = (item_el.findtext("guid") or url).strip()
+    pub_date = (item_el.findtext("pubDate") or "").strip()
 
-
-def build_item(post, config):
-    title = post.get("title", "").strip()
-    url = post.get("canonical_url") or post.get("url")
-    guid = url
-
-    published_at = post.get("published_at") or post.get("created_at")
-    pub_date = rfc822(published_at) if published_at else ""
-
-    # Get HTML body from API (field name may be 'body_html' or 'body')
-    raw_html = post.get("body_html") or post.get("body") or ""
+    raw_html = item_el.findtext("content:encoded", namespaces=NS) or ""
     cleaned_html = clean_html(raw_html)
 
-    # Thumbnail: use first image from post if available
+    # Substack's RSS feed includes the cover image as an <enclosure> tag
     thumbnail_url = None
-    images = post.get("images") or []
-    if images:
-        # Assume images is a list of dicts with 'url' or similar
-        thumbnail_url = images[0].get("url")
+    enclosure = item_el.find("enclosure")
+    if enclosure is not None:
+        thumbnail_url = enclosure.get("url")
     if not thumbnail_url:
-        # Fallback to logo if no image
         thumbnail_url = config["logo_square"]
 
-    # Categories: use tags if present, else defaults
-    tags = post.get("tags") or []
-    if tags:
-        categories = [t.get("name", "").strip() for t in tags if t.get("name")]
-    else:
-        categories = config["default_categories"]
+    # The RSS feed doesn't include per-post tags, so we always use the defaults
+    categories = config["default_categories"]
 
-    # Build XML for this item
     item_xml = []
     item_xml.append("    <item>")
     item_xml.append(f"        <title><![CDATA[{title}]]></title>")
@@ -78,15 +66,13 @@ def main():
     }
     resp = requests.get(config["substack_api_url"], headers=headers)
     resp.raise_for_status()
-    data = resp.json()
 
-    posts = data if isinstance(data, list) else data.get("posts", [])
+    root = ET.fromstring(resp.content)
+    channel = root.find("channel")
+    item_elements = channel.findall("item") if channel is not None else []
 
-    items_xml = []
-    for post in posts:
-        items_xml.append(build_item(post, config))
+    items_xml = [build_item(item_el, config) for item_el in item_elements]
 
-    # Build full feed
     feed_xml = []
     feed_xml.append('<?xml version="1.0" encoding="UTF-8"?>')
     feed_xml.append('<rss version="2.0"')
