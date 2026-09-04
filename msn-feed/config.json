@@ -8,7 +8,7 @@
 
   "author_name": "Sandra Thomas-Comenole",
 
-  "substack_api_url": "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed&count=100",
+  "substack_api_url": "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed",
 
   "output_file": "msn-feed.xml",
 
