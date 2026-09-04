@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import feedparser
 from datetime import datetime
 from clean_html import clean_html
 
@@ -62,14 +63,22 @@ def build_item(item, config):
 def main():
     config = load_config()
 
-    resp = requests.get(config["substack_api_url"])
-    resp.raise_for_status()
-    data = resp.json()
+    # Pull directly from Substack RSS (10 items instead of 4)
+feed = feedparser.parse("https://curatedtravelmagazine.substack.com/feed")
 
-    if data.get("status") != "ok":
-        raise RuntimeError(f"rss2json returned an error: {data}")
+items = []
+for entry in feed.entries[:10]:  # You can increase this number if you want
+    item = {
+        "title": entry.title,
+        "link": entry.link,
+        "guid": entry.id,
+        "pubDate": entry.published if hasattr(entry, "published") else "",
+        "content": entry.content[0].value if hasattr(entry, "content") else entry.summary,
+        "thumbnail": None,
+        "categories": [tag.term for tag in entry.tags] if hasattr(entry, "tags") else []
+    }
+    items.append(item)
 
-    items = data.get("items") or []
 
     items_xml = [build_item(item, config) for item in items]
 
