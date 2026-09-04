@@ -1,5 +1,8 @@
 name: Update MSN Feed
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: "0 */12 * * *"
