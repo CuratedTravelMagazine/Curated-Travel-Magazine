@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import feedparser
 from datetime import datetime
 from clean_html import clean_html
 
@@ -19,6 +20,9 @@ def rfc822(dt_str):
     except Exception:
         return ""
 
+# ---------------------------------------------------------
+# 1. Substack API fetch (with full browser headers)
+# ---------------------------------------------------------
 def fetch_substack_api(url):
     print("DEBUG: Fetching Substack API…")
 
@@ -54,6 +58,35 @@ def fetch_substack_api(url):
         print("DEBUG: API request failed:", e)
         return None
 
+# ---------------------------------------------------------
+# 2. RSS fallback (always works even if API blocks)
+# ---------------------------------------------------------
+def fetch_rss_fallback():
+    print("DEBUG: Using RSS fallback…")
+
+    rss_url = "https://curatedtravelmagazine.substack.com/feed"
+    feed = feedparser.parse(rss_url)
+
+    print("DEBUG: RSS entries:", len(feed.entries))
+
+    posts = []
+    for entry in feed.entries:
+        item = {
+            "title": entry.title,
+            "canonical_url": entry.link,
+            "id": entry.id,
+            "post_date": entry.published if hasattr(entry, "published") else "",
+            "body_html": entry.content[0].value if hasattr(entry, "content") else entry.summary,
+            "cover_image": None,
+            "tags": [tag.term for tag in entry.tags] if hasattr(entry, "tags") else []
+        }
+        posts.append(item)
+
+    return posts
+
+# ---------------------------------------------------------
+# 3. Build MSN XML item
+# ---------------------------------------------------------
 def build_item(entry, config):
     title = entry.get("title", "").strip()
     url = entry.get("canonical_url", "")
@@ -94,21 +127,26 @@ def build_item(entry, config):
 
     return "\n".join(item_xml)
 
+# ---------------------------------------------------------
+# 4. Main feed generator
+# ---------------------------------------------------------
 def main():
     config = load_config()
     print("DEBUG: Loaded config:", config)
 
+    # Try Substack API first
     data = fetch_substack_api(config["substack_api_url"])
 
-    if not data:
-        print("DEBUG: Substack API returned no data. Exiting.")
-        return
-
-    posts = data.get("posts") or []
-    print("DEBUG: Number of posts:", len(posts))
+    posts = []
+    if data and isinstance(data, dict) and data.get("posts"):
+        posts = data["posts"]
+        print("DEBUG: Substack API returned posts:", len(posts))
+    else:
+        print("DEBUG: Substack API failed or returned no posts.")
+        posts = fetch_rss_fallback()
 
     if not posts:
-        print("DEBUG: No posts found — exiting without writing feed.")
+        print("DEBUG: No posts found from API or RSS. Exiting.")
         return
 
     parsed_items = [build_item(entry, config) for entry in posts]
