@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-import feedparser
 from datetime import datetime
 from clean_html import clean_html
 
@@ -20,19 +19,44 @@ def rfc822(dt_str):
     except Exception:
         return ""
 
+def fetch_substack_api(url):
+    print("DEBUG: Fetching Substack API…")
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (compatible; CuratedTravelBot/1.0; +https://www.curatedtravelmagazine.com)"
+    }
+
+    try:
+        resp = requests.get(url, headers=headers, timeout=20)
+        print("DEBUG: Status code:", resp.status_code)
+        print("DEBUG: Raw response (first 200 chars):", resp.text[:200])
+
+        if resp.status_code != 200:
+            print("DEBUG: Non-200 response, aborting API parse.")
+            return None
+
+        return resp.json()
+
+    except Exception as e:
+        print("DEBUG: API request failed:", e)
+        return None
+
 def build_item(entry, config):
     title = entry.get("title", "").strip()
-    url = entry.get("link", "")
-    guid = entry.get("guid", url)
+    url = entry.get("canonical_url", "")
+    guid = entry.get("id", url)
 
-    pub_date_raw = entry.get("pubDate")
+    pub_date_raw = entry.get("post_date")
     pub_date = rfc822(pub_date_raw) if pub_date_raw else ""
 
-    raw_html = entry.get("content") or entry.get("description") or ""
+    raw_html = entry.get("body_html", "")
     cleaned_html = clean_html(raw_html)
 
-    thumbnail_url = entry.get("thumbnail")
-    categories = entry.get("categories", config["default_categories"])
+    thumbnail_url = None
+    if entry.get("cover_image"):
+        thumbnail_url = entry["cover_image"].get("url")
+
+    categories = entry.get("tags", config["default_categories"])
 
     item_xml = []
     item_xml.append("<item>")
@@ -40,6 +64,7 @@ def build_item(entry, config):
     item_xml.append(f"  <link>{url}</link>")
     item_xml.append(f"  <guid>{guid}</guid>")
     item_xml.append(f"  <dc:creator>{config['author_name']}</dc:creator>")
+
     if pub_date:
         item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
 
@@ -60,21 +85,21 @@ def main():
     config = load_config()
     print("DEBUG: Loaded config:", config)
 
-    print("DEBUG: Fetching RSS feed via rss2json…")
-    resp = requests.get(config["substack_api_url"])
-    data = resp.json()
+    # Fetch Substack API
+    data = fetch_substack_api(config["substack_api_url"])
 
-    print("DEBUG: API keys:", list(data.keys()))
-    items = data.get("items", [])
+    if not data:
+        print("DEBUG: Substack API returned no data. Exiting.")
+        return
 
-    print("DEBUG: Number of posts:", len(items))
-    if not items:
+    posts = data.get("posts") or data.get("items") or []
+    print("DEBUG: Number of posts:", len(posts))
+
+    if not posts:
         print("DEBUG: No posts found — exiting without writing feed.")
         return
 
-    parsed_items = []
-    for entry in items:
-        parsed_items.append(build_item(entry, config))
+    parsed_items = [build_item(entry, config) for entry in posts]
 
     feed_xml = []
     feed_xml.append('<?xml version="1.0" encoding="UTF-8"?>')
