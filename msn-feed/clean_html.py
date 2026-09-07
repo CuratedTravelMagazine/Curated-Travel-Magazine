@@ -73,7 +73,8 @@ def clean_html(html: str) -> str:
     - strip Substack UI and tracking
     - keep only allowed tags and attributes
     """
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "lxml-xml")
+
 
     # Remove scripts and styles
     for tag in soup.find_all(["script", "style"]):
