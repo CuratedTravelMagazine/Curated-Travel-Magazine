@@ -26,8 +26,27 @@ def fetch_rss():
     feed = feedparser.parse(rss_url)
 
     posts = []
+
     for entry in feed.entries:
-        raw_html = entry.content[0].value if hasattr(entry, "content") else entry.summary
+        # Try all possible Substack fields
+        raw_html = None
+
+        if hasattr(entry, "content") and entry.content:
+            raw_html = entry.content[0].value
+        elif hasattr(entry, "summary") and entry.summary:
+            raw_html = entry.summary
+        elif hasattr(entry, "description") and entry.description:
+            raw_html = entry.description
+        elif "content" in entry:
+            raw_html = entry["content"][0]["value"]
+        elif "summary_detail" in entry:
+            raw_html = entry["summary_detail"]["value"]
+        elif "description_detail" in entry:
+            raw_html = entry["description_detail"]["value"]
+
+        # If still nothing, skip the entry
+        if not raw_html:
+            continue
 
         posts.append({
             "title": entry.title,
@@ -39,6 +58,7 @@ def fetch_rss():
         })
 
     return posts
+
 
 def build_item(entry, config):
     raw_html = entry["body_html"]
