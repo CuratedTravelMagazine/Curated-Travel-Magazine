@@ -16,50 +16,67 @@ def load_config(path=None):
 
 
 def rfc822(dt_str):
-    # rss2json returns dates like "2026-09-03 08:58:40"
+    """
+    Convert Substack pubDate → RFC822
+    Example input: "Mon, 02 Sep 2026 08:58:40 +0000"
+    """
     try:
-        dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+        dt = datetime.strptime(dt_str, "%a, %d %b %Y %H:%M:%S %z")
         return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
-    except (ValueError, TypeError):
+    except Exception:
         return ""
 
 
 def fetch_rss():
-    rss2json_url = (
-        "https://api.rss2json.com/v1/api.json"
-        "?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed"
-    )
-    resp = requests.get(rss2json_url)
-    resp.raise_for_status()
-    data = resp.json()
+    """
+    Fetch the REAL Substack RSS feed.
+    This preserves <img> tags inside <content:encoded>.
+    """
+    rss_url = "https://curatedtravelmagazine.substack.com/feed"
 
-    if data.get("status") != "ok":
-        raise RuntimeError(f"rss2json returned an error: {data}")
+    resp = requests.get(
+        rss_url,
+        headers={"User-Agent": "Mozilla/5.0"}  # prevents Substack bot blocking
+    )
+    resp.raise_for_status()
+
+    soup = BeautifulSoup(resp.text, "xml")
+    items = soup.find_all("item")
 
     posts = []
-    for item in data.get("items", []):
-        raw_html = item.get("content") or item.get("description") or ""
-        if not raw_html:
-            continue
+    for item in items:
+        title = item.find("title").text if item.find("title") else ""
+        link = item.find("link").text if item.find("link") else ""
+        guid = item.find("guid").text if item.find("guid") else link
+        pub_date = item.find("pubDate").text if item.find("pubDate") else ""
+
+        encoded = item.find("content:encoded")
+        raw_html = encoded.text if encoded else ""
+
+        tags = [c.text for c in item.find_all("category")]
 
         posts.append({
-            "title": item.get("title", ""),
-            "canonical_url": item.get("link", ""),
-            "id": item.get("guid") or item.get("link", ""),
-            "pub_date_raw": item.get("pubDate"),
+            "title": title,
+            "canonical_url": link,
+            "id": guid,
+            "pub_date_raw": pub_date,
             "body_html": raw_html,
-            "tags": item.get("categories") or []
+            "tags": tags
         })
 
     return posts
 
 
-def extract_thumbnail(cleaned_html, config):
+def extract_thumbnail(cleaned_html, fallback):
+    """
+    Extract the first <img> from cleaned HTML.
+    If none found, use fallback logo.
+    """
     soup = BeautifulSoup(cleaned_html, "html.parser")
     img = soup.find("img")
     if img and img.get("src"):
         return img["src"]
-    return config["logo_square"]
+    return fallback
 
 
 def build_item(entry, config):
@@ -73,7 +90,7 @@ def build_item(entry, config):
     )
 
     cleaned_html = clean_html(raw_html)
-    thumbnail_url = extract_thumbnail(cleaned_html, config)
+    thumbnail_url = extract_thumbnail(cleaned_html, config["logo_square"])
     pub_date = rfc822(entry["pub_date_raw"])
 
     title = (
@@ -93,16 +110,21 @@ def build_item(entry, config):
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
     item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
+
     if pub_date:
         item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
 
     for cat in entry["tags"]:
         item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
 
+    # MSN thumbnail
     item_xml.append(f"  <media:thumbnail>{thumbnail_url}</media:thumbnail>")
+
+    # Full HTML content
     item_xml.append("  <content:encoded><![CDATA[")
     item_xml.append(cleaned_html)
     item_xml.append("  ]]></content:encoded>")
+
     item_xml.append("</item>")
 
     return "\n".join(item_xml)
@@ -144,7 +166,10 @@ def main():
     feed_xml.append("    <width>400</width>")
     feed_xml.append("    <height>400</height>")
     feed_xml.append("  </image>")
+
+    # Insert all items
     feed_xml.append("\n".join(parsed_items))
+
     feed_xml.append("</channel>")
     feed_xml.append("</rss>")
 
