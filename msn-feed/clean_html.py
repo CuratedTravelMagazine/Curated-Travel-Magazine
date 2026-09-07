@@ -50,49 +50,65 @@ def _clean_links(tag):
     tag["href"] = cleaned
 
 def clean_html(html: str) -> str:
-    soup = BeautifulSoup(html, "lxml-xml")
+    # Parse as HTML, not XML
+    soup = BeautifulSoup(html, "html.parser")
 
+    # Remove scripts and styles
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()
 
+    # Remove Substack UI elements
     for tag in soup.find_all(["button", "svg", "picture", "source"]):
         tag.decompose()
 
+    # Remove share button wrappers
     for tag in soup.find_all("p", class_="button-wrapper"):
         tag.decompose()
 
+    # Remove horizontal rules
     for tag in soup.find_all("hr"):
         tag.decompose()
 
+    # Unwrap <a> inside <figure> so images are direct children
     for fig in soup.find_all("figure"):
         for a in fig.find_all("a"):
             a.unwrap()
 
+    # Clean all tags
     for tag in soup.find_all(True):
+        # Only aggressively unwrap tags that are clearly layout/JS junk;
+        # for others, just leave them alone if they appear.
         if tag.name not in ALLOWED_TAGS:
+            # For non-allowed tags in article HTML, unwrap but keep text
             tag.unwrap()
             continue
 
+        # Remove Substack classes
         if "class" in tag.attrs:
             del tag.attrs["class"]
 
+        # Strip unwanted attributes
         _strip_unwanted_attributes(tag)
 
+        # Clean images
         if tag.name == "img":
             src = tag.get("src")
             if src:
                 tag["src"] = _clean_substack_image_url(src)
 
+        # Clean links
         if tag.name == "a":
             _clean_links(tag)
 
+    # Remove empty headings
     for h in soup.find_all(["h1", "h2", "h3", "h4"]):
         if not h.get_text(strip=True):
             h.decompose()
 
+    # Ensure <figure> contains only <img> and <figcaption>
     for fig in soup.find_all("figure"):
         for child in list(fig.contents):
-            if child.name not in ["img", "figcaption"]:
+            if getattr(child, "name", None) not in ["img", "figcaption"]:
                 child.unwrap()
 
     return str(soup)
