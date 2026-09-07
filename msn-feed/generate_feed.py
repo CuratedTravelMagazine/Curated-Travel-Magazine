@@ -1,10 +1,14 @@
 import os
 import json
+import time
+import requests
 import feedparser
 from datetime import datetime
+from bs4 import BeautifulSoup
 from clean_html import clean_html
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def load_config(path=None):
     if path is None:
@@ -12,23 +16,27 @@ def load_config(path=None):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def rfc822(dt):
-    try:
-        return datetime.strptime(dt, "%a, %d %b %Y %H:%M:%S %z").strftime("%a, %d %b %Y %H:%M:%S %z")
-    except:
-        try:
-            return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").strftime("%a, %d %b %Y %H:%M:%S GMT")
-        except:
-            return ""
+
+def rfc822_from_struct(time_struct):
+    """Convert feedparser's parsed time struct into RFC822 format for RSS."""
+    if not time_struct:
+        return ""
+    return time.strftime("%a, %d %b %Y %H:%M:%S GMT", time_struct)
+
 
 def fetch_rss():
     rss_url = "https://curatedtravelmagazine.substack.com/feed"
-    feed = feedparser.parse(rss_url)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    }
+    resp = requests.get(rss_url, headers=headers)
+    resp.raise_for_status()
+
+    feed = feedparser.parse(resp.content)
 
     posts = []
 
     for entry in feed.entries:
-        # Try all possible Substack fields
         raw_html = None
 
         if hasattr(entry, "content") and entry.content:
@@ -37,14 +45,7 @@ def fetch_rss():
             raw_html = entry.summary
         elif hasattr(entry, "description") and entry.description:
             raw_html = entry.description
-        elif "content" in entry:
-            raw_html = entry["content"][0]["value"]
-        elif "summary_detail" in entry:
-            raw_html = entry["summary_detail"]["value"]
-        elif "description_detail" in entry:
-            raw_html = entry["description_detail"]["value"]
 
-        # If still nothing, skip the entry
         if not raw_html:
             continue
 
@@ -52,7 +53,7 @@ def fetch_rss():
             "title": entry.title,
             "canonical_url": entry.link,
             "id": entry.id,
-            "post_date": entry.published if hasattr(entry, "published") else "",
+            "published_parsed": getattr(entry, "published_parsed", None),
             "body_html": raw_html,
             "tags": [tag.term for tag in entry.tags] if hasattr(entry, "tags") else []
         })
@@ -60,10 +61,18 @@ def fetch_rss():
     return posts
 
 
+def extract_thumbnail(cleaned_html, config):
+    soup = BeautifulSoup(cleaned_html, "html.parser")
+    img = soup.find("img")
+    if img and img.get("src"):
+        return img["src"]
+    return config["logo_square"]
+
+
 def build_item(entry, config):
     raw_html = entry["body_html"]
 
-    # ⭐ CRITICAL FIX: decode HTML entities BEFORE cleaning
+    # Decode HTML entities before cleaning
     raw_html = (
         raw_html.replace("&lt;", "<")
                 .replace("&gt;", ">")
@@ -71,10 +80,19 @@ def build_item(entry, config):
     )
 
     cleaned_html = clean_html(raw_html)
+    thumbnail_url = extract_thumbnail(cleaned_html, config)
+    pub_date = rfc822_from_struct(entry["published_parsed"])
+
+    title = (
+        entry["title"]
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+    )
 
     item_xml = []
     item_xml.append("<item>")
-    item_xml.append(f"  <title>{entry['title']}</title>")
+    item_xml.append(f"  <title><![CDATA[{title}]]></title>")
     item_xml.append(f"  <domain>{config['site_link']}</domain>")
     item_xml.append(f"  <siteName>{config['site_title']}</siteName>")
     item_xml.append(f"  <logo-square>{config['logo_square']}</logo-square>")
@@ -82,17 +100,20 @@ def build_item(entry, config):
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
     item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
-    item_xml.append(f"  <pubDate>{rfc822(entry['post_date'])}</pubDate>")
+    if pub_date:
+        item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
 
     for cat in entry["tags"]:
         item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
 
+    item_xml.append(f"  <media:thumbnail>{thumbnail_url}</media:thumbnail>")
     item_xml.append("  <content:encoded><![CDATA[")
     item_xml.append(cleaned_html)
     item_xml.append("  ]]></content:encoded>")
     item_xml.append("</item>")
 
     return "\n".join(item_xml)
+
 
 def main():
     config = load_config()
@@ -137,6 +158,7 @@ def main():
     output_path = os.path.join(SCRIPT_DIR, config["output_file"])
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(feed_xml))
+
 
 if __name__ == "__main__":
     main()
