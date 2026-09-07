@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 import re
 from urllib.parse import urlparse, parse_qs, urlunparse
 
@@ -46,7 +46,6 @@ def _clean_links(tag):
     tag["href"] = cleaned
 
 def clean_html(html: str) -> str:
-    # ⭐ FIX: parse as HTML, not XML
     soup = BeautifulSoup(html, "html.parser")
 
     for tag in soup.find_all(["script", "style"]):
@@ -89,7 +88,9 @@ def clean_html(html: str) -> str:
 
     for fig in soup.find_all("figure"):
         for child in list(fig.contents):
-            if getattr(child, "name", None) not in ["img", "figcaption"]:
+            if isinstance(child, NavigableString):
+                continue
+            if child.name not in ["img", "figcaption"]:
                 child.unwrap()
 
     return str(soup)
