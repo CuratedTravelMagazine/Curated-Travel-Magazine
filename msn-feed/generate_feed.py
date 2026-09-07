@@ -1,6 +1,5 @@
 import os
 import json
-import requests
 import feedparser
 from datetime import datetime
 from clean_html import clean_html
@@ -23,43 +22,47 @@ def rfc822(dt):
             return ""
 
 def fetch_rss():
-    print("DEBUG: Fetching RSS feed…")
     rss_url = "https://curatedtravelmagazine.substack.com/feed"
     feed = feedparser.parse(rss_url)
-    print("DEBUG: RSS entries:", len(feed.entries))
 
     posts = []
     for entry in feed.entries:
-        item = {
+        raw_html = entry.content[0].value if hasattr(entry, "content") else entry.summary
+
+        posts.append({
             "title": entry.title,
             "canonical_url": entry.link,
             "id": entry.id,
             "post_date": entry.published if hasattr(entry, "published") else "",
-            "body_html": entry.content[0].value if hasattr(entry, "content") else entry.summary,
+            "body_html": raw_html,
             "tags": [tag.term for tag in entry.tags] if hasattr(entry, "tags") else []
-        }
-        posts.append(item)
+        })
 
     return posts
 
 def build_item(entry, config):
-    title = entry["title"]
-    url = entry["canonical_url"]
-    guid = entry["id"]
-    pub_date = rfc822(entry["post_date"])
-    cleaned_html = clean_html(entry["body_html"])
+    raw_html = entry["body_html"]
+
+    # ⭐ CRITICAL FIX: decode HTML entities BEFORE cleaning
+    raw_html = (
+        raw_html.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&")
+    )
+
+    cleaned_html = clean_html(raw_html)
 
     item_xml = []
     item_xml.append("<item>")
-    item_xml.append(f"  <title>{title}</title>")
+    item_xml.append(f"  <title>{entry['title']}</title>")
     item_xml.append(f"  <domain>{config['site_link']}</domain>")
     item_xml.append(f"  <siteName>{config['site_title']}</siteName>")
     item_xml.append(f"  <logo-square>{config['logo_square']}</logo-square>")
     item_xml.append(f"  <logo-horizontal>{config['logo_horizontal']}</logo-horizontal>")
-    item_xml.append(f"  <link>{url}</link>")
-    item_xml.append(f"  <guid isPermaLink=\"false\">{guid}</guid>")
+    item_xml.append(f"  <link>{entry['canonical_url']}</link>")
+    item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
-    item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
+    item_xml.append(f"  <pubDate>{rfc822(entry['post_date'])}</pubDate>")
 
     for cat in entry["tags"]:
         item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
@@ -73,12 +76,7 @@ def build_item(entry, config):
 
 def main():
     config = load_config()
-    print("DEBUG: Loaded config:", config)
-
     posts = fetch_rss()
-    if not posts:
-        print("DEBUG: No posts found — exiting.")
-        return
 
     parsed_items = [build_item(entry, config) for entry in posts]
 
@@ -117,12 +115,8 @@ def main():
     feed_xml.append("</rss>")
 
     output_path = os.path.join(SCRIPT_DIR, config["output_file"])
-    print("DEBUG: Writing feed to:", output_path)
-
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(feed_xml))
-
-    print("DEBUG: Feed generation complete.")
 
 if __name__ == "__main__":
     main()
