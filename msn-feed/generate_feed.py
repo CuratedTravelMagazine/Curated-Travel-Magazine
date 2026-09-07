@@ -16,62 +16,40 @@ def load_config(path=None):
 
 
 def rfc822(dt_str):
-    """
-    Convert Substack pubDate → RFC822
-    Example input: "Mon, 02 Sep 2026 08:58:40 +0000"
-    """
     try:
-        dt = datetime.strptime(dt_str, "%a, %d %b %Y %H:%M:%S %z")
+        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S.%fZ")
         return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
     except Exception:
         return ""
 
 
-def fetch_rss():
-    """
-    Fetch the REAL Substack RSS feed.
-    This preserves <img> tags inside <content:encoded>.
-    """
-    rss_url = "https://curatedtravelmagazine.substack.com/feed"
+def fetch_posts():
+    api_url = "https://curatedtravelmagazine.substack.com/api/v1/posts?limit=10"
 
-    resp = requests.get(
-        rss_url,
-        headers={"User-Agent": "Mozilla/5.0"}  # prevents Substack bot blocking
-    )
+    resp = requests.get(api_url, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
 
-    soup = BeautifulSoup(resp.text, "xml")
-    items = soup.find_all("item")
-
+    data = resp.json()
     posts = []
-    for item in items:
-        title = item.find("title").text if item.find("title") else ""
-        link = item.find("link").text if item.find("link") else ""
-        guid = item.find("guid").text if item.find("guid") else link
-        pub_date = item.find("pubDate").text if item.find("pubDate") else ""
 
-        encoded = item.find("content:encoded")
-        raw_html = encoded.text if encoded else ""
-
-        tags = [c.text for c in item.find_all("category")]
+    for item in data:
+        raw_html = item.get("body_html", "")
+        if not raw_html:
+            continue
 
         posts.append({
-            "title": title,
-            "canonical_url": link,
-            "id": guid,
-            "pub_date_raw": pub_date,
+            "title": item.get("title", ""),
+            "canonical_url": item.get("canonical_url", ""),
+            "id": item.get("id", ""),
+            "pub_date_raw": item.get("post_date", ""),
             "body_html": raw_html,
-            "tags": tags
+            "tags": item.get("tags", [])
         })
 
     return posts
 
 
 def extract_thumbnail(cleaned_html, fallback):
-    """
-    Extract the first <img> from cleaned HTML.
-    If none found, use fallback logo.
-    """
     soup = BeautifulSoup(cleaned_html, "html.parser")
     img = soup.find("img")
     if img and img.get("src"):
@@ -82,7 +60,6 @@ def extract_thumbnail(cleaned_html, fallback):
 def build_item(entry, config):
     raw_html = entry["body_html"]
 
-    # Decode HTML entities before cleaning
     raw_html = (
         raw_html.replace("&lt;", "<")
                 .replace("&gt;", ">")
@@ -117,14 +94,10 @@ def build_item(entry, config):
     for cat in entry["tags"]:
         item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
 
-    # MSN thumbnail
     item_xml.append(f"  <media:thumbnail>{thumbnail_url}</media:thumbnail>")
-
-    # Full HTML content
     item_xml.append("  <content:encoded><![CDATA[")
     item_xml.append(cleaned_html)
     item_xml.append("  ]]></content:encoded>")
-
     item_xml.append("</item>")
 
     return "\n".join(item_xml)
@@ -132,7 +105,7 @@ def build_item(entry, config):
 
 def main():
     config = load_config()
-    posts = fetch_rss()
+    posts = fetch_posts()
 
     parsed_items = [build_item(entry, config) for entry in posts]
 
@@ -167,7 +140,6 @@ def main():
     feed_xml.append("    <height>400</height>")
     feed_xml.append("  </image>")
 
-    # Insert all items
     feed_xml.append("\n".join(parsed_items))
 
     feed_xml.append("</channel>")
