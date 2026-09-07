@@ -1,8 +1,6 @@
 import os
 import json
-import time
 import requests
-import feedparser
 from datetime import datetime
 from bs4 import BeautifulSoup
 from clean_html import clean_html
@@ -17,45 +15,40 @@ def load_config(path=None):
         return json.load(f)
 
 
-def rfc822_from_struct(time_struct):
-    """Convert feedparser's parsed time struct into RFC822 format for RSS."""
-    if not time_struct:
+def rfc822(dt_str):
+    # rss2json returns dates like "2026-09-03 08:58:40"
+    try:
+        dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+        return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    except (ValueError, TypeError):
         return ""
-    return time.strftime("%a, %d %b %Y %H:%M:%S GMT", time_struct)
 
 
 def fetch_rss():
-    rss_url = "https://curatedtravelmagazine.substack.com/feed"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    }
-    resp = requests.get(rss_url, headers=headers)
+    rss2json_url = (
+        "https://api.rss2json.com/v1/api.json"
+        "?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed"
+    )
+    resp = requests.get(rss2json_url)
     resp.raise_for_status()
+    data = resp.json()
 
-    feed = feedparser.parse(resp.content)
+    if data.get("status") != "ok":
+        raise RuntimeError(f"rss2json returned an error: {data}")
 
     posts = []
-
-    for entry in feed.entries:
-        raw_html = None
-
-        if hasattr(entry, "content") and entry.content:
-            raw_html = entry.content[0].value
-        elif hasattr(entry, "summary") and entry.summary:
-            raw_html = entry.summary
-        elif hasattr(entry, "description") and entry.description:
-            raw_html = entry.description
-
+    for item in data.get("items", []):
+        raw_html = item.get("content") or item.get("description") or ""
         if not raw_html:
             continue
 
         posts.append({
-            "title": entry.title,
-            "canonical_url": entry.link,
-            "id": entry.id,
-            "published_parsed": getattr(entry, "published_parsed", None),
+            "title": item.get("title", ""),
+            "canonical_url": item.get("link", ""),
+            "id": item.get("guid") or item.get("link", ""),
+            "pub_date_raw": item.get("pubDate"),
             "body_html": raw_html,
-            "tags": [tag.term for tag in entry.tags] if hasattr(entry, "tags") else []
+            "tags": item.get("categories") or []
         })
 
     return posts
@@ -81,7 +74,7 @@ def build_item(entry, config):
 
     cleaned_html = clean_html(raw_html)
     thumbnail_url = extract_thumbnail(cleaned_html, config)
-    pub_date = rfc822_from_struct(entry["published_parsed"])
+    pub_date = rfc822(entry["pub_date_raw"])
 
     title = (
         entry["title"]
