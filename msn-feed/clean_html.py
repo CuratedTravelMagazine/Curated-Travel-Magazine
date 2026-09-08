@@ -10,30 +10,31 @@ ALLOWED_TAGS = {
 }
 
 def _clean_substack_image_url(src: str) -> str:
-    """
-    Normalize Substack image URLs:
-    - Decode percent-encoding
-    - Extract direct S3 URL from Substack CDN wrapper
-    - Convert .webp → .jpg for MSN compatibility
-    """
     if not src:
         return src
 
-    # Decode common percent-encoding first
+    # Decode percent-encoding
     src = src.replace("%3A", ":").replace("%2F", "/")
 
-    # If it's a Substack CDN wrapper, extract the underlying S3 URL
+    # If it's a Substack CDN wrapper, extract the FULL S3 URL
     if "substackcdn.com/image/fetch" in src:
         parts = src.split("/")
-        for segment in reversed(parts):
+        for segment in parts:
             if "substack-post-media.s3.amazonaws.com" in segment:
-                src = segment
+                # ⭐ Preserve the FULL path, not just the hostname
+                start = src.index(segment)
+                src = src[start:]
                 break
 
-    # Always convert webp → jpg at the end
+    # Always convert webp → jpg
     src = re.sub(r"\.webp(\b|$)", ".jpg", src)
 
+    # Ensure URL has protocol
+    if src.startswith("substack-post-media.s3.amazonaws.com"):
+        src = "https://" + src
+
     return src
+
 
 def _strip_unwanted_attributes(tag):
     """
