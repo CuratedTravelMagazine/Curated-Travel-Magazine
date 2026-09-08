@@ -1,8 +1,10 @@
-layout	post
-title	Sonoma’s Wine Country Is Changing the Way Travelers Taste
-date	2026-09-06
-image	/blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
-featured_image	/blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
+---
+layout: post
+title: "Sonoma’s Wine Country Is Changing the Way Travelers Taste"
+date: 2026-09-06
+image: /blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
+featured_image: /blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
+---
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/bacbdb63-53e5-4a7a-a975-749450f56aad_1600x1067.jpeg" alt=""/></figure>

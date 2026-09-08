@@ -1,8 +1,10 @@
-layout	post
-title	Six New Restaurants Are Giving Sonoma County Even More Reasons to Stay for Dinner
-date	2026-09-07
-image	/blog/assets/images/blog/SIXNEWRESTAURANTSAREGIVINGSONOMACOUNTYEVENMOREREASONSTOSTAYFORDINNER.jpg
-featured_image	/blog/assets/images/blog/SIXNEWRESTAURANTSAREGIVINGSONOMACOUNTYEVENMOREREASONSTOSTAYFORDINNER.jpg
+---
+layout: post
+title: "Six New Restaurants Are Giving Sonoma County Even More Reasons to Stay for Dinner"
+date: 2026-09-07
+image: /blog/assets/images/blog/SIXNEWRESTAURANTSAREGIVINGSONOMACOUNTYEVENMOREREASONSTOSTAYFORDINNER.jpg
+featured_image: /blog/assets/images/blog/SIXNEWRESTAURANTSAREGIVINGSONOMACOUNTYEVENMOREREASONSTOSTAYFORDINNER.jpg
+---
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/5cf4abb6-8100-449a-88db-da330ad03979_1280x720.png" alt=""/></figure>

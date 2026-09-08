@@ -1,8 +1,10 @@
-layout	post
-title	Luang Prabang Glows for One Night Each Year at the Festival of Light
-date	2026-09-07
-image	/blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
-featured_image	/blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
+---
+layout: post
+title: "Luang Prabang Glows for One Night Each Year at the Festival of Light"
+date: 2026-09-07
+image: /blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
+featured_image: /blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
+---
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/dfcba7c2-811f-4b45-83fd-fe55ee210668_600x400.jpeg" alt=""/></figure>

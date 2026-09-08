@@ -1,8 +1,10 @@
-layout	post
-title	The Mother Road, Redefined
-date	2026-09-07
-image	/blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
-featured_image	/blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
+---
+layout: post
+title: "The Mother Road, Redefined"
+date: 2026-09-07
+image: /blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
+featured_image: /blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
+---
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/4da80b9f-e896-4146-8100-54154c63284c_6298x2827.jpeg" alt=""/></figure>

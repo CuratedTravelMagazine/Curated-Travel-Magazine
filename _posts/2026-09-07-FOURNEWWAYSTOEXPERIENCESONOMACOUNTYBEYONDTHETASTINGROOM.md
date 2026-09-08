@@ -1,8 +1,10 @@
-layout	post
-title	Four New Ways to Experience Sonoma County Beyond the Tasting Room
-date	2026-09-07
-image	/blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
-featured_image	/blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
+---
+layout: post
+title: "Four New Ways to Experience Sonoma County Beyond the Tasting Room"
+date: 2026-09-07
+image: /blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
+featured_image: /blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
+---
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/601ea990-5e96-4758-a83d-fad429f85f56_600x400.png" alt=""/></figure>
