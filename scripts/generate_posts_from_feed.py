@@ -7,7 +7,7 @@ import re
 FEED_URL = "https://www.curatedtravelmagazine.com/msn-feed/msn-feed.xml"
 
 POSTS_DIR = "_posts"
-IMAGES_DIR = "assets/images/blog"
+IMAGES_DIR = "blog/assets/images/blog"   # ← YOUR CORRECT DIRECTORY
 
 os.makedirs(POSTS_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
@@ -58,8 +58,9 @@ for item in items:
         f.write(f"layout\tpost\n")
         f.write(f"title\t{title}\n")
         f.write(f"date\t{date}\n")
-        f.write(f"image\t/assets/images/blog/{image_filename}\n")
-        f.write(f"featured_image\t/assets/images/blog/{image_filename}\n\n")
+        f.write(f"image\t/blog/assets/images/blog/{image_filename}\n")
+        f.write(f"featured_image\t/blog/assets/images/blog/{image_filename}\n\n")
         f.write(content)
 
     print(f"Created blog post: {post_path}")
+
