@@ -3,11 +3,14 @@ name: Generate Blog Posts From Feed
 on:
   schedule:
     - cron: "*/15 * * * *"   # every 15 minutes
-  workflow_dispatch:         # allows manual runs
+  workflow_dispatch:         # manual trigger
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write        # REQUIRED so GitHub Actions can push
 
     steps:
       - name: Checkout repository
@@ -26,10 +29,16 @@ jobs:
         run: |
           python scripts/generate_posts_from_feed.py
 
-      - name: Commit and push new posts
+      - name: Commit and push posts + images
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+
+          # Add posts
           git add _posts/*.md
-          git commit -m "Auto-generate blog posts from feed" || echo "No changes to commit"
+
+          # Add images
+          git add assets/images/blog/*.jpg
+
+          git commit -m "Auto-generate blog posts and images" || echo "No changes to commit"
           git push
