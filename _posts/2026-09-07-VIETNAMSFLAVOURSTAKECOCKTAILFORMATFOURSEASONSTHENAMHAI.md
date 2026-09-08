@@ -1,8 +1,8 @@
 layout	post
 title	Vietnam’s Flavours Take Cocktail Form at Four Seasons The Nam Hai
 date	2026-09-07
-image	/assets/images/blog/VIETNAMSFLAVOURSTAKECOCKTAILFORMATFOURSEASONSTHENAMHAI.jpg
-featured_image	/assets/images/blog/VIETNAMSFLAVOURSTAKECOCKTAILFORMATFOURSEASONSTHENAMHAI.jpg
+image	/blog/assets/images/blog/VIETNAMSFLAVOURSTAKECOCKTAILFORMATFOURSEASONSTHENAMHAI.jpg
+featured_image	/blog/assets/images/blog/VIETNAMSFLAVOURSTAKECOCKTAILFORMATFOURSEASONSTHENAMHAI.jpg
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/f7e95be3-90ca-4230-9d67-9c86ec3b68ab_600x400.jpeg" alt=""/></figure>

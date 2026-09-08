@@ -1,8 +1,8 @@
 layout	post
 title	Sonoma County Makes Getting There Easier, From Austin and Denver to the Airport Parking Lot
 date	2026-09-06
-image	/assets/images/blog/SONOMACOUNTYMAKESGETTINGTHEREEASIERFROMAUSTINANDDENVERTOTHEAIRPORTPARKINGLOT.jpg
-featured_image	/assets/images/blog/SONOMACOUNTYMAKESGETTINGTHEREEASIERFROMAUSTINANDDENVERTOTHEAIRPORTPARKINGLOT.jpg
+image	/blog/assets/images/blog/SONOMACOUNTYMAKESGETTINGTHEREEASIERFROMAUSTINANDDENVERTOTHEAIRPORTPARKINGLOT.jpg
+featured_image	/blog/assets/images/blog/SONOMACOUNTYMAKESGETTINGTHEREEASIERFROMAUSTINANDDENVERTOTHEAIRPORTPARKINGLOT.jpg
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/533ac179-4330-4460-a0a9-784bf57b7a3f_2560x1440.png" alt=""/></figure>

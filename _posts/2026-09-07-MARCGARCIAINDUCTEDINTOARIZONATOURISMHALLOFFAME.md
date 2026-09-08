@@ -1,8 +1,8 @@
 layout	post
 title	Marc Garcia Inducted Into Arizona Tourism Hall of Fame
 date	2026-09-07
-image	/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
-featured_image	/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
+image	/blog/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
+featured_image	/blog/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/ff2579ec-692b-4729-af8c-96b9045bbcb8_600x743.jpeg" alt=""/></figure>
