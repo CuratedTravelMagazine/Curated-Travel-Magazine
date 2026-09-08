@@ -23,30 +23,41 @@ def rfc822(dt_str):
         return ""
 
 
-def fetch_posts():
-    api_url = "https://curatedtravelmagazine.substack.com/api/v1/posts?limit=10"
-
-    resp = requests.get(api_url, headers={"User-Agent": "Mozilla/5.0"})
+def fetch_rss():
+    rss2json_url = (
+        "https://api.rss2json.com/v1/api.json"
+        "?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed"
+    )
+    resp = requests.get(rss2json_url)
     resp.raise_for_status()
-
     data = resp.json()
-    posts = []
 
-    for item in data:
-        raw_html = item.get("body_html", "")
+    if data.get("status") != "ok":
+        raise RuntimeError(f"rss2json returned an error: {data}")
+
+    posts = []
+    for item in data.get("items", []):
+        raw_html = item.get("content") or item.get("description") or ""
         if not raw_html:
             continue
 
+        thumbnail = item.get("thumbnail")
+        enclosure = item.get("enclosure", {}) or {}
+        enclosure_link = enclosure.get("link")
+
         posts.append({
             "title": item.get("title", ""),
-            "canonical_url": item.get("canonical_url", ""),
-            "id": item.get("id", ""),
-            "pub_date_raw": item.get("post_date", ""),
+            "canonical_url": item.get("link", ""),
+            "id": item.get("guid") or item.get("link", ""),
+            "pub_date_raw": item.get("pubDate"),
             "body_html": raw_html,
-            "tags": item.get("tags", [])
+            "tags": item.get("categories") or [],
+            "thumbnail": thumbnail,
+            "enclosure_link": enclosure_link,
         })
 
     return posts
+
 
 
 def extract_thumbnail(cleaned_html, fallback):
