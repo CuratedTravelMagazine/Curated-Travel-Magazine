@@ -2,8 +2,8 @@
 layout: post
 title: "Marc Garcia Inducted Into Arizona Tourism Hall of Fame"
 date: 2026-09-07
-image: /blog/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
-featured_image: /blog/assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
+image: /assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
+featured_image: /assets/images/blog/MARCGARCIAINDUCTEDINTOARIZONATOURISMHALLOFFAME.jpg
 ---
 
 

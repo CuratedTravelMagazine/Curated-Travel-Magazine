@@ -2,8 +2,8 @@
 layout: post
 title: "Sonoma’s Wine Country Is Changing the Way Travelers Taste"
 date: 2026-09-06
-image: /blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
-featured_image: /blog/assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
+image: /assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
+featured_image: /assets/images/blog/SONOMASWINECOUNTRYISCHANGINGTHEWAYTRAVELERSTASTE.jpg
 ---
 
 

@@ -2,8 +2,8 @@
 layout: post
 title: "The Mother Road, Redefined"
 date: 2026-09-07
-image: /blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
-featured_image: /blog/assets/images/blog/THEMOTHERROADREDEFINED.jpg
+image: /assets/images/blog/THEMOTHERROADREDEFINED.jpg
+featured_image: /assets/images/blog/THEMOTHERROADREDEFINED.jpg
 ---
 
 

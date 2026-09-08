@@ -2,8 +2,8 @@
 layout: post
 title: "Cowboy Core Has Found Its Range in Sonoma County"
 date: 2026-09-07
-image: /blog/assets/images/blog/COWBOYCOREHASFOUNDITSRANGEINSONOMACOUNTY.jpg
-featured_image: /blog/assets/images/blog/COWBOYCOREHASFOUNDITSRANGEINSONOMACOUNTY.jpg
+image: /assets/images/blog/COWBOYCOREHASFOUNDITSRANGEINSONOMACOUNTY.jpg
+featured_image: /assets/images/blog/COWBOYCOREHASFOUNDITSRANGEINSONOMACOUNTY.jpg
 ---
 
 

@@ -2,8 +2,8 @@
 layout: post
 title: "Four New Ways to Experience Sonoma County Beyond the Tasting Room"
 date: 2026-09-07
-image: /blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
-featured_image: /blog/assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
+image: /assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
+featured_image: /assets/images/blog/FOURNEWWAYSTOEXPERIENCESONOMACOUNTYBEYONDTHETASTINGROOM.jpg
 ---
 
 

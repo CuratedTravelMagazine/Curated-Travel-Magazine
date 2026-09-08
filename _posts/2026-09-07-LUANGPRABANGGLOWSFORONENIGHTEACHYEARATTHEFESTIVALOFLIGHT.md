@@ -2,8 +2,8 @@
 layout: post
 title: "Luang Prabang Glows for One Night Each Year at the Festival of Light"
 date: 2026-09-07
-image: /blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
-featured_image: /blog/assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
+image: /assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
+featured_image: /assets/images/blog/LUANGPRABANGGLOWSFORONENIGHTEACHYEARATTHEFESTIVALOFLIGHT.jpg
 ---
 
 
