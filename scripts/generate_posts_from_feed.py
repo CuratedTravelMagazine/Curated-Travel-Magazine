@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 
-# Your actual feed URL
+# Your feed URL
 FEED_URL = "https://www.curatedtravelmagazine.com/msn-feed/msn-feed.xml"
 
 # Output directory for Jekyll/Hugo-style posts
@@ -25,8 +25,8 @@ def sanitize_title_for_filename(title):
 resp = requests.get(FEED_URL)
 resp.raise_for_status()
 
-# Use lxml-xml parser (works in GitHub Actions when lxml is installed)
-soup = BeautifulSoup(resp.text, "lxml-xml")
+# Use the standard XML parser (works once lxml is installed in Actions)
+soup = BeautifulSoup(resp.text, "xml")
 
 items = soup.find_all("item")
 
