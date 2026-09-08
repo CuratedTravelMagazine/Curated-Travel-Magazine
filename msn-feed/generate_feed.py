@@ -5,7 +5,6 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from clean_html import clean_html, _clean_substack_image_url
 
-
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -17,18 +16,27 @@ def load_config(path=None):
 
 
 def rfc822(dt_str):
+    """
+    rss2json returns dates like "2026-09-07 11:20:35"
+    Convert to RFC822 for MSN.
+    """
     try:
-        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+        dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
         return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
     except Exception:
         return ""
 
 
 def fetch_rss():
+    """
+    Fetch Substack feed through rss2json.
+    Substack blocks GitHub Actions, but rss2json does NOT.
+    """
     rss2json_url = (
         "https://api.rss2json.com/v1/api.json"
         "?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed"
     )
+
     resp = requests.get(rss2json_url)
     resp.raise_for_status()
     data = resp.json()
@@ -60,18 +68,10 @@ def fetch_rss():
     return posts
 
 
-
-def extract_thumbnail(cleaned_html, fallback):
-    soup = BeautifulSoup(cleaned_html, "html.parser")
-    img = soup.find("img")
-    if img and img.get("src"):
-        return img["src"]
-    return fallback
-
-
 def build_item(entry, config):
     raw_html = entry["body_html"]
 
+    # Decode HTML entities before cleaning
     raw_html = (
         raw_html.replace("&lt;", "<")
                 .replace("&gt;", ">")
@@ -80,7 +80,7 @@ def build_item(entry, config):
 
     cleaned_html = clean_html(raw_html)
 
-    # Choose image: thumbnail first, then enclosure_link, then logo
+    # Choose best image: thumbnail → enclosure → logo
     raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or config["logo_square"]
     image_url = _clean_substack_image_url(raw_image)
 
@@ -93,6 +93,7 @@ def build_item(entry, config):
         .replace("&gt;", ">")
     )
 
+    # Build RSS item
     item_xml = []
     item_xml.append("<item>")
     item_xml.append(f"  <title><![CDATA[{title}]]></title>")
@@ -103,6 +104,7 @@ def build_item(entry, config):
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
     item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
+
     if pub_date:
         item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
 
@@ -112,8 +114,9 @@ def build_item(entry, config):
     # MSN thumbnail
     item_xml.append(f"  <media:thumbnail>{image_url}</media:thumbnail>")
 
-    # Optional: inject hero image at top of content
-    hero_html = f'<figure><img src="{image_url}" alt=""/>'  # you can add figcaption if you want
+    # Inject hero image at top of article
+    hero_html = f'<figure><img src="{image_url}" alt=""/></figure>'
+
     item_xml.append("  <content:encoded><![CDATA[")
     item_xml.append(hero_html)
     item_xml.append(cleaned_html)
@@ -123,10 +126,9 @@ def build_item(entry, config):
     return "\n".join(item_xml)
 
 
-
 def main():
     config = load_config()
-    posts = fetch_posts()
+    posts = fetch_rss()   # ⭐ FIXED — this is the correct function
 
     parsed_items = [build_item(entry, config) for entry in posts]
 
