@@ -7,7 +7,7 @@ import re
 FEED_URL = "https://www.curatedtravelmagazine.com/msn-feed/msn-feed.xml"
 
 POSTS_DIR = "_posts"
-IMAGES_DIR = "assets/images/blog"   # ← THEME EXPECTS THIS DIRECTORY
+IMAGES_DIR = "assets/images/blog"
 
 os.makedirs(POSTS_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
@@ -32,15 +32,14 @@ for item in items:
     date = rfc822_to_date(pubdate)
 
     thumbnail_url = item.find("media:thumbnail").text.strip()
-    content = item.find("content:encoded").text
+    content_html = item.find("content:encoded").text
 
     safe_title = sanitize_title_for_filename(title)
 
-    # Local image filename
+    # Download thumbnail image
     image_filename = f"{safe_title}.jpg"
     image_path = os.path.join(IMAGES_DIR, image_filename)
 
-    # Download image
     try:
         img_data = requests.get(thumbnail_url).content
         with open(image_path, "wb") as img_file:
@@ -49,11 +48,19 @@ for item in items:
     except Exception as e:
         print(f"Failed to download image for {title}: {e}")
 
+    # Remove the first inline image from the HTML content
+    content_soup = BeautifulSoup(content_html, "html.parser")
+    first_img = content_soup.find("img")
+    if first_img:
+        first_img.decompose()  # remove it entirely
+
+    cleaned_content = str(content_soup)
+
     # Build post filename
     post_filename = f"{date}-{safe_title}.md"
     post_path = os.path.join(POSTS_DIR, post_filename)
 
-    # YAML front matter with correct thumbnail path
+    # YAML front matter
     yaml_front_matter = f"""---
 layout: post
 title: "{title}"
@@ -67,6 +74,7 @@ featured_image: /assets/images/blog/{image_filename}
     with open(post_path, "w", encoding="utf-8") as f:
         f.write(yaml_front_matter)
         f.write("\n")
-        f.write(content)
+        f.write(cleaned_content)
 
     print(f"Created blog post: {post_path}")
+
