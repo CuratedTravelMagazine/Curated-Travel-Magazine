@@ -13,10 +13,12 @@ os.makedirs(POSTS_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
 def rfc822_to_date(pubdate):
+    """Convert RSS pubDate (RFC822) → YYYY-MM-DD."""
     dt = datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S GMT")
     return dt.strftime("%Y-%m-%d")
 
 def sanitize_title_for_filename(title):
+    """Remove all non-alphanumeric characters and uppercase the title."""
     cleaned = re.sub(r'[^A-Za-z0-9]', '', title)
     return cleaned.upper()
 
@@ -53,14 +55,20 @@ for item in items:
     post_filename = f"{date}-{safe_title}.md"
     post_path = os.path.join(POSTS_DIR, post_filename)
 
+    # YAML front matter
+    yaml_front_matter = f"""---
+layout: post
+title: "{title}"
+date: {date}
+image: /blog/assets/images/blog/{image_filename}
+featured_image: /blog/assets/images/blog/{image_filename}
+---
+"""
+
     # Write blog post
     with open(post_path, "w", encoding="utf-8") as f:
-        f.write(f"layout\tpost\n")
-        f.write(f"title\t{title}\n")
-        f.write(f"date\t{date}\n")
-        f.write(f"image\t/blog/assets/images/blog/{image_filename}\n")
-        f.write(f"featured_image\t/blog/assets/images/blog/{image_filename}\n\n")
+        f.write(yaml_front_matter)
+        f.write("\n")
         f.write(content)
 
     print(f"Created blog post: {post_path}")
-
