@@ -3,7 +3,8 @@ import json
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
-from clean_html import clean_html
+from clean_html import clean_html, _clean_substack_image_url
+
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -78,7 +79,11 @@ def build_item(entry, config):
     )
 
     cleaned_html = clean_html(raw_html)
-    thumbnail_url = extract_thumbnail(cleaned_html, config["logo_square"])
+
+    # Choose image: thumbnail first, then enclosure_link, then logo
+    raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or config["logo_square"]
+    image_url = _clean_substack_image_url(raw_image)
+
     pub_date = rfc822(entry["pub_date_raw"])
 
     title = (
@@ -98,20 +103,25 @@ def build_item(entry, config):
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
     item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
-
     if pub_date:
         item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
 
     for cat in entry["tags"]:
         item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
 
-    item_xml.append(f"  <media:thumbnail>{thumbnail_url}</media:thumbnail>")
+    # MSN thumbnail
+    item_xml.append(f"  <media:thumbnail>{image_url}</media:thumbnail>")
+
+    # Optional: inject hero image at top of content
+    hero_html = f'<figure><img src="{image_url}" alt=""/>'  # you can add figcaption if you want
     item_xml.append("  <content:encoded><![CDATA[")
+    item_xml.append(hero_html)
     item_xml.append(cleaned_html)
     item_xml.append("  ]]></content:encoded>")
     item_xml.append("</item>")
 
     return "\n".join(item_xml)
+
 
 
 def main():
