@@ -1,8 +1,8 @@
 layout	post
 title	Sonoma County’s Culinary Scene Reaches New Heights With Three Michelin Stars for Enclos
 date	2026-09-06
-image	https://substack-post-media.s3.amazonaws.com/public/images/811c0449-9423-41a5-a1a0-0d9bc8ce4223_2560x1440.png
-featured_image	https://substack-post-media.s3.amazonaws.com/public/images/811c0449-9423-41a5-a1a0-0d9bc8ce4223_2560x1440.png
+image	/assets/images/blog/SONOMACOUNTYSCULINARYSCENEREACHESNEWHEIGHTSWITHTHREEMICHELINSTARSFORENCLOS.jpg
+featured_image	/assets/images/blog/SONOMACOUNTYSCULINARYSCENEREACHESNEWHEIGHTSWITHTHREEMICHELINSTARSFORENCLOS.jpg
 
 
 <figure><img src="https://substack-post-media.s3.amazonaws.com/public/images/811c0449-9423-41a5-a1a0-0d9bc8ce4223_2560x1440.png" alt=""/></figure>
