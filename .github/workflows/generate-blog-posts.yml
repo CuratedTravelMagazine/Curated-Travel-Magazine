@@ -1,0 +1,35 @@
+name: Generate Blog Posts From Feed
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes
+  workflow_dispatch:         # allows manual runs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install beautifulsoup4 requests
+
+      - name: Generate blog posts from feed
+        run: |
+          python scripts/generate_posts_from_feed.py
+
+      - name: Commit and push new posts
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add _posts/*.md
+          git commit -m "Auto-generate blog posts from feed" || echo "No changes to commit"
+          git push
