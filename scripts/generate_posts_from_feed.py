@@ -7,18 +7,16 @@ import re
 FEED_URL = "https://www.curatedtravelmagazine.com/msn-feed/msn-feed.xml"
 
 POSTS_DIR = "_posts"
-IMAGES_DIR = "blog/assets/images/blog"   # ← YOUR CORRECT DIRECTORY
+IMAGES_DIR = "assets/images/blog"   # ← THEME EXPECTS THIS DIRECTORY
 
 os.makedirs(POSTS_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
 def rfc822_to_date(pubdate):
-    """Convert RSS pubDate (RFC822) → YYYY-MM-DD."""
     dt = datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S GMT")
     return dt.strftime("%Y-%m-%d")
 
 def sanitize_title_for_filename(title):
-    """Remove all non-alphanumeric characters and uppercase the title."""
     cleaned = re.sub(r'[^A-Za-z0-9]', '', title)
     return cleaned.upper()
 
@@ -55,13 +53,13 @@ for item in items:
     post_filename = f"{date}-{safe_title}.md"
     post_path = os.path.join(POSTS_DIR, post_filename)
 
-    # YAML front matter
+    # YAML front matter with correct thumbnail path
     yaml_front_matter = f"""---
 layout: post
 title: "{title}"
 date: {date}
-image: /blog/assets/images/blog/{image_filename}
-featured_image: /blog/assets/images/blog/{image_filename}
+image: /assets/images/blog/{image_filename}
+featured_image: /assets/images/blog/{image_filename}
 ---
 """
 
