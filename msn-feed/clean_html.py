@@ -142,6 +142,13 @@ def clean_html(html: str) -> str:
             if child.name not in ["img", "figcaption"]:
                 child.unwrap()
 
+    # Remove <img> tags with broken/incomplete src (e.g. Substack's restack
+    # lazy-load placeholders that are just a bare domain, no path/filename)
+    for img in soup.find_all("img"):
+        src = img.get("src", "")
+        if not re.match(r"^https?://[^/]+/.+", src):
+            img.decompose()
+
     # Remove any <figure> with no image and no text BEFORE attaching credits,
     # so a photo credit doesn't get attached to a stray empty duplicate figure
     _remove_empty_figures(soup)
