@@ -80,7 +80,7 @@ def build_item(entry, config):
 
     cleaned_html = clean_html(raw_html)
 
-        # Choose best image: thumbnail → enclosure → logo
+    # Choose best image: thumbnail → enclosure → logo
     raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or config["logo_square"]
     image_url = _clean_substack_image_url(raw_image)
 
@@ -89,7 +89,7 @@ def build_item(entry, config):
         image_url = config["logo_square"]
         if image_url.startswith("http://"):
             image_url = "https://" + image_url[7:]
-            
+
     pub_date = rfc822(entry["pub_date_raw"])
 
     title = (
@@ -99,20 +99,21 @@ def build_item(entry, config):
         .replace("&gt;", ">")
     )
 
+    # Force HTTPS on logos
+    logo_square = config["logo_square"]
+    if logo_square.startswith("http://"):
+        logo_square = "https://" + logo_square[7:]
+
+    logo_horizontal = config["logo_horizontal"]
+    if logo_horizontal.startswith("http://"):
+        logo_horizontal = "https://" + logo_horizontal[7:]
+
     # Build RSS item
     item_xml = []
     item_xml.append("<item>")
     item_xml.append(f"  <title><![CDATA[{title}]]></title>")
     item_xml.append(f"  <domain>{config['site_link']}</domain>")
     item_xml.append(f"  <siteName>{config['site_title']}</siteName>")
-        logo_square = config["logo_square"]
-        if logo_square.startswith("http://"):
-        logo_square = "https://" + logo_square[7:]
-
-    logo_horizontal = config["logo_horizontal"]
-        if logo_horizontal.startswith("http://"):
-        logo_horizontal = "https://" + logo_horizontal[7:]
-
     item_xml.append(f"  <logo-square>{logo_square}</logo-square>")
     item_xml.append(f"  <logo-horizontal>{logo_horizontal}</logo-horizontal>")
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
@@ -142,7 +143,7 @@ def build_item(entry, config):
 
 def main():
     config = load_config()
-    posts = fetch_rss()   # ⭐ FIXED — this is the correct function
+    posts = fetch_rss()
 
     parsed_items = [build_item(entry, config) for entry in posts]
 
