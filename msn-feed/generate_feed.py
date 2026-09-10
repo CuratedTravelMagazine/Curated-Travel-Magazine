@@ -153,6 +153,7 @@ def main():
     feed_xml.append(f"  <link>{config['site_link']}</link>")
     feed_xml.append(f"  <description>{config['site_description']}</description>")
     feed_xml.append(f"  <lastBuildDate>{last_build}</lastBuildDate>")
+    feed_xml.append(f"  <language>{config['language']}</language>")
     feed_xml.append("  <sy:updatePeriod>hourly</sy:updatePeriod>")
     feed_xml.append("  <sy:updateFrequency>1</sy:updateFrequency>")
     feed_xml.append("  <image>")
