@@ -80,10 +80,16 @@ def build_item(entry, config):
 
     cleaned_html = clean_html(raw_html)
 
-    # Choose best image: thumbnail → enclosure → logo
+        # Choose best image: thumbnail → enclosure → logo
     raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or config["logo_square"]
     image_url = _clean_substack_image_url(raw_image)
 
+    # Fallback to logo if the cleaned URL is still invalid
+    if not image_url or not image_url.startswith("https://"):
+        image_url = config["logo_square"]
+        if image_url.startswith("http://"):
+            image_url = "https://" + image_url[7:]
+            
     pub_date = rfc822(entry["pub_date_raw"])
 
     title = (
