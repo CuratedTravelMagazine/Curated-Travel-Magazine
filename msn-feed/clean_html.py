@@ -36,14 +36,14 @@ def _clean_substack_image_url(src: str) -> str:
         idx = src.rfind(marker)
         if idx != -1:
             src = src[idx:]
-            src = re.split(r"[?\s\"']", src)[0]
+            src = re.split(r'[?\s"\']', src)[0]
 
     src = re.sub(r"\.webp(\b|$)", ".jpg", src)
 
     if src.startswith("http://"):
         src = "https://" + src[7:]
 
-    # Must be a full HTTPS image URL
+    # Must be a full HTTPS image URL ending in a real image extension
     if not re.match(r"^https://[^/]+/.+\.(jpe?g|png|gif)$", src, re.IGNORECASE):
         return ""
 
