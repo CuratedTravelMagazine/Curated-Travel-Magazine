@@ -80,11 +80,18 @@ def build_item(entry, config):
 
     cleaned_html = clean_html(raw_html)
 
-    # Choose best image: thumbnail → enclosure → logo
-    raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or config["logo_square"]
+    # Choose best image: thumbnail → enclosure → first image in content → logo
+    raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or ""
     image_url = _clean_substack_image_url(raw_image)
 
-    # Fallback to logo if the cleaned URL is still invalid
+    # If still invalid, try to pull the first good image from the cleaned HTML
+    if not image_url or not image_url.startswith("https://"):
+        soup = BeautifulSoup(cleaned_html, "html.parser")
+        first_img = soup.find("img")
+        if first_img and first_img.get("src"):
+            image_url = _clean_substack_image_url(first_img["src"])
+
+    # Final fallback to logo
     if not image_url or not image_url.startswith("https://"):
         image_url = config["logo_square"]
         if image_url.startswith("http://"):
@@ -149,6 +156,11 @@ def main():
 
     last_build = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
 
+    # Force HTTPS on channel logo too
+    channel_logo = config["logo_square"]
+    if channel_logo.startswith("http://"):
+        channel_logo = "https://" + channel_logo[7:]
+
     feed_xml = []
     feed_xml.append('<?xml version="1.0" encoding="UTF-8"?>')
     feed_xml.append('<rss version="2.0"')
@@ -172,7 +184,7 @@ def main():
     feed_xml.append("  <sy:updatePeriod>hourly</sy:updatePeriod>")
     feed_xml.append("  <sy:updateFrequency>1</sy:updateFrequency>")
     feed_xml.append("  <image>")
-    feed_xml.append(f"    <url>{config['logo_square']}</url>")
+    feed_xml.append(f"    <url>{channel_logo}</url>")
     feed_xml.append(f"    <title>{config['site_title']}</title>")
     feed_xml.append(f"    <link>{config['site_link']}</link>")
     feed_xml.append("    <width>400</width>")
