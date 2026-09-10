@@ -9,38 +9,24 @@ ALLOWED_TAGS = {
     "img", "a"
 }
 
+PHOTO_CREDIT_RE = re.compile(r"^\s*photo\s*credit\s*:?\s*", re.IGNORECASE)
+
+
 def _clean_substack_image_url(src: str) -> str:
-    if not src:
-        return src
-
-    # Decode percent-encoding
-    src = src.replace("%3A", ":").replace("%2F", "/")
-
-    # If it's a Substack CDN wrapper, extract the FULL S3 URL
     if "substackcdn.com/image/fetch" in src:
         parts = src.split("/")
-        for segment in parts:
-            if "substack-post-media.s3.amazonaws.com" in segment:
-                # ⭐ Preserve the FULL path, not just the hostname
-                start = src.index(segment)
-                src = src[start:]
+        for segment in reversed(parts):
+            if "substack-post-media.s3.amazonaws.com" in segment or "%2Fsubstack-post-media.s3.amazonaws.com" in segment:
+                decoded = segment.replace("%3A", ":").replace("%2F", "/")
+                src = decoded
                 break
 
-    # Always convert webp → jpg
+    src = src.replace("%3A", ":").replace("%2F", "/")
     src = re.sub(r"\.webp(\b|$)", ".jpg", src)
-
-    # Ensure URL has protocol
-    if src.startswith("substack-post-media.s3.amazonaws.com"):
-        src = "https://" + src
-
     return src
 
 
 def _strip_unwanted_attributes(tag):
-    """
-    Keep only safe, content-related attributes.
-    Remove data-* and layout/JS-related attributes.
-    """
     allowed_attrs = {"href", "src", "alt", "title"}
     for attr in list(tag.attrs.keys()):
         if attr.startswith("data-"):
@@ -48,10 +34,8 @@ def _strip_unwanted_attributes(tag):
         elif attr not in allowed_attrs:
             del tag.attrs[attr]
 
+
 def _clean_links(tag):
-    """
-    Strip tracking parameters from links (UTM, action, etc.).
-    """
     href = tag.get("href")
     if not href:
         return
@@ -66,71 +50,103 @@ def _clean_links(tag):
     cleaned = urlunparse(parsed._replace(query=new_query))
     tag["href"] = cleaned
 
+
+def _is_photo_credit_paragraph(p_tag):
+    text = p_tag.get_text(strip=True)
+    return bool(PHOTO_CREDIT_RE.match(text))
+
+
+def _move_photo_credits_into_figcaptions(soup):
+    """
+    Find <p> tags that look like photo-credit lines and move their text
+    into the <figcaption> of the nearest preceding <figure> that
+    doesn't already have one.
+    """
+    credit_paragraphs = [p for p in soup.find_all("p") if _is_photo_credit_paragraph(p)]
+
+    for p_tag in credit_paragraphs:
+        credit_text = p_tag.get_text(strip=True)
+        credit_text = PHOTO_CREDIT_RE.sub("", credit_text).strip()
+
+        preceding_figures = p_tag.find_all_previous("figure")
+        target_figure = None
+        for fig in preceding_figures:
+            if not fig.find("figcaption"):
+                target_figure = fig
+                break
+
+        if target_figure is not None and credit_text:
+            figcaption = soup.new_tag("figcaption")
+            figcaption.string = f"Photo Credit: {credit_text}"
+            target_figure.append(figcaption)
+
+        p_tag.decompose()
+
+
+def _remove_empty_figures(soup):
+    for fig in soup.find_all("figure"):
+        has_img = fig.find("img") is not None
+        has_text = bool(fig.get_text(strip=True))
+        if not has_img and not has_text:
+            fig.decompose()
+
+
 def clean_html(html: str) -> str:
-    """
-    Clean Substack article HTML for MSN:
-    - Remove scripts, styles, UI chrome
-    - Normalize images and links
-    - Preserve editorial structure (p, headings, figure, figcaption, img, a)
-    """
     soup = BeautifulSoup(html, "html.parser")
 
-    # Remove scripts and styles
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()
 
-    # Remove Substack UI elements (buttons, SVG icons, responsive picture/source)
-    for tag in soup.find_all(["button", "svg", "picture", "source"]):
+    for tag in soup.find_all(["button", "svg", "source"]):
         tag.decompose()
 
-    # Remove share button wrappers
+    for tag in soup.find_all("picture"):
+        tag.unwrap()
+
     for tag in soup.find_all("p", class_="button-wrapper"):
         tag.decompose()
 
-    # Remove horizontal rules
     for tag in soup.find_all("hr"):
         tag.decompose()
 
-    # Unwrap <a> inside <figure> so <img> is a direct child
     for fig in soup.find_all("figure"):
         for a in fig.find_all("a"):
             a.unwrap()
 
-    # Clean tags and attributes
     for tag in soup.find_all(True):
-        # For tags not in ALLOWED_TAGS, unwrap but keep text
         if tag.name not in ALLOWED_TAGS:
             tag.unwrap()
             continue
 
-        # Strip classes
         if "class" in tag.attrs:
             del tag.attrs["class"]
 
-        # Strip unwanted attributes
         _strip_unwanted_attributes(tag)
 
-        # Normalize images
         if tag.name == "img":
             src = tag.get("src")
             if src:
                 tag["src"] = _clean_substack_image_url(src)
 
-        # Clean links
         if tag.name == "a":
             _clean_links(tag)
 
-    # Remove empty headings
     for h in soup.find_all(["h1", "h2", "h3", "h4"]):
         if not h.get_text(strip=True):
             h.decompose()
 
-    # Ensure <figure> contains only <img> and <figcaption> (plus text nodes)
     for fig in soup.find_all("figure"):
         for child in list(fig.contents):
             if isinstance(child, NavigableString):
                 continue
             if child.name not in ["img", "figcaption"]:
                 child.unwrap()
+
+    # Remove any <figure> with no image and no text BEFORE attaching credits,
+    # so a photo credit doesn't get attached to a stray empty duplicate figure
+    _remove_empty_figures(soup)
+
+    # Move "Photo Credit: ..." paragraphs into the nearest remaining figure's figcaption
+    _move_photo_credits_into_figcaptions(soup)
 
     return str(soup)
