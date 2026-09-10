@@ -11,8 +11,29 @@ ALLOWED_TAGS = {
 
 PHOTO_CREDIT_RE = re.compile(r"^\s*photo\s*credit\s*:?\s*", re.IGNORECASE)
 
+# Patterns that indicate Substack footer / subscription text
+FOOTER_PATTERNS = [
+    re.compile(r"thanks for reading", re.IGNORECASE),
+    re.compile(r"this post is public so feel free to share it", re.IGNORECASE),
+    re.compile(r"about curated travel magazine", re.IGNORECASE),
+    re.compile(r"is a reader-supported publication", re.IGNORECASE),
+    re.compile(r"to receive new posts and support my work", re.IGNORECASE),
+    re.compile(r"consider becoming a free or paid subscriber", re.IGNORECASE),
+    re.compile(r"purchase the current edition", re.IGNORECASE),
+    re.compile(r"the latest issue is also available in print", re.IGNORECASE),
+]
+
 
 def _clean_substack_image_url(src: str) -> str:
+    if not src:
+        return ""
+
+    src = src.strip()
+
+    # Decode common URL encoding
+    src = src.replace("%3A", ":").replace("%2F", "/")
+
+    # Unwrap Substack CDN fetch URLs
     if "substackcdn.com/image/fetch" in src:
         parts = src.split("/")
         for segment in reversed(parts):
@@ -21,8 +42,17 @@ def _clean_substack_image_url(src: str) -> str:
                 src = decoded
                 break
 
-    src = src.replace("%3A", ":").replace("%2F", "/")
+    # Prefer .jpg over .webp
     src = re.sub(r"\.webp(\b|$)", ".jpg", src)
+
+    # Force HTTPS
+    if src.startswith("http://"):
+        src = "https://" + src[7:]
+
+    # If the src is just a bare domain (no path), treat it as invalid
+    if re.match(r"^https?://[^/]+/?$", src):
+        return ""
+
     return src
 
 
@@ -56,12 +86,17 @@ def _is_photo_credit_paragraph(p_tag):
     return bool(PHOTO_CREDIT_RE.match(text))
 
 
+def _is_footer_paragraph(p_tag):
+    text = p_tag.get_text(strip=True)
+    if not text:
+        return False
+    for pattern in FOOTER_PATTERNS:
+        if pattern.search(text):
+            return True
+    return False
+
+
 def _move_photo_credits_into_figcaptions(soup):
-    """
-    Find <p> tags that look like photo-credit lines and move their text
-    into the <figcaption> of the nearest preceding <figure> that
-    doesn't already have one.
-    """
     credit_paragraphs = [p for p in soup.find_all("p") if _is_photo_credit_paragraph(p)]
 
     for p_tag in credit_paragraphs:
@@ -94,10 +129,8 @@ def _remove_empty_figures(soup):
 def clean_html(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
 
-    for tag in soup.find_all(["script", "style"]):
-        tag.decompose()
-
-    for tag in soup.find_all(["button", "svg", "source"]):
+    # Remove scripts, styles, buttons, etc.
+    for tag in soup.find_all(["script", "style", "button", "svg", "source"]):
         tag.decompose()
 
     for tag in soup.find_all("picture"):
@@ -109,10 +142,12 @@ def clean_html(html: str) -> str:
     for tag in soup.find_all("hr"):
         tag.decompose()
 
+    # Unwrap links inside figures
     for fig in soup.find_all("figure"):
         for a in fig.find_all("a"):
             a.unwrap()
 
+    # Keep only allowed tags and clean attributes
     for tag in soup.find_all(True):
         if tag.name not in ALLOWED_TAGS:
             tag.unwrap()
@@ -125,16 +160,22 @@ def clean_html(html: str) -> str:
 
         if tag.name == "img":
             src = tag.get("src")
-            if src:
-                tag["src"] = _clean_substack_image_url(src)
+            cleaned = _clean_substack_image_url(src) if src else ""
+            if cleaned:
+                tag["src"] = cleaned
+            else:
+                tag.decompose()
+                continue
 
         if tag.name == "a":
             _clean_links(tag)
 
+    # Remove empty headings
     for h in soup.find_all(["h1", "h2", "h3", "h4"]):
         if not h.get_text(strip=True):
             h.decompose()
 
+    # Clean figure children
     for fig in soup.find_all("figure"):
         for child in list(fig.contents):
             if isinstance(child, NavigableString):
@@ -142,18 +183,23 @@ def clean_html(html: str) -> str:
             if child.name not in ["img", "figcaption"]:
                 child.unwrap()
 
-    # Remove <img> tags with broken/incomplete src (e.g. Substack's restack
-    # lazy-load placeholders that are just a bare domain, no path/filename)
+    # Remove any remaining images with incomplete src
     for img in soup.find_all("img"):
         src = img.get("src", "")
-        if not re.match(r"^https?://[^/]+/.+", src):
+        if not re.match(r"^https://[^/]+/.+", src):
             img.decompose()
 
-    # Remove any <figure> with no image and no text BEFORE attaching credits,
-    # so a photo credit doesn't get attached to a stray empty duplicate figure
     _remove_empty_figures(soup)
-
-    # Move "Photo Credit: ..." paragraphs into the nearest remaining figure's figcaption
     _move_photo_credits_into_figcaptions(soup)
+
+    # Remove Substack footer paragraphs
+    for p in soup.find_all("p"):
+        if _is_footer_paragraph(p):
+            p.decompose()
+
+    # Remove any remaining empty paragraphs
+    for p in soup.find_all("p"):
+        if not p.get_text(strip=True) and not p.find("img"):
+            p.decompose()
 
     return str(soup)
