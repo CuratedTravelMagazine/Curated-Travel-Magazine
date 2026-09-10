@@ -105,8 +105,16 @@ def build_item(entry, config):
     item_xml.append(f"  <title><![CDATA[{title}]]></title>")
     item_xml.append(f"  <domain>{config['site_link']}</domain>")
     item_xml.append(f"  <siteName>{config['site_title']}</siteName>")
-    item_xml.append(f"  <logo-square>{config['logo_square']}</logo-square>")
-    item_xml.append(f"  <logo-horizontal>{config['logo_horizontal']}</logo-horizontal>")
+        logo_square = config["logo_square"]
+    if logo_square.startswith("http://"):
+        logo_square = "https://" + logo_square[7:]
+
+    logo_horizontal = config["logo_horizontal"]
+    if logo_horizontal.startswith("http://"):
+        logo_horizontal = "https://" + logo_horizontal[7:]
+
+    item_xml.append(f"  <logo-square>{logo_square}</logo-square>")
+    item_xml.append(f"  <logo-horizontal>{logo_horizontal}</logo-horizontal>")
     item_xml.append(f"  <link>{entry['canonical_url']}</link>")
     item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
     item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
