@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "November/December 2026 Issue"
-date: 2025-12-25
+date: 2026-11-01
 type: issue
 is_issue: true
 issue_number: 01
