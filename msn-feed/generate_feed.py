@@ -1,204 +1,426 @@
-import os
+import html
 import json
+import os
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
+from xml.sax.saxutils import escape
+
 import requests
-from datetime import datetime
 from bs4 import BeautifulSoup
+
 from clean_html import clean_html, _clean_substack_image_url
+
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+SUBSTACK_FEED_URL = "https://curatedtravelmagazine.substack.com/feed"
+
+REQUEST_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/130.0 Safari/537.36"
+    ),
+    "Accept": (
+        "application/rss+xml, application/xml, text/xml, "
+        "text/html;q=0.9, */*;q=0.8"
+    ),
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+}
+
 
 def load_config(path=None):
+    """Load the MSN feed configuration file."""
     if path is None:
         path = os.path.join(SCRIPT_DIR, "config.json")
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+
+    with open(path, "r", encoding="utf-8") as config_file:
+        return json.load(config_file)
+
+
+def force_https(url):
+    """Convert an HTTP URL to HTTPS when possible."""
+    if not url:
+        return ""
+
+    url = str(url).strip()
+
+    if url.startswith("http://"):
+        return "https://" + url[7:]
+
+    return url
+
+
+def xml_text(value):
+    """Escape plain text so it can be safely inserted into XML."""
+    if value is None:
+        return ""
+
+    return escape(
+        str(value),
+        {
+            '"': "&quot;",
+            "'": "&apos;",
+        },
+    )
+
+
+def cdata(value):
+    """
+    Wrap text in CDATA.
+
+    Split embedded CDATA closing sequences so they do not break the XML.
+    """
+    if value is None:
+        value = ""
+
+    safe_value = str(value).replace("]]>", "]]]]><![CDATA[>")
+    return f"<![CDATA[{safe_value}]]>"
 
 
 def rfc822(dt_str):
     """
-    rss2json returns dates like "2026-09-07 11:20:35"
-    Convert to RFC822 for MSN.
+    Convert a standard RSS date or rss2json-style date to RFC822.
+
+    Examples accepted:
+    Mon, 09 Nov 2026 13:30:00 GMT
+    2026-11-09 13:30:00
     """
-    try:
-        dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
-        return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
-    except Exception:
+    if not dt_str:
         return ""
+
+    dt_str = str(dt_str).strip()
+
+    try:
+        parsed_date = parsedate_to_datetime(dt_str)
+
+        if parsed_date.tzinfo is None:
+            parsed_date = parsed_date.replace(tzinfo=timezone.utc)
+        else:
+            parsed_date = parsed_date.astimezone(timezone.utc)
+
+        return parsed_date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+    except (TypeError, ValueError, OverflowError):
+        pass
+
+    try:
+        parsed_date = datetime.strptime(
+            dt_str,
+            "%Y-%m-%d %H:%M:%S",
+        ).replace(tzinfo=timezone.utc)
+
+        return parsed_date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+    except (TypeError, ValueError):
+        return ""
+
+
+def get_tag_text(item, tag_name, default=""):
+    """Safely retrieve text from an RSS element."""
+    tag = item.find(tag_name)
+
+    if tag is None:
+        return default
+
+    return tag.get_text(strip=True)
+
+
+def find_first_content_image(raw_html):
+    """Find the first usable image URL inside an article body."""
+    if not raw_html:
+        return ""
+
+    article_soup = BeautifulSoup(raw_html, "html.parser")
+
+    for image in article_soup.find_all("img"):
+        image_url = (
+            image.get("src")
+            or image.get("data-src")
+            or image.get("data-original")
+            or ""
+        )
+
+        image_url = _clean_substack_image_url(image_url)
+
+        if image_url and image_url.startswith("https://"):
+            return image_url
+
+    return ""
 
 
 def fetch_rss():
     """
-    Fetch Substack feed through rss2json.
-    Substack blocks GitHub Actions, but rss2json does NOT.
+    Fetch the native Substack RSS feed directly.
+
+    The browser-style headers reduce the chance of the request being
+    rejected when this script runs through GitHub Actions.
     """
-    rss2json_url = (
-        "https://api.rss2json.com/v1/api.json"
-        "?rss_url=https%3A%2F%2Fcuratedtravelmagazine.substack.com%2Ffeed"
+    response = requests.get(
+        SUBSTACK_FEED_URL,
+        headers=REQUEST_HEADERS,
+        timeout=30,
     )
+    response.raise_for_status()
 
-    resp = requests.get(rss2json_url)
-    resp.raise_for_status()
-    data = resp.json()
+    content_type = response.headers.get("Content-Type", "")
+    print(f"Substack response content type: {content_type}")
 
-    if data.get("status") != "ok":
-        raise RuntimeError(f"rss2json returned an error: {data}")
+    feed_soup = BeautifulSoup(response.content, "xml")
+    items = feed_soup.find_all("item")
+
+    if not items:
+        response_preview = response.text[:500].replace("\n", " ")
+
+        raise RuntimeError(
+            "The Substack feed returned no RSS items. "
+            f"Response preview: {response_preview}"
+        )
 
     posts = []
-    for item in data.get("items", []):
-        raw_html = item.get("content") or item.get("description") or ""
+
+    for item in items:
+        title = get_tag_text(item, "title")
+        canonical_url = get_tag_text(item, "link")
+        guid = get_tag_text(item, "guid", canonical_url)
+        pub_date = get_tag_text(item, "pubDate")
+
+        content_tag = item.find("content:encoded")
+        description_tag = item.find("description")
+
+        if content_tag is not None:
+            raw_html = content_tag.get_text()
+        elif description_tag is not None:
+            raw_html = description_tag.get_text()
+        else:
+            raw_html = ""
+
+        raw_html = html.unescape(raw_html).strip()
+
         if not raw_html:
+            print(f"Skipping post with no article content: {title}")
             continue
 
-        thumbnail = item.get("thumbnail")
-        enclosure = item.get("enclosure", {}) or {}
-        enclosure_link = enclosure.get("link")
+        categories = [
+            category.get_text(strip=True)
+            for category in item.find_all("category")
+            if category.get_text(strip=True)
+        ]
 
-        posts.append({
-            "title": item.get("title", ""),
-            "canonical_url": item.get("link", ""),
-            "id": item.get("guid") or item.get("link", ""),
-            "pub_date_raw": item.get("pubDate"),
-            "body_html": raw_html,
-            "tags": item.get("categories") or [],
-            "thumbnail": thumbnail,
-            "enclosure_link": enclosure_link,
-        })
+        thumbnail = ""
 
+        thumbnail_tag = item.find("media:thumbnail")
+
+        if thumbnail_tag is not None:
+            thumbnail = (
+                thumbnail_tag.get("url")
+                or thumbnail_tag.get_text(strip=True)
+                or ""
+            )
+
+        content_tag_for_media = item.find("media:content")
+
+        if not thumbnail and content_tag_for_media is not None:
+            thumbnail = content_tag_for_media.get("url", "")
+
+        enclosure_link = ""
+        enclosure_tag = item.find("enclosure")
+
+        if enclosure_tag is not None:
+            enclosure_link = enclosure_tag.get("url", "")
+
+        if not thumbnail:
+            thumbnail = find_first_content_image(raw_html)
+
+        posts.append(
+            {
+                "title": title,
+                "canonical_url": canonical_url,
+                "id": guid or canonical_url,
+                "pub_date_raw": pub_date,
+                "body_html": raw_html,
+                "tags": categories,
+                "thumbnail": thumbnail,
+                "enclosure_link": enclosure_link,
+            }
+        )
+
+    if not posts:
+        raise RuntimeError(
+            "The Substack feed contained items, but none had usable content."
+        )
+
+    print(f"Fetched {len(posts)} posts directly from Substack")
     return posts
 
 
-def build_item(entry, config):
-    raw_html = entry["body_html"]
+def choose_image(entry, cleaned_html, config):
+    """
+    Choose the best available image.
 
-    # Decode HTML entities before cleaning
-    raw_html = (
-        raw_html.replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&amp;", "&")
+    Order:
+    1. RSS thumbnail
+    2. RSS enclosure
+    3. First image in the article
+    4. Square Curated Travel Magazine logo
+    """
+    candidates = [
+        entry.get("thumbnail"),
+        entry.get("enclosure_link"),
+        find_first_content_image(cleaned_html),
+        config.get("logo_square"),
+    ]
+
+    for candidate in candidates:
+        if not candidate:
+            continue
+
+        image_url = _clean_substack_image_url(candidate)
+        image_url = force_https(image_url)
+
+        if image_url.startswith("https://"):
+            return image_url
+
+    raise RuntimeError(
+        f"No valid image could be found for: {entry.get('title', 'Untitled')}"
     )
 
+
+def build_item(entry, config):
+    """Convert one Substack RSS entry into one MSN RSS item."""
+    raw_html = html.unescape(entry.get("body_html", ""))
     cleaned_html = clean_html(raw_html)
 
-    # Choose best image: thumbnail → enclosure → first image in content → logo
-    raw_image = entry.get("thumbnail") or entry.get("enclosure_link") or ""
-    image_url = _clean_substack_image_url(raw_image)
+    image_url = choose_image(entry, cleaned_html, config)
+    pub_date = rfc822(entry.get("pub_date_raw"))
 
-    # If still invalid, try to pull the first good image from the cleaned HTML
-    if not image_url or not image_url.startswith("https://"):
-        soup = BeautifulSoup(cleaned_html, "html.parser")
-        first_img = soup.find("img")
-        if first_img and first_img.get("src"):
-            image_url = _clean_substack_image_url(first_img["src"])
+    title = html.unescape(entry.get("title", "")).strip()
+    canonical_url = force_https(entry.get("canonical_url", ""))
+    entry_id = entry.get("id") or canonical_url
 
-    # Final fallback to logo
-    if not image_url or not image_url.startswith("https://"):
-        image_url = config["logo_square"]
-        if image_url.startswith("http://"):
-            image_url = "https://" + image_url[7:]
+    logo_square = force_https(config["logo_square"])
+    logo_horizontal = force_https(config["logo_horizontal"])
+    site_link = force_https(config["site_link"])
 
-    pub_date = rfc822(entry["pub_date_raw"])
-
-    title = (
-        entry["title"]
-        .replace("&amp;", "&")
-        .replace("&lt;", "<")
-        .replace("&gt;", ">")
-    )
-
-    # Force HTTPS on logos
-    logo_square = config["logo_square"]
-    if logo_square.startswith("http://"):
-        logo_square = "https://" + logo_square[7:]
-
-    logo_horizontal = config["logo_horizontal"]
-    if logo_horizontal.startswith("http://"):
-        logo_horizontal = "https://" + logo_horizontal[7:]
-
-    # Build RSS item
-    item_xml = []
-    item_xml.append("<item>")
-    item_xml.append(f"  <title><![CDATA[{title}]]></title>")
-    item_xml.append(f"  <domain>{config['site_link']}</domain>")
-    item_xml.append(f"  <siteName>{config['site_title']}</siteName>")
-    item_xml.append(f"  <logo-square>{logo_square}</logo-square>")
-    item_xml.append(f"  <logo-horizontal>{logo_horizontal}</logo-horizontal>")
-    item_xml.append(f"  <link>{entry['canonical_url']}</link>")
-    item_xml.append(f"  <guid isPermaLink=\"false\">{entry['id']}</guid>")
-    item_xml.append(f"  <dc:creator><![CDATA[{config['author_name']}]]></dc:creator>")
+    item_xml = [
+        "<item>",
+        f"  <title>{cdata(title)}</title>",
+        f"  <domain>{xml_text(site_link)}</domain>",
+        f"  <siteName>{cdata(config['site_title'])}</siteName>",
+        f"  <logo-square>{xml_text(logo_square)}</logo-square>",
+        f"  <logo-horizontal>{xml_text(logo_horizontal)}</logo-horizontal>",
+        f"  <link>{xml_text(canonical_url)}</link>",
+        (
+            '  <guid isPermaLink="false">'
+            f"{xml_text(entry_id)}"
+            "</guid>"
+        ),
+        f"  <dc:creator>{cdata(config['author_name'])}</dc:creator>",
+    ]
 
     if pub_date:
-        item_xml.append(f"  <pubDate>{pub_date}</pubDate>")
+        item_xml.append(f"  <pubDate>{xml_text(pub_date)}</pubDate>")
 
-    for cat in entry["tags"]:
-        item_xml.append(f"  <category><![CDATA[{cat}]]></category>")
+    for category in entry.get("tags", []):
+        category = html.unescape(str(category)).strip()
 
-    # MSN thumbnail
-    item_xml.append(f"  <media:thumbnail>{image_url}</media:thumbnail>")
+        if category:
+            item_xml.append(
+                f"  <category>{cdata(category)}</category>"
+            )
 
-    # Inject hero image at top of article
-    hero_html = f'<figure><img src="{image_url}" alt=""/></figure>'
+    item_xml.append(
+        f"  <media:thumbnail>{xml_text(image_url)}</media:thumbnail>"
+    )
 
-    item_xml.append("  <content:encoded><![CDATA[")
-    item_xml.append(hero_html)
-    item_xml.append(cleaned_html)
-    item_xml.append("  ]]></content:encoded>")
-    item_xml.append("</item>")
+    hero_html = (
+        f'<figure><img src="{html.escape(image_url, quote=True)}" '
+        f'alt="{html.escape(title, quote=True)}"/></figure>'
+    )
+
+    article_html = hero_html + cleaned_html
+
+    item_xml.extend(
+        [
+            f"  <content:encoded>{cdata(article_html)}</content:encoded>",
+            "</item>",
+        ]
+    )
 
     return "\n".join(item_xml)
+
+
+def build_feed(posts, config):
+    """Build the complete MSN-compatible RSS document."""
+    parsed_items = [build_item(entry, config) for entry in posts]
+
+    last_build = datetime.now(timezone.utc).strftime(
+        "%a, %d %b %Y %H:%M:%S GMT"
+    )
+
+    channel_logo = force_https(config["logo_square"])
+    site_link = force_https(config["site_link"])
+    feed_url = force_https(config["feed_url"])
+
+    feed_xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<rss version="2.0"',
+        ' xmlns:content="http://purl.org/rss/1.0/modules/content/"',
+        ' xmlns:media="http://search.yahoo.com/mrss/"',
+        ' xmlns:wfw="http://wellformedweb.org/CommentAPI/"',
+        ' xmlns:dc="http://purl.org/dc/elements/1.1/"',
+        ' xmlns:atom="http://www.w3.org/2005/Atom"',
+        ' xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"',
+        ' xmlns:slash="http://purl.org/rss/1.0/modules/slash/"',
+        ' xmlns:georss="http://www.georss.org/georss"',
+        ' xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">',
+        "<channel>",
+        f"  <title>{cdata(config['site_title'])}</title>",
+        (
+            f'  <atom:link href="{xml_text(feed_url)}" '
+            'rel="self" type="application/rss+xml" />'
+        ),
+        f"  <link>{xml_text(site_link)}</link>",
+        f"  <description>{cdata(config['site_description'])}</description>",
+        f"  <lastBuildDate>{last_build}</lastBuildDate>",
+        f"  <language>{xml_text(config['language'])}</language>",
+        "  <sy:updatePeriod>hourly</sy:updatePeriod>",
+        "  <sy:updateFrequency>1</sy:updateFrequency>",
+        "  <image>",
+        f"    <url>{xml_text(channel_logo)}</url>",
+        f"    <title>{cdata(config['site_title'])}</title>",
+        f"    <link>{xml_text(site_link)}</link>",
+        "    <width>400</width>",
+        "    <height>400</height>",
+        "  </image>",
+        "\n".join(parsed_items),
+        "</channel>",
+        "</rss>",
+    ]
+
+    return "\n".join(feed_xml)
 
 
 def main():
     config = load_config()
     posts = fetch_rss()
+    feed_xml = build_feed(posts, config)
 
-    parsed_items = [build_item(entry, config) for entry in posts]
+    output_path = os.path.join(
+        SCRIPT_DIR,
+        config["output_file"],
+    )
 
-    last_build = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+    with open(output_path, "w", encoding="utf-8") as output_file:
+        output_file.write(feed_xml)
 
-    # Force HTTPS on channel logo too
-    channel_logo = config["logo_square"]
-    if channel_logo.startswith("http://"):
-        channel_logo = "https://" + channel_logo[7:]
+    print(f"Generated MSN feed: {output_path}")
+    print(f"Included {len(posts)} Substack posts")
 
-    feed_xml = []
-    feed_xml.append('<?xml version="1.0" encoding="UTF-8"?>')
-    feed_xml.append('<rss version="2.0"')
-    feed_xml.append(' xmlns:content="http://purl.org/rss/1.0/modules/content/"')
-    feed_xml.append(' xmlns:media="http://search.yahoo.com/mrss/"')
-    feed_xml.append(' xmlns:wfw="http://wellformedweb.org/CommentAPI/"')
-    feed_xml.append(' xmlns:dc="http://purl.org/dc/elements/1.1/"')
-    feed_xml.append(' xmlns:atom="http://www.w3.org/2005/Atom"')
-    feed_xml.append(' xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"')
-    feed_xml.append(' xmlns:slash="http://purl.org/rss/1.0/modules/slash/"')
-    feed_xml.append(' xmlns:georss="http://www.georss.org/georss"')
-    feed_xml.append(' xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"')
-    feed_xml.append('>')
-    feed_xml.append('<channel>')
-    feed_xml.append(f"  <title>{config['site_title']}</title>")
-    feed_xml.append(f"  <atom:link href=\"{config['feed_url']}\" rel=\"self\" type=\"application/rss+xml\" />")
-    feed_xml.append(f"  <link>{config['site_link']}</link>")
-    feed_xml.append(f"  <description>{config['site_description']}</description>")
-    feed_xml.append(f"  <lastBuildDate>{last_build}</lastBuildDate>")
-    feed_xml.append(f"  <language>{config['language']}</language>")
-    feed_xml.append("  <sy:updatePeriod>hourly</sy:updatePeriod>")
-    feed_xml.append("  <sy:updateFrequency>1</sy:updateFrequency>")
-    feed_xml.append("  <image>")
-    feed_xml.append(f"    <url>{channel_logo}</url>")
-    feed_xml.append(f"    <title>{config['site_title']}</title>")
-    feed_xml.append(f"    <link>{config['site_link']}</link>")
-    feed_xml.append("    <width>400</width>")
-    feed_xml.append("    <height>400</height>")
-    feed_xml.append("  </image>")
 
-    feed_xml.append("\n".join(parsed_items))
-
-    feed_xml.append("</channel>")
-    feed_xml.append("</rss>")
-
-    output_path = os.path.join(SCRIPT_DIR, config["output_file"])
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(feed_xml))
+if __name__ == "__main__":
+    main()
 
 
 if __name__ == "__main__":
