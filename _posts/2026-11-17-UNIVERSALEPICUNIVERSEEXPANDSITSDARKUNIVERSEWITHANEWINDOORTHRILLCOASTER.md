@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Universal Epic Universe Expands Its Dark Universe with a New Indoor Thrill Coaster"
+date: 2026-11-17
+image: /assets/images/blog/UNIVERSALEPICUNIVERSEEXPANDSITSDARKUNIVERSEWITHANEWINDOORTHRILLCOASTER.jpg
+featured_image: /assets/images/blog/UNIVERSALEPICUNIVERSEEXPANDSITSDARKUNIVERSEWITHANEWINDOORTHRILLCOASTER.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/f0714dd3-d497-4741-9351-90b741b9304c_600x400.jpeg"/></figure><p>Universal Orlando Resort is preparing to add another high-energy attraction to Universal Epic Universe, announcing an all-new indoor thrill coaster for the park’s Dark Universe land. Additional details about the ride have yet to be revealed, but the announcement signals another step in the resort’s ongoing expansion of its theme park and entertainment offerings. The new coaster joins a broader development slate across the destination, including a reimagined Universal Horror Make-Up Show featuring Blumhouse at Universal Studios Florida, the high-speed Fast &amp; Furious: Hollywood Drift coaster planned for 2027, a new signature restaurant in the Jurassic Park area of Universal Islands of Adventure, and Luke Combs’ Category 10 music and entertainment venue at Universal CityWalk. Together, these projects point to a growing mix of attractions, dining and live entertainment designed to give visitors new reasons to build a longer Orlando stay.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Orlando, Florida. Courtesy of Universal Orlando Resort.</figcaption></figure><h3>The Curated Take</h3><p>For travelers considering Orlando, the destination’s appeal increasingly extends beyond a single park or headline attraction. Continued investment across Epic Universe, Universal Studios Florida, Islands of Adventure and CityWalk creates more possibilities for repeat visitors and longer stays, particularly for those who want to combine immersive attractions with dining and evening entertainment. The new Dark Universe coaster remains under wraps, but its announcement adds another reason to keep an eye on what is taking shape at Universal Orlando.</p>

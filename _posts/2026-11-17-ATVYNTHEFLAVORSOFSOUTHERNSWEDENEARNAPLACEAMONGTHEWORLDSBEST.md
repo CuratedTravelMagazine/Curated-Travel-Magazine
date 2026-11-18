@@ -1,0 +1,11 @@
+---
+layout: post
+title: "At Vyn, the Flavors of Southern Sweden Earn a Place Among the World’s Best"
+date: 2026-11-17
+image: /assets/images/blog/ATVYNTHEFLAVORSOFSOUTHERNSWEDENEARNAPLACEAMONGTHEWORLDSBEST.jpg
+featured_image: /assets/images/blog/ATVYNTHEFLAVORSOFSOUTHERNSWEDENEARNAPLACEAMONGTHEWORLDSBEST.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/d06673d8-ae1c-4662-9b5c-07ce5400257f_600x400.jpeg"/></figure><p>Restaurant Vyn, the two-Michelin-starred destination led by chef Daniel Berlin, has climbed to No. 23 on the 2026 list of The 50 Best Restaurants, rising 24 places from its position last year and bringing international attention to Österlen, a coastal region in southeastern Skåne. Set near the fishing village of Brantevik with views across the Baltic Sea, Vyn draws its identity from the surrounding landscape, with a seasonal approach shaped by local farmers, regional producers, foraging and the traditions of southern Sweden. The restaurant is part of a larger hospitality experience that includes a 15-room boutique hotel, a food and wine bar, and private dining, making it possible to extend a culinary visit into a longer stay. Beyond the table, Österlen offers a rich setting for exploration, with fertile farmland, apple orchards, vineyards, fishing villages, sandy beaches and a growing community of artisan food producers.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Brantevik, Österlen, Skåne, Sweden. Courtesy of Restaurant Vyn.</figcaption></figure><h3>The Curated Take</h3><p>Vyn’s recognition offers a compelling reason to look beyond Sweden’s better-known urban destinations and discover the quieter culinary character of Österlen. Here, fine dining is not separated from its surroundings; the ingredients, producers and changing seasons are integral to the experience. For travelers who plan journeys around food, Vyn provides an anchor for exploring a region where farm shops, local vineyards, coastal landscapes and small villages contribute to a broader sense of place. The appeal is not simply a celebrated restaurant, but the opportunity to understand southern Sweden through the people and flavors that define it.</p>

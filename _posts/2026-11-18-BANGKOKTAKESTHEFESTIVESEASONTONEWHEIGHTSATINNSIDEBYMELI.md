@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Bangkok Takes the Festive Season to New Heights at INNSiDE by Meliá"
+date: 2026-11-18
+image: /assets/images/blog/BANGKOKTAKESTHEFESTIVESEASONTONEWHEIGHTSATINNSIDEBYMELI.jpg
+featured_image: /assets/images/blog/BANGKOKTAKESTHEFESTIVESEASONTONEWHEIGHTSATINNSIDEBYMELI.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/1def2e90-c292-417a-8ac2-7b493d11c848_961x540.jpeg"/></figure><p>INNSiDE by Meliá Bangkok Sukhumvit is bringing a distinctly international flavor to the 2026 festive season, pairing Spanish cuisine, celebratory buffets and rooftop festivities with sweeping views of the Thai capital. The 208-room hotel will mark Christmas and New Year across three elevated venues: LUZ Bangkok Tapas Bar, where Madrid-born chef Juan Ignacio García Racionero will prepare Spanish-inspired holiday menus; The Kites Eatery, which will host Christmas and New Year’s Eve buffets overlooking the city; and the 34th-floor Giant Swing Pool Bar, the setting for a countdown celebration welcoming 2027. The hotel’s design also draws on local references, from the pool bar’s interpretation of Bangkok’s historic Giant Swing to artwork at The Kites Eatery inspired by traditional kite-flying at Sanam Luang Park. Together, the dining and entertainment program offers travelers a festive city stay that brings together Spanish culinary influences, Bangkok character and the energy of a rooftop celebration.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: INNSiDE by Meliá Bangkok Sukhumvit, Bangkok, Thailand. Courtesy of INNSiDE by Meliá.</figcaption></figure><h3>The Curated Take</h3><p>Bangkok offers a different kind of festive escape, one shaped by warm evenings, a dynamic dining scene and a skyline that becomes part of the celebration. INNSiDE by Meliá Bangkok Sukhumvit gives the season a sense of occasion without relying on traditional winter imagery, while its Spanish restaurant and Thai design references create an interesting meeting of cultures. For travelers spending Christmas or New Year in Thailand, the hotel provides a lively urban alternative to a resort-based holiday.</p>
