@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Seoul Incheon’s oneworld Lounge Earns a Second Consecutive Year of Recognition"
+date: 2026-11-18
+image: /assets/images/blog/SEOULINCHEONSONEWORLDLOUNGEEARNSASECONDCONSECUTIVEYEAROFRECOGNITION.jpg
+featured_image: /assets/images/blog/SEOULINCHEONSONEWORLDLOUNGEEARNSASECONDCONSECUTIVEYEAROFRECOGNITION.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/c177f0b8-b450-43ab-9c68-40de9391bd10_1840x946.jpeg"/></figure><p>The oneworld branded lounge at Seoul Incheon International Airport has been named “Asia’s Leading Airline Lounge - Business Class” at the 2026 World Travel Awards for the second consecutive year, reinforcing its reputation for premium airport hospitality. Opened in January 2024 as the alliance’s first branded lounge, the 555-square-metre space welcomes approximately 150,000 guests annually and serves eligible oneworld Emerald and Sapphire members, along with First and Business Class passengers. Its design draws inspiration from South Korean culture, with a bar influenced by the traditional gat hat and glass art recalling the Lantern Festival. Seasonally changing menus and distinct areas for dining, working and relaxing give travelers room to shape their time before departure. Seven oneworld member airlines serve the lounge at Incheon, including Cathay Pacific, Finnair, Qatar Airways and American Airlines.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Seoul Incheon International Airport, South Korea. Courtesy of oneworld.</figcaption></figure><h3>The Curated Take</h3><p>For travelers connecting through Seoul, the lounge offers more than a comfortable place to wait between flights. Its Korean design references and rotating menus bring a sense of destination into the airport experience, while its separate spaces recognize that pre-flight time can serve different purposes, from quiet restoration to a proper meal. As premium airport lounges become an increasingly important part of the luxury travel experience, oneworld’s continued recognition at Incheon highlights the value of thoughtful hospitality before the journey even begins.</p>
