@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Twelve Travelers, 350 Residents: A Rare Encounter with East Greenland"
+date: 2026-11-20
+image: /assets/images/blog/TWELVETRAVELERS350RESIDENTSARAREENCOUNTERWITHEASTGREENLAND.jpg
+featured_image: /assets/images/blog/TWELVETRAVELERS350RESIDENTSARAREENCOUNTERWITHEASTGREENLAND.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/fa320903-411e-481f-9bd6-7104b77624aa_2048x1536.jpeg"/></figure><p>In East Greenland, where remote settlements exist within an immense Arctic landscape, the scale of an expedition can shape the experience as much as the destination itself. Secret Atlas, a polar expedition company specializing in small-ship journeys, brings groups of just 12 guests ashore at Ittoqqortoormiit, a community of approximately 350 residents founded in 1925 by 80 Inuit families. Visitors have the opportunity to meet local residents and learn about traditional carving, including tupilaks, spirit figures made from bone or tusk. The visit forms part of an expedition through Scoresbysund, the world’s largest fjord, reached by charter flight from Iceland. With itineraries adapted to changing ice and wildlife conditions and one polar guide for every six guests, the journey is designed around close observation and a measured presence in this remote environment. The small group size also allows for a more considered visit to a community where tourism remains on a very different scale from that of more frequently visited destinations.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Courtesy of Secret Atlas.</figcaption></figure><h3>The Curated Take</h3><p>There is a meaningful distinction between reaching a remote place and experiencing it with care. In Ittoqqortoormiit, a landing by a dozen travelers offers a more intimate scale of encounter, while time with local residents brings human context to an otherwise extraordinary Arctic landscape. Secret Atlas’s approach speaks to a growing interest in expedition travel that values patience, small groups and respectful cultural exchange alongside wildlife and scenery.</p>
