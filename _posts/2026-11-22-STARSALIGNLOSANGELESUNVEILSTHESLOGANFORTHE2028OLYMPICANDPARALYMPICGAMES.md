@@ -1,0 +1,11 @@
+---
+layout: post
+title: "“Stars Align”: Los Angeles Unveils the Slogan for the 2028 Olympic and Paralympic Games"
+date: 2026-11-22
+image: /assets/images/blog/STARSALIGNLOSANGELESUNVEILSTHESLOGANFORTHE2028OLYMPICANDPARALYMPICGAMES.jpg
+featured_image: /assets/images/blog/STARSALIGNLOSANGELESUNVEILSTHESLOGANFORTHE2028OLYMPICANDPARALYMPICGAMES.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/95238af1-b857-4a94-9263-e3925715d0f1_3840x2160.jpeg"/></figure><p>As Los Angeles prepares to welcome the world for the 2028 Olympic and Paralympic Games, LA28 has unveiled “Stars Align” as the official slogan for the event, capturing the meeting of athletic achievement, collective ambition, and the creative energy of its host city. Introduced through a global campaign film set to the Red Hot Chili Peppers’ “Can’t Stop,” the slogan draws on the idea that extraordinary moments emerge when years of dedication meet a defining opportunity. The film brings together iconic Los Angeles landmarks, including the Hollywood Sign and Griffith Observatory, with the city’s golden-hour light, diverse communities, and memorable moments from the history of the Games. The Olympic Opening Ceremony is scheduled for July 14, 2028, followed by the Paralympic Opening Ceremony on August 15. Los Angeles will become the third city to host the Summer Olympics three times and will welcome its first-ever Paralympic Games.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Los Angeles, California, United States. Courtesy of LA28.</figcaption></figure><h3>The Curated Take</h3><p>A host city does more than provide venues for the Olympic Games. It becomes part of the story, shaping the atmosphere, cultural encounters, and memories that stay with visitors long after the final competition. “Stars Align” places Los Angeles’s identity as a city of imagination and possibility at the center of that story. With its blend of sporting history, entertainment, distinctive neighborhoods, and Southern California landscapes, the 2028 Games offer an opportunity to experience the city through a global celebration that extends well beyond the stadium.</p>
