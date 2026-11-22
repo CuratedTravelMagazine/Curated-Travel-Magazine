@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Kanana Nyana: An Intimate Wilderness Retreat in the Okavango Delta"
+date: 2026-11-21
+image: /assets/images/blog/KANANANYANAANINTIMATEWILDERNESSRETREATINTHEOKAVANGODELTA.jpg
+featured_image: /assets/images/blog/KANANANYANAANINTIMATEWILDERNESSRETREATINTHEOKAVANGODELTA.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0eb856b1-2bd8-48eb-bea7-fb081f49406a_8096x5397.jpeg"/></figure><p>The newest addition to Ker &amp; Downey Botswana, Kanana Nyana has welcomed its first guests to the forested islands of Botswana’s Okavango Delta, offering an intimate safari experience shaped by the landscape rather than imposed upon it. With just four suites overlooking the floodplain and Xudum Channel, the camp takes its name from the Setswana word nyana, meaning small. Its architecture follows the natural contours of the setting, with elevated decks designed to protect tree roots and preserve the movement of water and wildlife. Interiors draw inspiration from the surrounding trees, waterways, and seasonal colors, incorporating botanical artwork, locally crafted joinery, and natural materials. The result is a secluded wilderness retreat where thoughtful design, regional craftsmanship, and a close connection to nature define the experience.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Okavango Delta, Botswana. Photo by Harry Skeggs.</figcaption></figure><h3>The Curated Take</h3><p>In a landscape as extraordinary as the Okavango Delta, the most meaningful luxury may be knowing when not to compete with the surroundings. Kanana Nyana’s small scale allows the wilderness to remain the central presence, while its design reveals a remarkable attention to the details of place, from the changing colors of nearby trees to the waterways that shape the islands. There is something quietly compelling about a safari camp that seeks not to stand apart from its environment, but to help guests notice it more deeply. Here, intimacy is not simply a matter of fewer suites. It is a way of experiencing the Delta.</p>

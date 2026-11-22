@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Hollywood Storytelling Takes Center Stage at the LA28 Olympic Games"
+date: 2026-11-21
+image: /assets/images/blog/HOLLYWOODSTORYTELLINGTAKESCENTERSTAGEATTHELA28OLYMPICGAMES.jpg
+featured_image: /assets/images/blog/HOLLYWOODSTORYTELLINGTAKESCENTERSTAGEATTHELA28OLYMPICGAMES.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/a13b5515-a669-4f2d-92b2-f29a5ec6e353_2257x1616.png"/></figure><p>The 2028 Olympic and Paralympic Games in Los Angeles are bringing together two defining expressions of the city’s global identity: sport and entertainment. LA28 has appointed acclaimed film producer Kathleen Kennedy as Head of Ceremonies and Content, where she will lead the development and delivery of all four Opening and Closing Ceremonies. An eight-time Academy Award nominee and former president of Lucasfilm, Kennedy has helped shape some of cinema’s most recognizable films and franchises, with more than 70 feature film credits. She joins Executive Producer Peter Rice, Creative Director Ben Winston, and veteran ceremonies producer Scott Givens as preparations move toward production. The Olympic Opening Ceremony is scheduled for July 14, 2028, with the Paralympic Games following in August. Across iconic Los Angeles venues, including the Los Angeles Memorial Coliseum, the ceremonies will draw on the city’s creative influence to introduce the Games to a global audience.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Los Angeles, California, United States. Courtesy of LA28.</figcaption></figure><h3>The Curated Take</h3><p>Major sporting events offer a rare opportunity for a destination to tell its story on a truly global stage. For Los Angeles, that story naturally extends beyond the competition itself, drawing on a cultural identity shaped by film, music, entertainment, and an enduring ability to create spectacle. Kennedy’s appointment brings considerable storytelling experience to that ambition. The ceremonies will be an important part of how visitors and billions of viewers encounter Los Angeles in 2028, positioning the city not simply as a host, but as part of the experience.</p>
