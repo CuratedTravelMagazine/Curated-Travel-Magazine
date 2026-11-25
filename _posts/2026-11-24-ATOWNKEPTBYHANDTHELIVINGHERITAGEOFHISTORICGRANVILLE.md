@@ -1,0 +1,11 @@
+---
+layout: post
+title: "A Town Kept by Hand: The Living Heritage of Historic Granville"
+date: 2026-11-24
+image: /assets/images/blog/ATOWNKEPTBYHANDTHELIVINGHERITAGEOFHISTORICGRANVILLE.jpg
+featured_image: /assets/images/blog/ATOWNKEPTBYHANDTHELIVINGHERITAGEOFHISTORICGRANVILLE.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/6e8b817d-b08d-40e3-88fe-7317aad1b4d1_480x320.jpeg"/><figcaption>Photo Credit: Historic Granville, Tennessee, United States. Courtesy of Tennessee Tourism.</figcaption></figure><p>Along the Cumberland River, about an hour east of Nashville, Historic Granville offers a glimpse into Tennessee’s Appalachian heritage through a community that has chosen to keep its traditions close. Operated by approximately 200 volunteers, the small town invites visitors to explore its historic streets, beginning at the T.B. Sutton General Store and extending to an antique car museum, pioneer village, and collections devoted to local foodways and whiskey history. The Granville Artisan Events and Gallery celebrates traditional Appalachian crafts, hand-forged work, and pioneer art, while Aunt Bee’s Farmhouse Quilt Shop and Bakery offers fabrics, patterns, and hands-on instruction in quilting, basket weaving, and other traditional skills. The historic general store, listed on the National Register of Historic Places, retains much of its early twentieth-century character and remains a gathering place for lunch, conversation, and the weekly Sutton Ole Time Music Hour. With accommodations at Granville Bed &amp; Breakfast and nearby Wildwood Resort &amp; Marina, the town offers an opportunity to experience a side of Tennessee shaped by craftsmanship, music, and community stewardship.</p><h3>The Curated Take</h3><p>Granville’s distinction lies not simply in its preservation of historic buildings, but in the people who continue to give them purpose. The volunteers, artisans, musicians, and shopkeepers make heritage something practiced rather than displayed. In a travel landscape often focused on what is new, Granville offers a quieter kind of discovery: the chance to encounter traditions that remain part of everyday community life because people have chosen to carry them forward.</p>
