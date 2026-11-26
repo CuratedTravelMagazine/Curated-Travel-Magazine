@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Michelin Makes Its Australian Debut in South Australia, Recognizing 77 Restaurants"
+date: 2026-11-25
+image: /assets/images/blog/MICHELINMAKESITSAUSTRALIANDEBUTINSOUTHAUSTRALIARECOGNIZING77RESTAURANTS.jpg
+featured_image: /assets/images/blog/MICHELINMAKESITSAUSTRALIANDEBUTINSOUTHAUSTRALIARECOGNIZING77RESTAURANTS.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/cbd53fd3-37a3-44c3-b478-1e3316112f34_4404x2936.jpeg"/></figure><p>The MICHELIN Guide has made its Australian debut with an inaugural selection devoted entirely to South Australia, placing Adelaide and its surrounding wine regions on the international culinary map. Announced October 14, 2026, the guide recognizes 77 restaurants across the state, including Magill Estate Restaurant, which earned Two MICHELIN Stars, and 10 restaurants awarded One Star. Another 16 received Bib Gourmand distinctions, while 50 were included in the MICHELIN Selected category. Among the notable restaurants are Restaurant Aptos, led by American chef Justin James and known for its 16-course tasting experience featuring native Australian ingredients, and Restaurant Botanic, set within Adelaide Botanic Garden. The recognition follows anonymous inspections and evaluates ingredient quality, cooking technique, flavor, culinary personality and consistency.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Courtesy of the Government of South Australia,SOI 38_ADELAIDE_JON WAH</figcaption></figure><p><strong>The Curated Take</strong></p><p>A MICHELIN Guide debut can reshape how an international audience sees a destination. For South Australia, the recognition adds a compelling culinary dimension to a region already known for its wines, landscapes and distinctive local produce. It also gives travelers a new way to build an itinerary around Adelaide and the surrounding wine country, connecting memorable dining with the producers, places and regional character behind the food. Importantly, the selection spans fine dining and more accessible restaurants, offering a broader picture of South Australia’s evolving food culture.</p>
