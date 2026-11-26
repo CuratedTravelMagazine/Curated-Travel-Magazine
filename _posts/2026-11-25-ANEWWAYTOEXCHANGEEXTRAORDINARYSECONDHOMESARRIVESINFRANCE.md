@@ -1,0 +1,11 @@
+---
+layout: post
+title: "A New Way to Exchange Extraordinary Second Homes Arrives in France"
+date: 2026-11-25
+image: /assets/images/blog/ANEWWAYTOEXCHANGEEXTRAORDINARYSECONDHOMESARRIVESINFRANCE.jpg
+featured_image: /assets/images/blog/ANEWWAYTOEXCHANGEEXTRAORDINARYSECONDHOMESARRIVESINFRANCE.jpg
+---
+
+
+<figure></figure>
+<figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/b6d6f864-594b-4739-bb00-0b6254992e31_6000x4000.jpeg"/></figure><p>Infinity by Pacaso has launched in France, expanding its invitation-only home exchange community to a country whose appeal spans Parisian residences, Provençal estates and Côte d’Azur villas. The network connects owners of exceptional second homes, allowing them to make unused weeks available to other vetted members in exchange for stays across more than 70 destinations in over 10 countries. Members can arrange direct exchanges or earn credits by hosting guests, then use those credits toward stays elsewhere in the collection. Each property and homeowner is personally vetted, while Pacaso coordinates the exchange details alongside the homeowner’s existing property manager. The launch was marked by a private preview at a residence on rue des Beaux-Arts in Paris, introducing French second-home owners to a network that already includes destinations such as St. Barths, Tuscany, Verbier, New York and Napa Valley.</p><figure><img alt="" src="https://substack-post-media.s3.amazonaws.com/public/images/0fa81f76-8bad-4f8c-b4ac-39ae46a44732_1200x500.jpeg"/><figcaption>Photo Credit: Courtesy of Infinity by Pacaso.</figcaption></figure><p><strong>The Curated Take</strong></p><p>Luxury travel is increasingly shaped by access, privacy and the ability to experience a destination through a home rather than a hotel. Infinity offers a different proposition for second-home owners: turning time when a property would otherwise sit empty into opportunities to stay in other exceptional residences around the world. Its invitation-only structure and personally vetted membership are central to the concept, while the growing network could make returning to favorite destinations, or discovering new ones, more personal and residential in character.</p>
